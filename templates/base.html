@@ -10,16 +10,16 @@
     />
     <title>{% block title %}Mr. Curious's Portfolio{% endblock %}</title>
     <link rel="icon" type="image/x-icon" href="data:image/x-icon;base64," />
-    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <script src="https://cdn.tailwindcss.com"></script>
 </head>
 <body>
     <div class="relative flex size-full min-h-screen flex-col bg-[#101923] dark group/design-root overflow-x-hidden" style='font-family: "Space Grotesk", "Noto Sans", sans-serif;'>
         <div class="layout-container flex h-full grow flex-col">
             <header class="flex items-center justify-between whitespace-nowrap border-b border-solid border-b-[#223449] px-10 py-3">
                 <div class="flex items-center gap-4 text-white">
-                    <div class="h-8 w-auto">
+                    <a href="{{ url_for('home') }}" class="h-8 w-auto">
                         <img src="{{ url_for('static', filename='Curious_Logo.png') }}" alt="My Logo" class="h-full w-100 object-contain" />
-                    </div>
+                    </a>
                     <h2 class="text-white text-lg font-bold leading-tight tracking-[-0.015em]">Mr. Curious's Portfolio</h2>
                 </div>
                 <div class="flex flex-1 justify-end gap-8">
@@ -31,6 +31,7 @@
                         <a class="text-white text-sm font-medium leading-normal" href="{{ url_for('contact') }}">Contact</a>
                     </div>
                     <button
+                        onclick="alert('Coming Soon')"
                         class="flex max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-lg h-10 bg-[#223449] text-white gap-2 text-sm font-bold leading-normal tracking-[0.015em] min-w-0 px-2.5"
                     >
                         <div class="text-white" data-icon="Sun" data-size="20px" data-weight="regular">
@@ -42,7 +43,8 @@
                         </div>
                     </button>
                     <div
-                        class="bg-center bg-no-repeat aspect-square bg-cover rounded-full size-10"
+                        onclick="alert('Coming Soon')"
+                        class="bg-center bg-no-repeat aspect-square bg-cover rounded-full size-10 cursor-pointer"
                         style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuDrz4mlsCszEkSqozWOwDmaR18kSfdDNs4JP2bYQHb01gkm8uSjnXbnFVRR_rJ140jGnlAK6X3cL5AugqbciZIheKCoh04rtuhusKJgTGKauxmy4ej-DbjHtkLzsFEKCkNiK4l6fSde1lXmsuNPEtQRIfc7ZOiHuqUrh-wHSFfsfZUoRhISFQp7ZUtD8fGCprWh6cb2VfVElTaln6-WYqDe5bleg0v3xUdsBUiYB46qo9MjBlyiORo4Cz4dvf6XzlIbH0piqoTuitdE");'
                     ></div>
                 </div>
