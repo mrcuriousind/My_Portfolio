@@ -3,89 +3,53 @@
 {% block title %}Blog & Videos - Mr. Curious's Portfolio{% endblock %}
 
 {% block content %}
-            <div class="flex flex-wrap justify-between gap-3 p-4"><p class="text-white tracking-light text-[32px] font-bold leading-tight min-w-72">Blog &amp; Videos</p></div>
-            <h3 class="text-white text-lg font-bold leading-tight tracking-[-0.015em] px-4 pb-2 pt-4">Blog Posts</h3>
+            <div class="flex flex-wrap justify-between gap-3 p-4"><p class="text-black dark:text-white tracking-light text-[32px] font-bold leading-tight min-w-72">Blog &amp; Videos</p></div>
+            <h3 class="text-black dark:text-white text-lg font-bold leading-tight tracking-[-0.015em] px-4 pb-2 pt-4">Blog Posts</h3>
+            {% for post in blog_posts %}
             <div class="p-4">
-              <div class="flex items-stretch justify-between gap-4 rounded-lg bg-[#182534] p-4 shadow-[0_0_4px_rgba(0,0,0,0.1)]">
+              <div class="flex items-stretch justify-between gap-4 rounded-lg bg-gray-100 dark:bg-[#182534] p-4 shadow-[0_0_4px_rgba(0,0,0,0.1)]">
                 <div class="flex flex-[2_2_0px] flex-col gap-4">
                   <div class="flex flex-col gap-1">
-                    <p class="text-[#90abcb] text-sm font-normal leading-normal">Published: June 19, 2025</p>
-                    <p class="text-white text-base font-bold leading-tight">Understanding Data Structures</p>
-                    <p class="text-[#90abcb] text-sm font-normal leading-normal">A comprehensive guide to data structures, covering arrays, linked lists, trees, and graphs.</p>
+                    <p class="text-gray-600 dark:text-[#90abcb] text-sm font-normal leading-normal">Published: {{ post.published_date }}</p>
+                    <p class="text-black dark:text-white text-base font-bold leading-tight">{{ post.title }}</p>
+                    <p class="text-gray-600 dark:text-[#90abcb] text-sm font-normal leading-normal">{{ post.content }}</p>
                   </div>
                   <button
-                    class="flex min-w-[84px] max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-lg h-8 px-4 flex-row-reverse bg-[#223449] text-white text-sm font-medium leading-normal w-fit"
+                    class="flex min-w-[84px] max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-lg h-8 px-4 flex-row-reverse bg-gray-200 dark:bg-[#223449] text-black dark:text-white text-sm font-medium leading-normal w-fit"
                   >
                     <span class="truncate">Read More</span>
                   </button>
                 </div>
                 <div
                   class="w-full bg-center bg-no-repeat aspect-video bg-cover rounded-lg flex-1"
-                  style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuCVTQH5z_Mct6Tcjk_oonbtr6GP-M25uwJY5cLxnmzJE31amq3_xviOzpwx_21Gmsr8JdQVsNKWXTYOu2qxYiD31joDdJs7-gOAmlXZVqMOvvsTsBzD8DnzQPhxYrrXcBvEk4FKwYXYF8eICTR-V_65p76BctdHvFeBR0PsoSytiyNpm4H6LNM-5IVV3u-G3-4-2g00ez7hKOQ_3RscKRwD07EBAzxuh7ulQKgxry-B7tEhvoMQ7p_OzxqLQJVg_U1_JHa4vpgL0YJT");'
+                  style='background-image: url("{{ post.image_url }}");'
                 ></div>
               </div>
             </div>
+            {% endfor %}
+            <h3 class="text-black dark:text-white text-lg font-bold leading-tight tracking-[-0.015em] px-4 pb-2 pt-4">YouTube Videos</h3>
+            {% for video in videos %}
             <div class="p-4">
-              <div class="flex items-stretch justify-between gap-4 rounded-lg bg-[#182534] p-4 shadow-[0_0_4px_rgba(0,0,0,0.1)]">
-                <div class="flex flex-[2_2_0px] flex-col gap-4">
-                  <div class="flex flex-col gap-1">
-                    <p class="text-[#90abcb] text-sm font-normal leading-normal">Published: May 25, 2025</p>
-                    <p class="text-white text-base font-bold leading-tight">Introduction to Machine Learning</p>
-                    <p class="text-[#90abcb] text-sm font-normal leading-normal">
-                      An introductory overview of machine learning concepts, including supervised and unsupervised learning.
-                    </p>
-                  </div>
-                  <button
-                    class="flex min-w-[84px] max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-lg h-8 px-4 flex-row-reverse bg-[#223449] text-white text-sm font-medium leading-normal w-fit"
-                  >
-                    <span class="truncate">Read More</span>
-                  </button>
-                </div>
+              <div class="border border-gray-200 dark:border-[#314b68] bg-gray-100 dark:bg-[#182534] rounded-lg p-4 shadow-[0_0_4px_rgba(0,0,0,0.1)]">
                 <div
-                  class="w-full bg-center bg-no-repeat aspect-video bg-cover rounded-lg flex-1"
-                  style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuCdIIPHuQ6CQfDxP9cPppBS27Vb7OI_CDAzf9WtADHDf5XaoxYGP2gpFE77ItzLX8FUcb8yNIxS5SgMtW4DMeajfDjJHN92B7PJeoZButi4B1B_ryk7rLtRkxycEPEGe7UlS5XNBPNoH4mpWmySSL6fmk0H3mNcJqEk4NRijEGzc3f1VHkNz6-e-2g00ez7hKOQ_3RscKRwD07EBAzxuh7ulQKgxry-B7tEhvoMQ7p_OzxqLQJVg_U1_JHa4vpgL0YJT");'
-                ></div>
+                  class="relative flex items-center justify-center bg-[#1070de] bg-cover bg-center aspect-video rounded-lg mb-6"
+                  style='background-image: url("{{ video.thumbnail_url }}");'
+                >
+                  <a href="{{ video.video_url }}" target="_blank" class="flex shrink-0 items-center justify-center rounded-full size-16 bg-black/40 text-white">
+                    <div class="text-inherit" data-icon="Play" data-size="24px" data-weight="fill">
+                      <svg xmlns="http://www.w3.org/2000/svg" width="24px" height="24px" fill="currentColor" viewBox="0 0 256 256">
+                        <path
+                          d="M240,128a15.74,15.74,0,0,1-7.6,13.51L88.32,229.65a16,16,0,0,1-16.2.3A15.86,15.86,0,0,1,64,216.13V39.87a15.86,15.86,0,0,1,8.12-13.82,16,16,0,0,1,16.2.3L232.4,114.49A15.74,15.74,0,0,1,240,128Z"
+                        ></path>
+                      </svg>
+                    </div>
+                  </a>
+                </div>
+                <h2 class="text-black dark:text-white text-lg font-bold leading-tight tracking-[-0.015em] text-left pb-2">{{ video.title }}</h2>
+                <p class="text-gray-600 dark:text-[#90abcb] text-base font-normal leading-normal">
+                  {{ video.description }}
+                </p>
               </div>
             </div>
-            <h3 class="text-white text-lg font-bold leading-tight tracking-[-0.015em] px-4 pb-2 pt-4">YouTube Videos</h3>
-            <div class="p-4">
-              <div
-                class="relative flex items-center justify-center bg-[#1070de] bg-cover bg-center aspect-video rounded-lg p-4"
-                style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuAb9tpfLfLGTe6p0tiVeEI4Ypcm-UFGkeZ8Rw79__0ASv-1Vi6qWdZflUDOs6tsS9tWCgH2c73sNcauUqQD_b8T3X5cmWGRofNJvyCCirS3gPWDGRmUwUqYbVZMfMyGBUow_vplJiLLItcbZQsHZaiyQ6hvPsRM-4KcG9Q0ky6AN6tUeOLBt4u__iYMsZuAA5cLN7cvXdtBWfr32taxjLXdIH75wvELzcNMkFpKcTsrFeHinb29NGJ5UF4bQGc89BOAx3xLcoYfCVo3");'
-              >
-                <button class="flex shrink-0 items-center justify-center rounded-full size-16 bg-black/40 text-white">
-                  <div class="text-inherit" data-icon="Play" data-size="24px" data-weight="fill">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="24px" height="24px" fill="currentColor" viewBox="0 0 256 256">
-                      <path
-                        d="M240,128a15.74,15.74,0,0,1-7.6,13.51L88.32,229.65a16,16,0,0,1-16.2.3A15.86,15.86,0,0,1,64,216.13V39.87a15.86,15.86,0,0,1,8.12-13.82,16,16,0,0,1,16.2.3L232.4,114.49A15.74,15.74,0,0,1,240,128Z"
-                      ></path>
-                    </svg>
-                  </div>
-                </button>
-              </div>
-            </div>
-            <h2 class="text-white text-lg font-bold leading-tight tracking-[-0.015em] px-4 text-left pb-2 pt-4">Coding Tutorial: Building a Simple Web App</h2>
-            <p class="text-[#90abcb] text-base font-normal leading-normal pb-3 pt-1 px-4">
-              A step-by-step tutorial on building a basic web application using HTML, CSS, and JavaScript.
-            </p>
-            <div class="p-4">
-              <div
-                class="relative flex items-center justify-center bg-[#1070de] bg-cover bg-center aspect-video rounded-lg p-4"
-                style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuDr03fE1ruAIoZbxn161g3E_ztSeJvyVIeauq2xOf3FIA_Ai04t6HKt50FxtEpQs3M-eQIOWNnvSnTxYAu1rHJFaJdueFElzwOPhrghH9eZM54NjBGhCB3QftqMiJlPOf_b7xdhvWBhNw3k7J-WoiaYkNHRpNPH7RwFGCFFWqXJU-AQhDMkNWb-6WSIfFAENsXTV4asgitEGAOb7mbhBntGG40WZYHV0v05XD6MlzsJAXUiTf9MlVdvzrjq_kc1dHMCHRPBOTFtcxfE");'
-              >
-                <button class="flex shrink-0 items-center justify-center rounded-full size-16 bg-black/40 text-white">
-                  <div class="text-inherit" data-icon="Play" data-size="24px" data-weight="fill">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="24px" height="24px" fill="currentColor" viewBox="0 0 256 256">
-                      <path
-                        d="M240,128a15.74,15.74,0,0,1-7.6,13.51L88.32,229.65a16,16,0,0,1-16.2.3A15.86,15.86,0,0,1,64,216.13V39.87a15.86,15.86,0,0,1,8.12-13.82,16,16,0,0,1,16.2.3L232.4,114.49A15.74,15.74,0,0,1,240,128Z"
-                      ></path>
-                    </svg>
-                  </div>
-                </button>
-              </div>
-            </div>
-            <h2 class="text-white text-lg font-bold leading-tight tracking-[-0.015em] px-4 text-left pb-2 pt-4">Algorithm Explanation: Dijkstra's Algorithm</h2>
-            <p class="text-[#90abcb] text-base font-normal leading-normal pb-3 pt-1 px-4">
-              A detailed explanation of Dijkstra's algorithm for finding the shortest path in a graph.
-            </p>
+            {% endfor %}
 {% endblock %}

@@ -1,44 +1,59 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin="" />
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Mr. Curious's Portfolio{% endblock %}</title>
+    <link rel="icon" type="image/x-icon" href="data:image/x-icon;base64," />
+    <link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin />
     <link
       rel="stylesheet"
       as="style"
       onload="this.rel='stylesheet'"
       href="https://fonts.googleapis.com/css2?display=swap&amp;family=Noto+Sans%3Awght%40400%3B500%3B700%3B900&amp;family=Space+Grotesk%3Awght%40400%3B500%3B700"
     />
-    <title>{% block title %}Mr. Curious's Portfolio{% endblock %}</title>
-    <link rel="icon" type="image/x-icon" href="data:image/x-icon;base64," />
-    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="{{ url_for('static', filename='css/output.css') }}" rel="stylesheet">
+    <script>
+        // Theme switching script
+        const applyTheme = (theme) => {
+            if (theme === 'dark') {
+                document.documentElement.classList.add('dark');
+            } else {
+                document.documentElement.classList.remove('dark');
+            }
+        };
+
+        const savedTheme = localStorage.getItem('theme') || 'dark';
+        applyTheme(savedTheme);
+    </script>
 </head>
-<body>
-    <div class="relative flex size-full min-h-screen flex-col bg-[#101923] dark group/design-root overflow-x-hidden" style='font-family: "Space Grotesk", "Noto Sans", sans-serif;'>
+<body class="bg-white dark:bg-[#101923] text-black dark:text-white">
+    <div class="relative flex size-full min-h-screen flex-col group/design-root overflow-x-hidden" style='font-family: "Space Grotesk", "Noto Sans", sans-serif;'>
         <div class="layout-container flex h-full grow flex-col">
             <header class="flex items-center justify-between whitespace-nowrap border-b border-solid border-b-[#223449] px-10 py-3">
-                <div class="flex items-center gap-4 text-white">
+                <div class="flex items-center gap-4">
                     <a href="{{ url_for('home') }}" class="h-8 w-auto">
-                        <img src="{{ url_for('static', filename='Curious_Logo.png') }}" alt="My Logo" class="h-full w-100 object-contain" />
+                        <img src="{{ url_for('static', filename='Curious_Logo.png') }}" alt="My Logo" class="h-full w-1 object-contain" />
                     </a>
-                    <h2 class="text-white text-lg font-bold leading-tight tracking-[-0.015em]">Mr. Curious's Portfolio</h2>
+                    <h2 class="text-lg font-bold leading-tight tracking-[-0.015em]">Mr. Curious's Portfolio</h2>
                 </div>
                 <div class="flex flex-1 justify-end gap-8">
                     <div class="flex items-center gap-9">
-                        <a class="text-white text-sm font-medium leading-normal" href="{{ url_for('home') }}">Home</a>
-                        <a class="text-white text-sm font-medium leading-normal" href="{{ url_for('skills') }}">Skills</a>
-                        <a class="text-white text-sm font-medium leading-normal" href="{{ url_for('projects') }}">Projects</a>
-                        <a class="text-white text-sm font-medium leading-normal" href="{{ url_for('blog') }}">Blog</a>
-                        <a class="text-white text-sm font-medium leading-normal" href="{{ url_for('contact') }}">Contact</a>
+                        <a class="text-sm font-medium leading-normal" href="{{ url_for('home') }}">Home</a>
+                        <a class="text-sm font-medium leading-normal" href="{{ url_for('skills') }}">Skills</a>
+                        <a class="text-sm font-medium leading-normal" href="{{ url_for('projects') }}">Projects</a>
+                        <a class="text-sm font-medium leading-normal" href="{{ url_for('blog') }}">Blog</a>
+                        <a class="text-sm font-medium leading-normal" href="{{ url_for('contact') }}">Contact</a>
                     </div>
-                    <button
-                        onclick="alert('Coming Soon')"
-                        class="flex max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-lg h-10 bg-[#223449] text-white gap-2 text-sm font-bold leading-normal tracking-[0.015em] min-w-0 px-2.5"
-                    >
-                        <div class="text-white" data-icon="Sun" data-size="20px" data-weight="regular">
+                    <button id="theme-toggle" class="flex max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-lg h-10 bg-[#223449] text-white gap-2 text-sm font-bold leading-normal tracking-[0.015em] min-w-0 px-2.5">
+                        <div id="theme-icon-sun" class="hidden" data-icon="Sun" data-size="20px" data-weight="regular">
                             <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" fill="currentColor" viewBox="0 0 256 256">
-                                <path
-                                    d="M120,40V16a8,8,0,0,1,16,0V40a8,8,0,0,1-16,0Zm72,88a64,64,0,1,1-64-64A64.07,64.07,0,0,1,192,128Zm-16,0a48,48,0,1,0-48,48A48.05,48.05,0,0,0,176,128ZM58.34,69.66A8,8,0,0,0,69.66,58.34l-16-16A8,8,0,0,0,42.34,53.66Zm0,116.68-16,16a8,8,0,0,0,11.32,11.32l16-16a8,8,0,0,0-11.32-11.32ZM192,72a8,8,0,0,0,5.66-2.34l16-16a8,8,0,0,0-11.32-11.32l-16,16A8,8,0,0,0,192,72Zm5.66,114.34a8,8,0,0,0-11.32,11.32l16,16a8,8,0,0,0,11.32-11.32ZM48,128a8,8,0,0,0-8-8H16a8,8,0,0,0,0,16H40A8,8,0,0,0,48,128Zm80,80a8,8,0,0,0-8,8v24a8,8,0,0,0,16,0V216A8,8,0,0,0,128,208Zm112-88H216a8,8,0,0,0,0,16h24a8,8,0,0,0,0-16Z"
-                                ></path>
+                                <path d="M120,40V16a8,8,0,0,1,16,0V40a8,8,0,0,1-16,0Zm72,88a64,64,0,1,1-64-64A64.07,64.07,0,0,1,192,128Zm-16,0a48,48,0,1,0-48,48A48.05,48.05,0,0,0,176,128ZM58.34,69.66A8,8,0,0,0,69.66,58.34l-16-16A8,8,0,0,0,42.34,53.66Zm0,116.68-16,16a8,8,0,0,0,11.32,11.32l16-16a8,8,0,0,0-11.32-11.32ZM192,72a8,8,0,0,0,5.66-2.34l16-16a8,8,0,0,0-11.32-11.32l-16,16A8,8,0,0,0,192,72Zm5.66,114.34a8,8,0,0,0-11.32,11.32l16,16a8,8,0,0,0,11.32-11.32ZM48,128a8,8,0,0,0-8-8H16a8,8,0,0,0,0,16H40A8,8,0,0,0,48,128Zm80,80a8,8,0,0,0-8,8v24a8,8,0,0,0,16,0V216A8,8,0,0,0,128,208Zm112-88H216a8,8,0,0,0,0,16h24a8,8,0,0,0,0-16Z"></path>
+                            </svg>
+                        </div>
+                        <div id="theme-icon-moon" data-icon="Moon" data-size="20px" data-weight="regular">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" fill="currentColor" viewBox="0 0 256 256">
+                                <path d="M216.49,155.23a8,8,0,0,0-9.15-1.25,72,72,0,0,1-79.83-79.83,8,8,0,0,0-1.25-9.15,88.08,88.08,0,0,0-120.7,120.7,8,8,0,0,0,9.15,1.25,72,72,0,0,1,79.83,79.83,8,8,0,0,0,1.25,9.15,88.08,88.08,0,0,0,120.7-120.7Z"></path>
                             </svg>
                         </div>
                     </button>
@@ -55,12 +70,12 @@
                     {% block content %}{% endblock %}
                 </div>
             </div>
-            <p class="text-[#90abcb] text-sm font-normal leading-normal pb-3 pt-1 px-4 text-center">Connect with me on</p>
+            <p class="text-gray-500 dark:text-[#90abcb] text-sm font-normal leading-normal pb-3 pt-1 px-4 text-center">Connect with me on</p>
             <div class="@container">
               <div class="flex flex-row gap-4 px-4 justify-center">
-                <div class="flex flex-col items-center gap-2 bg-[#101923] py-2.5 text-center">
-                  <div class="rounded-full bg-[#223449] p-2.5">
-                    <div class="text-white" data-icon="GithubLogo" data-size="20px" data-weight="regular">
+                <a href="https://github.com/mrcuriousind" target="_blank" class="flex flex-col items-center gap-2 py-2.5 text-center">
+                  <div class="rounded-full bg-gray-200 dark:bg-[#223449] p-2.5">
+                    <div class="text-black dark:text-white" data-icon="GithubLogo" data-size="20px" data-weight="regular">
                       <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" fill="currentColor" viewBox="0 0 256 256">
                         <path
                           d="M208.31,75.68A59.78,59.78,0,0,0,202.93,28,8,8,0,0,0,196,24a59.75,59.75,0,0,0-48,24H124A59.75,59.75,0,0,0,76,24a8,8,0,0,0-6.93,4,59.78,59.78,0,0,0-5.38,47.68A58.14,58.14,0,0,0,56,104v8a56.06,56.06,0,0,0,48.44,55.47A39.8,39.8,0,0,0,96,192v8H72a24,24,0,0,1-24-24A40,40,0,0,0,8,136a8,8,0,0,0,0,16,24,24,0,0,1,24,24,40,40,0,0,0,40,40H96v16a8,8,0,0,0,16,0V192a24,24,0,0,1,48,0v40a8,8,0,0,0,16,0V192a39.8,39.8,0,0,0-8.44-24.53A56.06,56.06,0,0,0,216,112v-8A58.14,58.14,0,0,0,208.31,75.68ZM200,112a40,40,0,0,1-40,40H112a40,40,0,0,1-40-40v-8a41.74,41.74,0,0,1,6.9-22.48A8,8,0,0,0,80,73.83a43.81,43.81,0,0,1,.79-33.58,43.88,43.88,0,0,1,32.32,20.06A8,8,0,0,0,119.82,64h32.35a8,8,0,0,0,6.74-3.69,43.87,43.87,0,0,1,32.32-20.06A43.81,43.81,0,0,1,192,73.83a8.09,8.09,0,0,0,1,7.65A41.72,41.72,0,0,1,200,104Z"
@@ -68,11 +83,11 @@
                       </svg>
                     </div>
                   </div>
-                  <p class="text-white text-sm font-medium leading-normal">GitHub</p>
-                </div>
-                <div class="flex flex-col items-center gap-2 bg-[#101923] py-2.5 text-center">
-                  <div class="rounded-full bg-[#223449] p-2.5">
-                    <div class="text-white" data-icon="LinkedinLogo" data-size="20px" data-weight="regular">
+                  <p class="text-sm font-medium leading-normal">GitHub</p>
+                </a>
+                <a href="https://www.linkedin.com/in/mrcuriousind" target="_blank" class="flex flex-col items-center gap-2 py-2.5 text-center">
+                  <div class="rounded-full bg-gray-200 dark:bg-[#223449] p-2.5">
+                    <div class="text-black dark:text-white" data-icon="LinkedinLogo" data-size="20px" data-weight="regular">
                       <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" fill="currentColor" viewBox="0 0 256 256">
                         <path
                           d="M216,24H40A16,16,0,0,0,24,40V216a16,16,0,0,0,16,16H216a16,16,0,0,0,16-16V40A16,16,0,0,0,216,24Zm0,192H40V40H216V216ZM96,112v64a8,8,0,0,1-16,0V112a8,8,0,0,1,16,0Zm88,28v36a8,8,0,0,1-16,0V140a20,20,0,0,0-40,0v36a8,8,0,0,1-16,0V112a8,8,0,0,1,15.79-1.78A36,36,0,0,1,184,140ZM100,84A12,12,0,1,1,88,72,12,12,0,0,1,100,84Z"
@@ -80,11 +95,11 @@
                       </svg>
                     </div>
                   </div>
-                  <p class="text-white text-sm font-medium leading-normal">LinkedIn</p>
-                </div>
-                <div class="flex flex-col items-center gap-2 bg-[#101923] py-2.5 text-center">
-                  <div class="rounded-full bg-[#223449] p-2.5">
-                    <div class="text-white" data-icon="YoutubeLogo" data-size="20px" data-weight="regular">
+                  <p class="text-sm font-medium leading-normal">LinkedIn</p>
+                </a>
+                <div class="flex flex-col items-center gap-2 py-2.5 text-center">
+                  <div class="rounded-full bg-gray-200 dark:bg-[#223449] p-2.5">
+                    <div class="text-black dark:text-white" data-icon="YoutubeLogo" data-size="20px" data-weight="regular">
                       <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" fill="currentColor" viewBox="0 0 256 256">
                         <path
                           d="M164.44,121.34l-48-32A8,8,0,0,0,104,96v64a8,8,0,0,0,12.44,6.66l48-32a8,8,0,0,0,0-13.32ZM120,145.05V111l25.58,17ZM234.33,69.52a24,24,0,0,0-14.49-16.4C185.56,39.88,131,40,128,40s-57.56-.12-91.84,13.12a24,24,0,0,0-14.49,16.4C19.08,79.5,16,97.74,16,128s3.08,48.5,5.67,58.48a24,24,0,0,0,14.49,16.41C69,215.56,120.4,216,127.34,216h1.32c6.94,0,58.37-.44,91.18-13.11a24,24,0,0,0,14.49-16.41c2.59-10,5.67-28.22,5.67-58.48S236.92,79.5,234.33,69.52Zm-15.49,113a8,8,0,0,1-4.77,5.49c-31.65,12.22-85.48,12-86,12H128c-.54,0-54.33.2-86-12a8,8,0,0,1-4.77-5.49C34.8,173.39,32,156.57,32,128s2.8-45.39,5.16-54.47A8,8,0,0,1,41.93,68c30.52-11.79,81.66-12,85.85-12h.27c.54,0,54.38-.18,86,12a8,8,0,0,1,4.77,5.49C221.2,82.61,224,99.43,224,128S221.2,173.39,218.84,182.47Z"
@@ -92,18 +107,58 @@
                       </svg>
                     </div>
                   </div>
-                  <p class="text-white text-sm font-medium leading-normal">YouTube</p>
+                  <p class="text-sm font-medium leading-normal">YouTube</p>
                 </div>
               </div>
             </div>
             <footer class="flex justify-center">
                 <div class="flex max-w-[960px] flex-1 flex-col">
                     <footer class="flex flex-col gap-6 px-5 py-10 text-center @container">
-                        <p class="text-[#90abcb] text-base font-normal leading-normal">© 2025 Mr. Curious. All rights reserved.</p>
+                        <p class="text-gray-500 dark:text-[#90abcb] text-base font-normal leading-normal">© 2025 Mr. Curious. All rights reserved.</p>
                     </footer>
                 </div>
             </footer>
         </div>
     </div>
+    
+    <!-- Theme Toggle Script -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const themeToggle = document.getElementById('theme-toggle');
+            const sunIcon = document.getElementById('theme-icon-sun');
+            const moonIcon = document.getElementById('theme-icon-moon');
+
+            if (!themeToggle || !sunIcon || !moonIcon) {
+                console.error('Theme toggle elements not found');
+                return;
+            }
+
+            const updateIcons = (theme) => {
+                if (theme === 'dark') {
+                    sunIcon.classList.remove('hidden');
+                    moonIcon.classList.add('hidden');
+                } else {
+                    sunIcon.classList.add('hidden');
+                    moonIcon.classList.remove('hidden');
+                }
+            };
+
+            const toggleTheme = () => {
+                const currentTheme = document.documentElement.classList.contains('dark') ? 'dark' : 'light';
+                const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+                
+                localStorage.setItem('theme', newTheme);
+                applyTheme(newTheme);
+                updateIcons(newTheme);
+            };
+
+            // Set up click event listener
+            themeToggle.addEventListener('click', toggleTheme);
+
+            // Initialize icons based on current theme
+            const currentTheme = localStorage.getItem('theme') || 'dark';
+            updateIcons(currentTheme);
+        });
+    </script>
 </body>
 </html>

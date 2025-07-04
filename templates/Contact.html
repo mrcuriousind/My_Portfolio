@@ -3,39 +3,43 @@
 {% block title %}Contact - Mr. Curious's Portfolio{% endblock %}
 
 {% block content %}
-          <div class="flex flex-wrap justify-between gap-3 p-4">
-            <p class="text-white tracking-light text-[32px] font-bold leading-tight min-w-72">Contact Me</p>
-          </div>
-          <div class="flex max-w-[480px] flex-wrap items-end gap-4 px-4 py-3">
-            <label class="flex flex-col min-w-40 flex-1">
-              <p class="text-white text-base font-medium leading-normal pb-2">Your Name</p>
-              <input placeholder="Enter your name"
-                class="form-input flex w-full min-w-0 flex-1 resize-none overflow-hidden rounded-xl text-white focus:outline-0 focus:ring-0 border border-[#3e4c5b] bg-[#1f262e] focus:border-[#3e4c5b] h-14 placeholder:text-[#9eacbd] p-[15px] text-base font-normal leading-normal"
-                value="" />
-            </label>
-          </div>
-          <div class="flex max-w-[480px] flex-wrap items-end gap-4 px-4 py-3">
-            <label class="flex flex-col min-w-40 flex-1">
-              <p class="text-white text-base font-medium leading-normal pb-2">Your Email</p>
-              <input placeholder="Enter your email"
-                class="form-input flex w-full min-w-0 flex-1 resize-none overflow-hidden rounded-xl text-white focus:outline-0 focus:ring-0 border border-[#3e4c5b] bg-[#1f262e] focus:border-[#3e4c5b] h-14 placeholder:text-[#9eacbd] p-[15px] text-base font-normal leading-normal"
-                value="" />
-            </label>
-          </div>
-          <div class="flex max-w-[480px] flex-wrap items-end gap-4 px-4 py-3">
-            <label class="flex flex-col min-w-40 flex-1">
-              <p class="text-white text-base font-medium leading-normal pb-2">Message</p>
-              <textarea placeholder="Enter your message"
-                class="form-input flex w-full min-w-0 flex-1 resize-none overflow-hidden rounded-xl text-white focus:outline-0 focus:ring-0 border border-[#3e4c5b] bg-[#1f262e] focus:border-[#3e4c5b] min-h-36 placeholder:text-[#9eacbd] p-[15px] text-base font-normal leading-normal"></textarea>
-            </label>
-          </div>
-          <div class="flex px-4 py-3 justify-end">
-            <button
-              class="flex min-w-[84px] max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-full h-10 px-4 bg-[#cadaec] text-[#15191e] text-sm font-bold leading-normal tracking-[0.015em]">
+          <h2 class="text-black dark:text-white text-[22px] font-bold leading-tight tracking-[-0.015em] px-4 pb-3 pt-5">Contact Me</h2>
+            <div class="flex max-w-[480px] flex-wrap items-end gap-4 px-4 py-3">
+              <label class="flex flex-col min-w-40 flex-1">
+                <p class="text-black dark:text-white text-base font-medium leading-normal pb-2">Name</p>
+                <input
+                  placeholder="Your Name"
+                  class="form-input flex w-full min-w-0 flex-1 resize-none overflow-hidden rounded-lg border border-gray-300 dark:border-[#314b68] bg-white dark:bg-[#182534] focus:border-blue-500 dark:focus:border-blue-500 h-14 placeholder:text-gray-400 dark:placeholder:text-[#90abcb] p-[15px] text-base font-normal leading-normal"
+                  value=""
+                />
+              </label>
+            </div>
+            <div class="flex max-w-[480px] flex-wrap items-end gap-4 px-4 py-3">
+              <label class="flex flex-col min-w-40 flex-1">
+                <p class="text-black dark:text-white text-base font-medium leading-normal pb-2">Email</p>
+                <input
+                  placeholder="Your Email"
+                  class="form-input flex w-full min-w-0 flex-1 resize-none overflow-hidden rounded-lg border border-gray-300 dark:border-[#314b68] bg-white dark:bg-[#182534] focus:border-blue-500 dark:focus:border-blue-500 h-14 placeholder:text-gray-400 dark:placeholder:text-[#90abcb] p-[15px] text-base font-normal leading-normal"
+                  value=""
+                />
+              </label>
+            </div>
+            <div class="flex max-w-[480px] flex-wrap items-end gap-4 px-4 py-3">
+              <label class="flex flex-col min-w-40 flex-1">
+                <p class="text-black dark:text-white text-base font-medium leading-normal pb-2">Message</p>
+                <textarea
+                  placeholder="Your Message"
+                  class="form-input flex w-full min-w-0 flex-1 resize-none overflow-hidden rounded-lg border border-gray-300 dark:border-[#314b68] bg-white dark:bg-[#182534] focus:border-blue-500 dark:focus:border-blue-500 min-h-36 placeholder:text-gray-400 dark:placeholder:text-[#90abcb] p-[15px] text-base font-normal leading-normal"
+                ></textarea>
+              </label>
+            </div>
+            <div class="flex px-4 py-3 justify-end">
+              <button
+              class="flex min-w-[84px] max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-full h-10 px-4 bg-[#cadaec] text-black text-sm font-bold leading-normal tracking-[0.015em]">
               <span class="truncate">Send Message</span>
             </button>
           </div>
-          <h2 class="text-white text-[22px] font-bold leading-tight tracking-[-0.015em] px-4 pb-3 pt-5">Recent Social
+          <h2 class="text-black dark:text-white text-[22px] font-bold leading-tight tracking-[-0.015em] px-4 pb-3 pt-5">Recent Social
             Posts</h2>
           <div
             class="flex overflow-y-auto [-ms-scrollbar-style:none] [scrollbar-width:none] [&amp;::-webkit-scrollbar]:hidden">
@@ -44,25 +48,25 @@
                 <div class="w-full bg-center bg-no-repeat aspect-square bg-cover rounded-xl flex flex-col"
                   style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuDCqKxKvXsM02hIwGrlhS3yqgLKLoT46CwJUuEu6ypGL8h87TVZx0JNTjJUbVN6tK_YPpw_3UpWBd7BvFkodQVsJSc_7pPKdHzJlJ28t1k9BvIxz2Oe8KaFDQACWVCWnTdHt79mSKhdrZxX5Gg0K7LgAfqzqccGoZh2TpFxJF_ghBtRFV23t3qR0gB6gIikC6DrpkGJ5sU6KMxeDupmodIEtoyiQa_g8sk8II_dbdPOeH5S9d8SjBI99mAF7zJhYe1Jz6tgl2pOcpqV");'>
                 </div>
-                <p class="text-white text-base font-medium leading-normal">Check out my latest project on GitHub!</p>
+                <p class="text-black dark:text-white text-base font-medium leading-normal">Check out my latest project on GitHub!</p>
               </div>
               <div class="flex h-full flex-1 flex-col gap-4 rounded-lg min-w-40">
                 <div class="w-full bg-center bg-no-repeat aspect-square bg-cover rounded-xl flex flex-col"
                   style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuAgTQrjXvrT91NxGMZ-zUUh_4sfKBZlaG-aJUum16-zRbSYnzCKKvKVYXmcbFJ3KOdBoHphtuhBf3SOyPtYnEprXKjyZ228M73VjZtO1CV_o1OUUEC3_9bU0cFatzkInjVlRSY4kO48lCg5Xgozxoh-ZGl21PCcRf9UCV_wypvcB79OTelAe7un_dk-bmgDca2Krg6iBBpdNlj2uVw7tMiknUEr304AVRs5N3r8Qte6hoNIZKNpJoK8xUtUJ5rRO_GgNW6jiy30ZrhR");'>
                 </div>
-                <p class="text-white text-base font-medium leading-normal">Excited to share my new blog post on Medium.
+                <p class="text-black dark:text-white text-base font-medium leading-normal">Excited to share my new blog post on Medium.
                 </p>
               </div>
               <div class="flex h-full flex-1 flex-col gap-4 rounded-lg min-w-40">
                 <div class="w-full bg-center bg-no-repeat aspect-square bg-cover rounded-xl flex flex-col"
                   style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuCS0vaqcWu74ThN-3xwMe4XYqDznBhVE6RDZO2q3XkRSjgau-cM8ZYI287edFsFNBeCwkmv0EwaXQr-V3qC4UbrVTQpEfcSavasZNzZvpuP13ozQAfTKMS3Rbhy46WlqPzdCYqtT0Wmw4CRI4LJ6K80ZAs-qfJMYnuNxjva60wWaQUoePiWklilaZewE5zWn3MIJs-8FfkzswGmDnmSJSDUjywGKKC11gt67CzSjYG5P-Ng1Albqko4DHrPBdUd9R9cvBRdByJRbSo2swykfn9rOuNWVG2e5pPD2MHxa5y4aTlNJpc-Q2eR");'>
                 </div>
-                <p class="text-white text-sm font-medium leading-normal">Follow me on Twitter for daily tech updates.
+                <p class="text-black dark:text-white text-sm font-medium leading-normal">Follow me on Twitter for daily tech updates.
                 </p>
               </div>
             </div>
           </div>
-          <h2 class="text-white text-[22px] font-bold leading-tight tracking-[-0.015em] px-4 pb-3 pt-5">Recent Feedback
+          <h2 class="text-black dark:text-white text-[22px] font-bold leading-tight tracking-[-0.015em] px-4 pb-3 pt-5">Recent Feedback
           </h2>
           <div class="flex w-full flex-row items-start justify-start gap-3 p-4">
             <div class="bg-center bg-no-repeat aspect-square bg-cover rounded-full w-10 shrink-0"
@@ -70,10 +74,10 @@
             </div>
             <div class="flex h-full flex-1 flex-col items-start justify-start">
               <div class="flex w-full flex-row items-start justify-start gap-x-3">
-                <p class="text-white text-sm font-bold leading-normal tracking-[0.015em]">Sahil Jha</p>
-                <p class="text-[#9eacbd] text-sm font-normal leading-normal">2 hours ago</p>
+                <p class="text-black dark:text-white text-sm font-bold leading-normal tracking-[0.015em]">Sahil Jha</p>
+                <p class="text-gray-600 dark:text-[#9eacbd] text-sm font-normal leading-normal">2 hours ago</p>
               </div>
-              <p class="text-white text-sm font-normal leading-normal">Great work on the portfolio! Really impressed
+              <p class="text-black dark:text-white text-sm font-normal leading-normal">Great work on the portfolio! Really impressed
                 with your project descriptions.</p>
             </div>
           </div>
@@ -83,10 +87,10 @@
             </div>
             <div class="flex h-full flex-1 flex-col items-start justify-start">
               <div class="flex w-full flex-row items-start justify-start gap-x-3">
-                <p class="text-white text-sm font-bold leading-normal tracking-[0.015em]">Khushi Singh</p>
-                <p class="text-[#9eacbd] text-sm font-normal leading-normal">1 day ago</p>
+                <p class="text-black dark:text-white text-sm font-bold leading-normal tracking-[0.015em]">Khushi Singh</p>
+                <p class="text-gray-600 dark:text-[#9eacbd] text-sm font-normal leading-normal">1 day ago</p>
               </div>
-              <p class="text-white text-sm font-normal leading-normal">I love the design of your website. It's very
+              <p class="text-black dark:text-white text-sm font-normal leading-normal">I love the design of your website. It's very
                 clean and easy to navigate.</p>
             </div>
           </div>

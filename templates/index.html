@@ -1,0 +1,409 @@
+{% extends 'base.html' %}
+
+{% block title %}Home - Mr. Curious's Portfolio{% endblock %}
+
+{% block content %}
+            <div class="@container">
+              <div class="@[480px]:p-4">
+                <div
+                  class="flex min-h-[480px] flex-col gap-6 bg-cover bg-center bg-no-repeat @[480px]:gap-8 @[480px]:rounded-lg items-start justify-end px-4 pb-10 @[480px]:px-10"
+                  style='background-image: linear-gradient(rgba(0, 0, 0, 0.1) 0%, rgba(0, 0, 0, 0.4) 100%), url("https://lh3.googleusercontent.com/aida-public/AB6AXuDzyAIECgi9EduF01jnaItMS_MDx8ffmhWZEdGHZmrL3DKsXaV-7wB0fDpnkIpTjuaiAn7_5aQjNtvt7B2-DnzVc1iZ588vuyPo78HIAXl5jcpaZLiTQQKiLfDbFP0lgcj3ZmKEsuJ8rwZzPs2tM0OdpyeLLuRUPOHOznc6OacncCrIHE5PuZZKQlwLkxTSQLdXbm_ZuLSKHk7pzyBAnN7EAyHHka_ze-uvWFIpnCpCigNmDZaisShIk2Tfl5ZZlk1JJEvDA684JHlZ");'
+                >
+                  <div class="flex flex-col gap-2 text-left">
+                    <h1
+                      class="text-black dark:text-white text-4xl font-black leading-tight tracking-[-0.033em] @[480px]:text-5xl @[480px]:font-black @[480px]:leading-tight @[480px]:tracking-[-0.033em]"
+                    >
+                      Mr. Curious
+                    </h1>
+                    <h2 class="text-white text-sm font-normal leading-normal @[480px]:text-base @[480px]:font-normal @[480px]:leading-normal">
+                      Final Year Computer Science Engineering Student
+                    </h2>
+                  </div>
+                  <button
+                    class="flex min-w-[84px] max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-lg h-10 px-4 @[480px]:h-12 @[480px]:px-5 bg-[#0c77f2] text-white text-sm font-bold leading-normal tracking-[0.015em] @[480px]:text-base @[480px]:font-bold @[480px]:leading-normal @[480px]:tracking-[0.015em]"
+                  >
+                    <span class="truncate">Download Resume</span>
+                  </button>
+                </div>
+              </div>
+            </div>
+            <h2 class="text-black dark:text-white text-[22px] font-bold leading-tight tracking-[-0.015em] px-4 pb-3 pt-5">About Me</h2>
+            <p class="text-black dark:text-white text-base font-normal leading-normal pb-3 pt-1 px-4">
+              I am a passionate computer science engineering student with a strong foundation in software development. I specialize in creating efficient and scalable applications
+              using modern technologies. My goal is to leverage my skills to solve real-world problems and contribute to innovative projects.
+            </p>
+            <h2 class="text-[22px] font-bold leading-tight tracking-[-0.015em] px-4 pb-3 pt-5">Skills</h2>
+            <div class="pb-3">
+              <div id="skills-tabs" class="flex border-b border-gray-200 dark:border-[#314b68] px-4 gap-8">
+                <a class="flex flex-col items-center justify-center border-b-[3px] border-b-[#0c77f2] text-black dark:text-white pb-[13px] pt-4 cursor-pointer" data-tab="languages">
+                  <p class="text-sm font-bold leading-normal tracking-[0.015em]">Languages</p>
+                </a>
+                <a class="flex flex-col items-center justify-center border-b-[3px] border-b-transparent text-gray-500 dark:text-[#90abcb] pb-[13px] pt-4 cursor-pointer" data-tab="frameworks">
+                  <p class="text-sm font-bold leading-normal tracking-[0.015em]">Frameworks</p>
+                </a>
+                <a class="flex flex-col items-center justify-center border-b-[3px] border-b-transparent text-gray-500 dark:text-[#90abcb] pb-[13px] pt-4 cursor-pointer" data-tab="databases">
+                  <p class="text-sm font-bold leading-normal tracking-[0.015em]">Databases</p>
+                </a>
+                <a class="flex flex-col items-center justify-center border-b-[3px] border-b-transparent text-gray-500 dark:text-[#90abcb] pb-[13px] pt-4 cursor-pointer" data-tab="ai-tools">
+                  <p class="text-sm font-bold leading-normal tracking-[0.015em]">AI Tools</p>
+                </a>
+                <a class="flex flex-col items-center justify-center border-b-[3px] border-b-transparent text-gray-500 dark:text-[#90abcb] pb-[13px] pt-4 cursor-pointer" data-tab="tools">
+                  <p class="text-sm font-bold leading-normal tracking-[0.015em]">Tools</p>
+                </a>
+                <a class="flex flex-col items-center justify-center border-b-[3px] border-b-transparent text-gray-500 dark:text-[#90abcb] pb-[13px] pt-4 cursor-pointer" data-tab="cloud">
+                  <p class="text-sm font-bold leading-normal tracking-[0.015em]">Cloud</p>
+                </a>
+              </div>
+            </div>
+
+            <div id="skills-content">
+              <div data-content="languages" class="grid grid-cols-[repeat(auto-fit,minmax(158px,1fr))] gap-3 p-4">
+                <div class="flex flex-1 gap-3 rounded-lg border border-gray-200 dark:border-[#314b68] bg-gray-100 dark:bg-[#182534] p-4 items-center">
+                  <div class="text-black dark:text-white" data-icon="Code" data-size="24px" data-weight="regular">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24px" height="24px" fill="currentColor" viewBox="0 0 256 256">
+                      <path d="M69.12,94.15,28.5,128l40.62,33.85a8,8,0,1,1-10.24,12.29l-48-40a8,8,0,0,1,0-12.29l48-40a8,8,0,0,1,10.24,12.3Zm176,27.7-48-40a8,8,0,1,0-10.24,12.3L227.5,128l-40.62,33.85a8,8,0,1,0,10.24,12.29l48-40a8,8,0,0,0,0-12.29ZM162.73,32.48a8,8,0,0,0-10.25,4.79l-64,176a8,8,0,0,0,4.79,10.26A8.14,8.14,0,0,0,96,224a8,8,0,0,0,7.52-5.27l64-176A8,8,0,0,0,162.73,32.48Z"></path>
+                    </svg>
+                  </div>
+                  <h2 class="text-base font-bold leading-tight">Python</h2>
+                </div>
+                <div class="flex flex-1 gap-3 rounded-lg border border-gray-200 dark:border-[#314b68] bg-gray-100 dark:bg-[#182534] p-4 items-center">
+                  <div class="text-black dark:text-white" data-icon="Code" data-size="24px" data-weight="regular">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24px" height="24px" fill="currentColor" viewBox="0 0 256 256">
+                      <path d="M69.12,94.15,28.5,128l40.62,33.85a8,8,0,1,1-10.24,12.29l-48-40a8,8,0,0,1,0-12.29l48-40a8,8,0,0,1,10.24,12.3Zm176,27.7-48-40a8,8,0,1,0-10.24,12.3L227.5,128l-40.62,33.85a8,8,0,1,0,10.24,12.29l48-40a8,8,0,0,0,0-12.29ZM162.73,32.48a8,8,0,0,0-10.25,4.79l-64,176a8,8,0,0,0,4.79,10.26A8.14,8.14,0,0,0,96,224a8,8,0,0,0,7.52-5.27l64-176A8,8,0,0,0,162.73,32.48Z"></path>
+                    </svg>
+                  </div>
+                  <h2 class="text-base font-bold leading-tight">Java</h2>
+                </div>
+                <div class="flex flex-1 gap-3 rounded-lg border border-gray-200 dark:border-[#314b68] bg-gray-100 dark:bg-[#182534] p-4 items-center">
+                  <div class="text-black dark:text-white" data-icon="Code" data-size="24px" data-weight="regular">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24px" height="24px" fill="currentColor" viewBox="0 0 256 256">
+                      <path d="M69.12,94.15,28.5,128l40.62,33.85a8,8,0,1,1-10.24,12.29l-48-40a8,8,0,0,1,0-12.29l48-40a8,8,0,0,1,10.24,12.3Zm176,27.7-48-40a8,8,0,1,0-10.24,12.3L227.5,128l-40.62,33.85a8,8,0,1,0,10.24,12.29l48-40a8,8,0,0,0,0-12.29ZM162.73,32.48a8,8,0,0,0-10.25,4.79l-64,176a8,8,0,0,0,4.79,10.26A8.14,8.14,0,0,0,96,224a8,8,0,0,0,7.52-5.27l64-176A8,8,0,0,0,162.73,32.48Z"></path>
+                    </svg>
+                  </div>
+                  <h2 class="text-base font-bold leading-tight">C++</h2>
+                </div>
+                <div class="flex flex-1 gap-3 rounded-lg border border-gray-200 dark:border-[#314b68] bg-gray-100 dark:bg-[#182534] p-4 items-center">
+                  <div class="text-black dark:text-white" data-icon="Code" data-size="24px" data-weight="regular">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24px" height="24px" fill="currentColor" viewBox="0 0 256 256">
+                      <path d="M69.12,94.15,28.5,128l40.62,33.85a8,8,0,1,1-10.24,12.29l-48-40a8,8,0,0,1,0-12.29l48-40a8,8,0,0,1,10.24,12.3Zm176,27.7-48-40a8,8,0,1,0-10.24,12.3L227.5,128l-40.62,33.85a8,8,0,1,0,10.24,12.29l48-40a8,8,0,0,0,0-12.29ZM162.73,32.48a8,8,0,0,0-10.25,4.79l-64,176a8,8,0,0,0,4.79,10.26A8.14,8.14,0,0,0,96,224a8,8,0,0,0,7.52-5.27l64-176A8,8,0,0,0,162.73,32.48Z"></path>
+                    </svg>
+                  </div>
+                  <h2 class="text-base font-bold leading-tight">JavaScript</h2>
+                </div>
+              </div>
+
+              <div data-content="frameworks" class="hidden grid grid-cols-[repeat(auto-fit,minmax(158px,1fr))] gap-3 p-4">
+                <div class="flex flex-1 gap-3 rounded-lg border border-gray-200 dark:border-[#314b68] bg-gray-100 dark:bg-[#182534] p-4 items-center">
+                  <div class="text-black dark:text-white" data-icon="BracketsSquare" data-size="24px" data-weight="regular">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24px" height="24px" fill="currentColor" viewBox="0 0 256 256">
+                      <path d="M48,48V208H80a8,8,0,0,1,0,16H40a8,8,0,0,1-8-8V40a8,8,0,0,1,8-8H80a8,8,0,0,1,0,16ZM216,32H176a8,8,0,0,0,0,16h32V208H176a8,8,0,0,0,0,16h40a8,8,0,0,0,8-8V40A8,8,0,0,0,216,32Z"></path>
+                    </svg>
+                  </div>
+                  <h2 class="text-base font-bold leading-tight">React</h2>
+                </div>
+                <div class="flex flex-1 gap-3 rounded-lg border border-gray-200 dark:border-[#324c67] bg-gray-100 dark:bg-[#192633] p-4 items-center">
+                  <div class="text-black dark:text-white" data-icon="BracketsSquare" data-size="24px" data-weight="regular">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24px" height="24px" fill="currentColor" viewBox="0 0 256 256">
+                      <path d="M48,48V208H80a8,8,0,0,1,0,16H40a8,8,0,0,1-8-8V40a8,8,0,0,1,8-8H80a8,8,0,0,1,0,16ZM216,32H176a8,8,0,0,0,0,16h32V208H176a8,8,0,0,0,0,16h40a8,8,0,0,0,8-8V40A8,8,0,0,0,216,32Z"></path>
+                    </svg>
+                  </div>
+                  <h2 class="text-base font-bold leading-tight">Angular</h2>
+                </div>
+                <div class="flex flex-1 gap-3 rounded-lg border border-gray-200 dark:border-[#314b68] bg-gray-100 dark:bg-[#182534] p-4 items-center">
+                  <div class="text-black dark:text-white" data-icon="BracketsSquare" data-size="24px" data-weight="regular">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24px" height="24px" fill="currentColor" viewBox="0 0 256 256">
+                      <path d="M48,48V208H80a8,8,0,0,1,0,16H40a8,8,0,0,1-8-8V40a8,8,0,0,1,8-8H80a8,8,0,0,1,0,16ZM216,32H176a8,8,0,0,0,0,16h32V208H176a8,8,0,0,0,0,16h40a8,8,0,0,0,8-8V40A8,8,0,0,0,216,32Z"></path>
+                    </svg>
+                  </div>
+                  <h2 class="text-base font-bold leading-tight">Express.js</h2>
+                </div>
+                <div class="flex flex-1 gap-3 rounded-lg border border-gray-200 dark:border-[#314b68] bg-gray-100 dark:bg-[#182534] p-4 items-center">
+                  <div class="text-black dark:text-white" data-icon="BracketsSquare" data-size="24px" data-weight="regular">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24px" height="24px" fill="currentColor" viewBox="0 0 256 256">
+                      <path d="M48,48V208H80a8,8,0,0,1,0,16H40a8,8,0,0,1-8-8V40a8,8,0,0,1,8-8H80a8,8,0,0,1,0,16ZM216,32H176a8,8,0,0,0,0,16h32V208H176a8,8,0,0,0,0,16h40a8,8,0,0,0,8-8V40A8,8,0,0,0,216,32Z"></path>
+                    </svg>
+                  </div>
+                  <h2 class="text-base font-bold leading-tight">Tailwind CSS</h2>
+                </div>
+              </div>
+
+              <div data-content="databases" class="hidden grid grid-cols-[repeat(auto-fit,minmax(158px,1fr))] gap-3 p-4">
+                <div class="flex flex-1 gap-3 rounded-lg border border-gray-200 dark:border-[#314b68] bg-gray-100 dark:bg-[#182534] p-4 items-center">
+                  <div class="text-black dark:text-white" data-icon="Database" data-size="24px" data-weight="regular">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24px" height="24px" fill="currentColor" viewBox="0 0 256 256">
+                      <path d="M128,24C74.17,24,32,48.6,32,80v96c0,31.4,42.17,56,96,56s96-24.6,96-56V80C224,48.6,181.83,24,128,24Zm80,104c0,9.62-7.88,19.43-21.61,26.92C170.93,163.35,150.19,168,128,168s-42.93-4.65-58.39-13.08C55.88,147.43,48,137.62,48,128V111.36c17.06,15,46.23,24.64,80,24.64s62.94-9.68,80-24.64ZM69.61,53.08C85.07,44.65,105.81,40,128,40s42.93,4.65,58.39,13.08C200.12,60.57,208,70.38,208,80s-7.88,19.43-21.61,26.92C170.93,115.35,150.19,120,128,120s-42.93-4.65-58.39-13.08C55.88,99.43,48,89.62,48,80S55.88,60.57,69.61,53.08ZM186.39,202.92C170.93,211.35,150.19,216,128,216s-42.93-4.65-58.39-13.08C55.88,195.43,48,185.62,48,176V159.36c17.06,15,46.23,24.64,80,24.64s62.94-9.68,80-24.64V176C208,185.62,200.12,195.43,186.39,202.92Z"></path>
+                    </svg>
+                  </div>
+                  <h2 class="text-base font-bold leading-tight">PostgreSQL</h2>
+                </div>
+                <div class="flex flex-1 gap-3 rounded-lg border border-gray-200 dark:border-[#314b68] bg-gray-100 dark:bg-[#182534] p-4 items-center">
+                  <div class="text-black dark:text-white" data-icon="Database" data-size="24px" data-weight="regular">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24px" height="24px" fill="currentColor" viewBox="0 0 256 256">
+                      <path d="M128,24C74.17,24,32,48.6,32,80v96c0,31.4,42.17,56,96,56s96-24.6,96-56V80C224,48.6,181.83,24,128,24Zm80,104c0,9.62-7.88,19.43-21.61,26.92C170.93,163.35,150.19,168,128,168s-42.93-4.65-58.39-13.08C55.88,147.43,48,137.62,48,128V111.36c17.06,15,46.23,24.64,80,24.64s62.94-9.68,80-24.64ZM69.61,53.08C85.07,44.65,105.81,40,128,40s42.93,4.65,58.39,13.08C200.12,60.57,208,70.38,208,80s-7.88,19.43-21.61,26.92C170.93,115.35,150.19,120,128,120s-42.93-4.65-58.39-13.08C55.88,99.43,48,89.62,48,80S55.88,60.57,69.61,53.08ZM186.39,202.92C170.93,211.35,150.19,216,128,216s-42.93-4.65-58.39-13.08C55.88,195.43,48,185.62,48,176V159.36c17.06,15,46.23,24.64,80,24.64s62.94-9.68,80-24.64V176C208,185.62,200.12,195.43,186.39,202.92Z"></path>
+                    </svg>
+                  </div>
+                  <h2 class="text-base font-bold leading-tight">MongoDB</h2>
+                </div>
+                <div class="flex flex-1 gap-3 rounded-lg border border-gray-200 dark:border-[#314b68] bg-gray-100 dark:bg-[#182534] p-4 items-center">
+                  <div class="text-black dark:text-white" data-icon="Database" data-size="24px" data-weight="regular">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24px" height="24px" fill="currentColor" viewBox="0 0 256 256">
+                      <path d="M128,24C74.17,24,32,48.6,32,80v96c0,31.4,42.17,56,96,56s96-24.6,96-56V80C224,48.6,181.83,24,128,24Zm80,104c0,9.62-7.88,19.43-21.61,26.92C170.93,163.35,150.19,168,128,168s-42.93-4.65-58.39-13.08C55.88,147.43,48,137.62,48,128V111.36c17.06,15,46.23,24.64,80,24.64s62.94-9.68,80-24.64ZM69.61,53.08C85.07,44.65,105.81,40,128,40s42.93,4.65,58.39,13.08C200.12,60.57,208,70.38,208,80s-7.88,19.43-21.61,26.92C170.93,115.35,150.19,120,128,120s-42.93-4.65-58.39-13.08C55.88,99.43,48,89.62,48,80S55.88,60.57,69.61,53.08ZM186.39,202.92C170.93,211.35,150.19,216,128,216s-42.93-4.65-58.39-13.08C55.88,195.43,48,185.62,48,176V159.36c17.06,15,46.23,24.64,80,24.64s62.94-9.68,80-24.64V176C208,185.62,200.12,195.43,186.39,202.92Z"></path>
+                    </svg>
+                  </div>
+                  <h2 class="text-base font-bold leading-tight">MySQL</h2>
+                </div>
+              </div>
+
+              <div data-content="ai-tools" class="hidden grid grid-cols-[repeat(auto-fit,minmax(158px,1fr))] gap-3 p-4">
+                <div class="flex flex-1 gap-3 rounded-lg border border-gray-200 dark:border-[#314b68] bg-gray-100 dark:bg-[#182534] p-4 items-center">
+                  <div class="text-black dark:text-white" data-icon="Terminal" data-size="24px" data-weight="regular">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24px" height="24px" fill="currentColor" viewBox="0 0 256 256">
+                      <path d="M117.31,134l-72,64a8,8,0,1,1-10.63-12L100,128,34.69,70A8,8,0,1,1,45.32,58l72,64a8,8,0,0,1,0,12ZM216,184H120a8,8,0,0,0,0,16h96a8,8,0,0,0,0-16Z"></path>
+                  </svg>
+                  </div>
+                  <h2 class="text-base font-bold leading-tight">ChatGPT</h2>
+                </div>
+                <div class="flex flex-1 gap-3 rounded-lg border border-gray-200 dark:border-[#314b68] bg-gray-100 dark:bg-[#182534] p-4 items-center">
+                  <div class="text-black dark:text-white" data-icon="Terminal" data-size="24px" data-weight="regular">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24px" height="24px" fill="currentColor" viewBox="0 0 256 256">
+                      <path d="M117.31,134l-72,64a8,8,0,1,1-10.63-12L100,128,34.69,70A8,8,0,1,1,45.32,58l72,64a8,8,0,0,1,0,12ZM216,184H120a8,8,0,0,0,0,16h96a8,8,0,0,0,0-16Z"></path>
+                  </svg>
+                  </div>
+                  <h2 class="text-base font-bold leading-tight">Gemini CLI</h2>
+                </div>
+                <div class="flex flex-1 gap-3 rounded-lg border border-gray-200 dark:border-[#314b68] bg-gray-100 dark:bg-[#182534] p-4 items-center">
+                  <div class="text-black dark:text-white" data-icon="Terminal" data-size="24px" data-weight="regular">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24px" height="24px" fill="currentColor" viewBox="0 0 256 256">
+                      <path d="M117.31,134l-72,64a8,8,0,1,1-10.63-12L100,128,34.69,70A8,8,0,1,1,45.32,58l72,64a8,8,0,0,1,0,12ZM216,184H120a8,8,0,0,0,0,16h96a8,8,0,0,0,0-16Z"></path>
+                  </svg>
+                  </div>
+                  <h2 class="text-base font-bold leading-tight">GitHub Copilot</h2>
+                </div>
+              </div>
+              
+              <div data-content="tools" class="hidden grid grid-cols-[repeat(auto-fit,minmax(158px,1fr))] gap-3 p-4">
+                <div class="flex flex-1 gap-3 rounded-lg border border-gray-200 dark:border-[#314b68] bg-gray-100 dark:bg-[#182534] p-4 items-center">
+                  <div class="text-black dark:text-white" data-icon="Gear" data-size="24px" data-weight="regular">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24px" height="24px" fill="currentColor" viewBox="0 0 256 256">
+                      <path d="M128,80a48,48,0,1,0,48,48A48.05,48.05,0,0,0,128,80Zm0,80a32,32,0,1,1,32-32A32,32,0,0,1,128,160Zm88-29.84q.06-2.16,0-4.32l14.92-18.64a8,8,0,0,0,1.48-7.06,107.21,107.21,0,0,0-10.88-26.25,8,8,0,0,0-6-3.93l-23.72-2.64q-1.48-1.56-3-3L186,40.54a8,8,0,0,0-3.94-6,107.71,107.71,0,0,0-26.25-10.87,8,8,0,0,0-7.06,1.49L130.16,40Q128,40,125.84,40L107.2,25.11a8,8,0,0,0-7.06-1.48A107.6,107.6,0,0,0,73.89,34.51a8,8,0,0,0-3.93,6L67.32,64.27q-1.56,1.49-3,3L40.54,70a8,8,0,0,0-6,3.94,107.71,107.71,0,0,0-10.87,26.25,8,8,0,0,0,1.49,7.06L40,125.84Q40,128,40,130.16L25.11,148.8a8,8,0,0,0-1.48,7.06,107.21,107.21,0,0,0,10.88,26.25,8,8,0,0,0,6,3.93l23.72,2.64q1.49,1.56,3,3L70,215.46a8,8,0,0,0,3.94,6,107.71,107.71,0,0,0,26.25,10.87,8,8,0,0,0,7.06-1.49L125.84,216q2.16.06,4.32,0l18.64,14.92a8,8,0,0,0,7.06,1.48,107.21,107.21,0,0,0,26.25-10.88,8,8,0,0,0,3.93-6l2.64-23.72q1.56-1.48,3-3L215.46,186a8,8,0,0,0,6-3.94,107.71,107.71,0,0,0,10.87-26.25,8,8,0,0,0-1.49-7.06Zm-16.1-6.5a73.93,73.93,0,0,1,0,8.68,8,8,0,0,0,1.74,5.48l14.19,17.73a91.57,91.57,0,0,1-6.23,15L187,173.11a8,8,0,0,0-5.1,2.64,74.11,74.11,0,0,1-6.14,6.14,8,8,0,0,0-2.64,5.1l-2.51,22.58a91.32,91.32,0,0,1-15,6.23l-17.74-14.19a8,8,0,0,0-5-1.75h-.48a73.93,73.93,0,0,1-8.68,0,8,8,0,0,0-5.48,1.74L100.45,215.8a91.57,91.57,0,0,1-15-6.23L82.89,187a8,8,0,0,0-2.64-5.1,74.11,74.11,0,0,1-6.14-6.14,8,8,0,0,0-5.1-2.64L46.43,170.6a91.32,91.32,0,0,1-6.23-15l14.19-17.74a8,8,0,0,0,1.74-5.48,73.93,73.93,0,0,1,0-8.68,8,8,0,0,0-1.74-5.48L40.2,100.45a91.57,91.57,0,0,1,6.23-15L69,82.89a8,8,0,0,0,5.1-2.64,74.11,74.11,0,0,1,6.14-6.14A8,8,0,0,0,82.89,69L85.4,46.43a91.32,91.32,0,0,1,15-6.23l17.74,14.19a8,8,0,0,0,5.48,1.74,73.93,73.93,0,0,1,8.68,0,8,8,0,0,0,5.48-1.74L155.55,40.2a91.57,91.57,0,0,1,15,6.23L173.11,69a8,8,0,0,0,2.64,5.1,74.11,74.11,0,0,1,6.14,6.14,8,8,0,0,0,5.1,2.64l22.58,2.51a91.32,91.32,0,0,1,6.23,15l-14.19,17.74A8,8,0,0,0,199.87,123.66Z"></path>
+                    </svg>
+                  </div>
+                  <h2 class="text-base font-bold leading-tight">VS Code</h2>
+                </div>
+                <div class="flex flex-1 gap-3 rounded-lg border border-gray-200 dark:border-[#314b68] bg-gray-100 dark:bg-[#182534] p-4 items-center">
+                  <div class="text-black dark:text-white" data-icon="Gear" data-size="24px" data-weight="regular">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24px" height="24px" fill="currentColor" viewBox="0 0 256 256">
+                      <path d="M128,80a48,48,0,1,0,48,48A48.05,48.05,0,0,0,128,80Zm0,80a32,32,0,1,1,32-32A32,32,0,0,1,128,160Zm88-29.84q.06-2.16,0-4.32l14.92-18.64a8,8,0,0,0,1.48-7.06,107.21,107.21,0,0,0-10.88-26.25,8,8,0,0,0-6-3.93l-23.72-2.64q-1.48-1.56-3-3L186,40.54a8,8,0,0,0-3.94-6,107.71,107.71,0,0,0-26.25-10.87,8,8,0,0,0-7.06,1.49L130.16,40Q128,40,125.84,40L107.2,25.11a8,8,0,0,0-7.06-1.48A107.6,107.6,0,0,0,73.89,34.51a8,8,0,0,0-3.93,6L67.32,64.27q-1.56,1.49-3,3L40.54,70a8,8,0,0,0-6,3.94,107.71,107.71,0,0,0-10.87,26.25,8,8,0,0,0,1.49,7.06L40,125.84Q40,128,40,130.16L25.11,148.8a8,8,0,0,0-1.48,7.06,107.21,107.21,0,0,0,10.88,26.25,8,8,0,0,0,6,3.93l23.72,2.64q1.49,1.56,3,3L70,215.46a8,8,0,0,0,3.94,6,107.71,107.71,0,0,0,26.25,10.87,8,8,0,0,0,7.06-1.49L125.84,216q2.16.06,4.32,0l18.64,14.92a8,8,0,0,0,7.06,1.48,107.21,107.21,0,0,0,26.25-10.88,8,8,0,0,0,3.93-6l2.64-23.72q1.56-1.48,3-3L215.46,186a8,8,0,0,0,6-3.94,107.71,107.71,0,0,0,10.87-26.25,8,8,0,0,0-1.49-7.06Zm-16.1-6.5a73.93,73.93,0,0,1,0,8.68,8,8,0,0,0,1.74,5.48l14.19,17.73a91.57,91.57,0,0,1-6.23,15L187,173.11a8,8,0,0,0-5.1,2.64,74.11,74.11,0,0,1-6.14,6.14,8,8,0,0,0-2.64,5.1l-2.51,22.58a91.32,91.32,0,0,1-15,6.23l-17.74-14.19a8,8,0,0,0-5-1.75h-.48a73.93,73.93,0,0,1-8.68,0,8,8,0,0,0-5.48,1.74L100.45,215.8a91.57,91.57,0,0,1-15-6.23L82.89,187a8,8,0,0,0-2.64-5.1,74.11,74.11,0,0,1-6.14-6.14,8,8,0,0,0-5.1-2.64L46.43,170.6a91.32,91.32,0,0,1-6.23-15l14.19-17.74a8,8,0,0,0,1.74-5.48,73.93,73.93,0,0,1,0-8.68,8,8,0,0,0-1.74-5.48L40.2,100.45a91.57,91.57,0,0,1,6.23-15L69,82.89a8,8,0,0,0,5.1-2.64,74.11,74.11,0,0,1,6.14-6.14A8,8,0,0,0,82.89,69L85.4,46.43a91.32,91.32,0,0,1,15-6.23l17.74,14.19a8,8,0,0,0,5.48,1.74,73.93,73.93,0,0,1,8.68,0,8,8,0,0,0,5.48-1.74L155.55,40.2a91.57,91.57,0,0,1,15,6.23L173.11,69a8,8,0,0,0,2.64,5.1,74.11,74.11,0,0,1,6.14,6.14,8,8,0,0,0,5.1,2.64l22.58,2.51a91.32,91.32,0,0,1,6.23,15l-14.19,17.74A8,8,0,0,0,199.87,123.66Z"></path>
+                    </svg>
+                  </div>
+                  <h2 class="text-base font-bold leading-tight">Git</h2>
+                </div>
+                <div class="flex flex-1 gap-3 rounded-lg border border-gray-200 dark:border-[#314b68] bg-gray-100 dark:bg-[#182534] p-4 items-center">
+                  <div class="text-black dark:text-white" data-icon="Gear" data-size="24px" data-weight="regular">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24px" height="24px" fill="currentColor" viewBox="0 0 256 256">
+                      <path d="M128,80a48,48,0,1,0,48,48A48.05,48.05,0,0,0,128,80Zm0,80a32,32,0,1,1,32-32A32,32,0,0,1,128,160Zm88-29.84q.06-2.16,0-4.32l14.92-18.64a8,8,0,0,0,1.48-7.06,107.21,107.21,0,0,0-10.88-26.25,8,8,0,0,0-6-3.93l-23.72-2.64q-1.48-1.56-3-3L186,40.54a8,8,0,0,0-3.94-6,107.71,107.71,0,0,0-26.25-10.87,8,8,0,0,0-7.06,1.49L130.16,40Q128,40,125.84,40L107.2,25.11a8,8,0,0,0-7.06-1.48A107.6,107.6,0,0,0,73.89,34.51a8,8,0,0,0-3.93,6L67.32,64.27q-1.56,1.49-3,3L40.54,70a8,8,0,0,0-6,3.94,107.71,107.71,0,0,0-10.87,26.25,8,8,0,0,0,1.49,7.06L40,125.84Q40,128,40,130.16L25.11,148.8a8,8,0,0,0-1.48,7.06,107.21,107.21,0,0,0,10.88,26.25,8,8,0,0,0,6,3.93l23.72,2.64q1.49,1.56,3,3L70,215.46a8,8,0,0,0,3.94,6,107.71,107.71,0,0,0,26.25,10.87,8,8,0,0,0,7.06-1.49L125.84,216q2.16.06,4.32,0l18.64,14.92a8,8,0,0,0,7.06,1.48,107.21,107.21,0,0,0,26.25-10.88,8,8,0,0,0,3.93-6l2.64-23.72q1.56-1.48,3-3L215.46,186a8,8,0,0,0,6-3.94,107.71,107.71,0,0,0,10.87-26.25,8,8,0,0,0-1.49-7.06Zm-16.1-6.5a73.93,73.93,0,0,1,0,8.68,8,8,0,0,0,1.74,5.48l14.19,17.73a91.57,91.57,0,0,1-6.23,15L187,173.11a8,8,0,0,0-5.1,2.64,74.11,74.11,0,0,1-6.14,6.14,8,8,0,0,0-2.64,5.1l-2.51,22.58a91.32,91.32,0,0,1-15,6.23l-17.74-14.19a8,8,0,0,0-5-1.75h-.48a73.93,73.93,0,0,1-8.68,0,8,8,0,0,0-5.48,1.74L100.45,215.8a91.57,91.57,0,0,1-15-6.23L82.89,187a8,8,0,0,0-2.64-5.1,74.11,74.11,0,0,1-6.14-6.14,8,8,0,0,0-5.1-2.64L46.43,170.6a91.32,91.32,0,0,1-6.23-15l14.19-17.74a8,8,0,0,0,1.74-5.48,73.93,73.93,0,0,1,0-8.68,8,8,0,0,0-1.74-5.48L40.2,100.45a91.57,91.57,0,0,1,6.23-15L69,82.89a8,8,0,0,0,5.1-2.64,74.11,74.11,0,0,1,6.14-6.14A8,8,0,0,0,82.89,69L85.4,46.43a91.32,91.32,0,0,1,15-6.23l17.74,14.19a8,8,0,0,0,5.48,1.74,73.93,73.93,0,0,1,8.68,0,8,8,0,0,0,5.48-1.74L155.55,40.2a91.57,91.57,0,0,1,15,6.23L173.11,69a8,8,0,0,0,2.64,5.1,74.11,74.11,0,0,1,6.14,6.14,8,8,0,0,0,5.1,2.64l22.58,2.51a91.32,91.32,0,0,1,6.23,15l-14.19,17.74A8,8,0,0,0,199.87,123.66Z"></path>
+                    </svg>
+                  </div>
+                  <h2 class="text-base font-bold leading-tight">Docker</h2>
+                </div>
+              </div>
+              <div data-content="cloud" class="hidden grid grid-cols-[repeat(auto-fit,minmax(158px,1fr))] gap-3 p-4">
+                <div class="flex flex-1 gap-3 rounded-lg border border-gray-200 dark:border-[#314b68] bg-gray-100 dark:bg-[#182534] p-4 items-center">
+                  <div class="text-black dark:text-white" data-icon="Cloud" data-size="24px" data-weight="regular">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24px" height="24px" fill="currentColor" viewBox="0 0 256 256">
+                      <path d="M160,208a80,80,0,0,1-48-14.45V208a8,8,0,0,1-16,0V193.55A80,80,0,0,1,48,128a8,8,0,0,1,16,0,64,64,0,0,0,128,0,8,8,0,0,1,16,0,80,80,0,0,1-48,80ZM128,24A88,88,0,0,0,40,112a8,8,0,0,0,16,0,72,72,0,0,1,144,0,8,8,0,0,0,16,0A88,88,0,0,0,128,24Z"></path>
+                    </svg>
+                  </div>
+                  <h2 class="text-base font-bold leading-tight">AWS</h2>
+                </div>
+                <div class="flex flex-1 gap-3 rounded-lg border border-gray-200 dark:border-[#314b68] bg-gray-100 dark:bg-[#182534] p-4 items-center">
+                  <div class="text-black dark:text-white" data-icon="Cloud" data-size="24px" data-weight="regular">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24px" height="24px" fill="currentColor" viewBox="0 0 256 256">
+                      <path d="M160,208a80,80,0,0,1-48-14.45V208a8,8,0,0,1-16,0V193.55A80,80,0,0,1,48,128a8,8,0,0,1,16,0,64,64,0,0,0,128,0,8,8,0,0,1,16,0,80,80,0,0,1-48,80ZM128,24A88,88,0,0,0,40,112a8,8,0,0,0,16,0,72,72,0,0,1,144,0,8,8,0,0,0,16,0A88,88,0,0,0,128,24Z"></path>
+                    </svg>
+                  </div>
+                  <h2 class="text-base font-bold leading-tight">Azure</h2>
+                </div>
+                <div class="flex flex-1 gap-3 rounded-lg border border-gray-200 dark:border-[#314b68] bg-gray-100 dark:bg-[#182534] p-4 items-center">
+                  <div class="text-black dark:text-white" data-icon="Cloud" data-size="24px" data-weight="regular">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24px" height="24px" fill="currentColor" viewBox="0 0 256 256">
+                      <path d="M160,208a80,80,0,0,1-48-14.45V208a8,8,0,0,1-16,0V193.55A80,80,0,0,1,48,128a8,8,0,0,1,16,0,64,64,0,0,0,128,0,8,8,0,0,1,16,0,80,80,0,0,1-48,80ZM128,24A88,88,0,0,0,40,112a8,8,0,0,0,16,0,72,72,0,0,1,144,0,8,8,0,0,0,16,0A88,88,0,0,0,128,24Z"></path>
+                    </svg>
+                  </div>
+                  <h2 class="text-base font-bold leading-tight">Google Cloud</h2>
+                </div>
+              </div>
+            </div>
+            <script>
+              document.addEventListener('DOMContentLoaded', function() {
+                const tabs = document.querySelectorAll('#skills-tabs a');
+                const content = document.querySelectorAll('#skills-content > div');
+
+                tabs.forEach(tab => {
+                  tab.addEventListener('click', function(event) {
+                    event.preventDefault();
+                    const tabName = this.dataset.tab;
+
+                    tabs.forEach(t => {
+                      t.classList.remove('border-b-[#0c77f2]', 'text-black', 'dark:text-white');
+                      t.classList.add('border-b-transparent', 'text-gray-500', 'dark:text-[#90abcb]');
+                      t.querySelector('p').classList.remove('text-black', 'dark:text-white');
+                      t.querySelector('p').classList.add('text-gray-500', 'dark:text-[#90abcb]');
+                    });
+
+                    this.classList.add('border-b-[#0c77f2]', 'text-black', 'dark:text-white');
+                    this.classList.remove('border-b-transparent', 'text-gray-500', 'dark:text-[#90abcb]');
+                    this.querySelector('p').classList.add('text-black', 'dark:text-white');
+                    this.querySelector('p').classList.remove('text-gray-500', 'dark:text-[#90abcb]');
+
+
+                    content.forEach(c => {
+                      if (c.dataset.content === tabName) {
+                        c.classList.remove('hidden');
+                      } else {
+                        c.classList.add('hidden');
+                      }
+                    });
+                  });
+                });
+              });
+            </script>
+            <h2 class="text-black dark:text-white text-[22px] font-bold leading-tight tracking-[-0.015em] px-4 pb-3 pt-5">Projects</h2>
+            <div class="grid grid-cols-[repeat(auto-fit,minmax(158px,1fr))] gap-3 p-4">
+              <div class="flex flex-col gap-3 pb-3 border border-gray-200 dark:border-[#314b68] bg-gray-100 dark:bg-[#182534] rounded-lg p-4">
+                <div
+                  class="w-full bg-center bg-no-repeat aspect-square bg-cover rounded-xl"
+                  style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuDbmeao5YF-wcQcSXO9ldzRJl_IzC4Epjxho_6IHjcaKUtyA1wXUIK7LmjiCd00V7GM8fSjqG8VyU5lq5VC9wm0T7V4qVxaiLBphY0x4iNTRPXjCYE4u_g6SunB8bYF5C6wxTxRxd9O4kWuhYVXZFrSvsawZK9msl83ftZzD81_65xPiaw51AVzaJCv-QWV73Drf3nJvVAe74xubeJG0_AvS3nBD9LMm1Bkf9Tat7_PnJF76LZksGwpM8a1FQuETBcDuXhcYJQOLQQP");'
+                ></div>
+                <div>
+                  <p class="text-black dark:text-white text-base font-medium leading-normal">E-commerce Platform</p>
+                  <p class="text-gray-600 dark:text-[#9eadbd] text-sm font-normal leading-normal">
+                    A full-stack e-commerce platform with user authentication, product management, and payment integration.
+                  </p>
+                </div>
+              </div>
+              <div class="flex flex-col gap-3 pb-3 border border-gray-200 dark:border-[#314b68] bg-gray-100 dark:bg-[#182534] rounded-lg p-4">
+                <div
+                  class="w-full bg-center bg-no-repeat aspect-square bg-cover rounded-xl"
+                  style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuAcJED7iMlLG5BMEZhXIcQRnveS97xufdHqbxErzI5cvG8sj8jpcxYVJFXSrll6oj1wbzBwYle_BYCrm7VBHyCO__27bHdftTqrDvqqsqKB4SGx5DKRRCXvd8l6WqNo40JKJfW3yvwmT5DLmDZyA8Sy5jGNy3N1wW7uFpmss1Da-n9O2Ykj_qYnB2TO32zdoswCefQLFlPwx9vZv-0_uNNH3ecBw9PwLCmLz6j1OmYYmnrPmAlMvuisb7Ice011UJB-d_C5L0Ll-6uE");'
+                ></div>
+                <div>
+                  <p class="text-black dark:text-white text-base font-medium leading-normal">Data Analysis Dashboard</p>
+                  <p class="text-gray-600 dark:text-[#9eadbd] text-sm font-normal leading-normal">
+                    An interactive dashboard for visualizing and analyzing large datasets, built with Python and data visualization libraries.
+                  </p>
+                </div>
+              </div>
+              <div class="flex flex-col gap-3 pb-3 border border-gray-200 dark:border-[#314b68] bg-gray-100 dark:bg-[#182534] rounded-lg p-4">
+                <div
+                  class="w-full bg-center bg-no-repeat aspect-square bg-cover rounded-xl"
+                  style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuB-fqz3qyDs-hzcq-TtGx5FuuT_AQq2TNlQ6jxgjENXHEfZ2latVte0lNEiHoAvdqef87SVEcVNqGWoY14kQUjbHvg1mybX4jwJgAq8CngeSM3TkmygbGNO4pnmdz8ON_-WA_sudAkOk6K5Ts-IyWvgyXN19u3KJAM4xGGAhJa2_YXb6QuJ1buz8lrcFSv4EKhRtQoBcutKjicA1f_qG_gI6aqiOHlOKtsVQkYMksG7G6TLTwLLxpUaeqyoTWYoRstHzbLh7oaWINYj");'
+                ></div>
+                <div>
+                  <p class="text-black dark:text-white text-base font-medium leading-normal">Mobile App for Fitness Tracking</p>
+                  <p class="text-gray-600 dark:text-[#9eadbd] text-sm font-normal leading-normal">
+                    A mobile application for tracking fitness activities, including workouts, steps, and calorie intake.
+                  </p>
+                </div>
+              </div>
+              <div class="flex flex-col gap-3 pb-3 border border-gray-200 dark:border-[#314b68] bg-gray-100 dark:bg-[#182534] rounded-lg p-4">
+                <div
+                  class="w-full bg-center bg-no-repeat aspect-square bg-cover rounded-xl"
+                  style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuCkr-nRYhpMHBo5YLz2alIhdHmEirTJkldMDogApx9BEgj1yZyWT-gNlPDXcrTLO0HK9XfIslC6SGEjVTaXRLjzHxZlbFkrfbofw5wmwdpd-yphJmr_sOsmYGd64p-XXl7qUMWr6hv_MFX1WgBw7XMUbMvQ8byYZMidJWphV2DKNW4gMpmsmYHn2dX-DhcAM4VhvxGxJZgPmgUW_UqOT4K-O40EQG-tNT562GOBJqCP1QEepF4N5iOR3JdAYpxpoRDGmCimdKR4Vzj1");'
+                ></div>
+                <div>
+                  <p class="text-black dark:text-white text-base font-medium leading-normal">AI-Powered Chatbot</p>
+                  <p class="text-gray-600 dark:text-[#9eadbd] text-sm font-normal leading-normal">
+                    An AI-powered chatbot for customer support, using natural language processing and machine learning techniques.
+                  </p>
+                </div>
+              </div>
+              <div class="flex flex-col gap-3 pb-3 border border-gray-200 dark:border-[#314b68] bg-gray-100 dark:bg-[#182534] rounded-lg p-4">
+                <div
+                  class="w-full bg-center bg-no-repeat aspect-square bg-cover rounded-xl"
+                  style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuBr51pMV6iVu-x5MVCTPBgOeelbMHSCjCp5FJmmI10kQyFqNObEV0jZZ5k-sRovFwYef-Z5OAr1eTZKpmP9oyR7rzxKtEYEuJIIQQwJGAB_0_zVTRSrswy2t7Do3NhxmetzulPOYSMUmWTvTTUbcQm7DHzUL9HD7sAF14rGths7nPaqEBH854vuUC78SQuAqVn2jS_SJvsyKcIvh9GpEdcTWbXhtL77OuxTNb0Bskf9K0Mtn4alHmcjBVsQuhdzkEc9AdcNFPKa275o");'
+                ></div>
+                <div>
+                  <p class="text-black dark:text-white text-base font-medium leading-normal">Personal Blog</p>
+                  <p class="text-gray-600 dark:text-[#9eadbd] text-sm font-normal leading-normal">
+                    A personal blog built with a modern framework, featuring articles on technology, programming, and personal experiences.
+                  </p>
+                </div>
+              </div>
+            </div>
+            <h2 class="text-black dark:text-white text-[22px] font-bold leading-tight tracking-[-0.015em] px-4 pb-3 pt-5">Blog</h2>
+            <div class="p-4">
+              <div class="flex items-stretch justify-between gap-4 rounded-lg bg-gray-100 dark:bg-[#182534] p-4 shadow-[0_0_4px_rgba(0,0,0,0.1)]">
+                <div class="flex flex-[2_2_0px] flex-col gap-4">
+                  <div class="flex flex-col gap-1">
+                    <p class="text-black dark:text-white text-base font-bold leading-tight">Introduction to React</p>
+                    <p class="text-gray-500 dark:text-[#90abcb] text-sm font-normal leading-normal">A beginner-friendly guide to understanding and using React for web development.</p>
+                  </div>
+                  <button
+                    class="flex min-w-[84px] max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-lg h-8 px-4 flex-row-reverse bg-gray-200 dark:bg-[#223449] text-black dark:text-white text-sm font-medium leading-normal w-fit"
+                  >
+                    <span class="truncate">Read More</span>
+                  </button>
+                </div>
+                <div
+                  class="w-full bg-center bg-no-repeat aspect-video bg-cover rounded-lg flex-1"
+                  style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuDOc_ULeJs9PojXMimwOFDR2sAPEfxJdyeR_EDnkzZQAlo21jv3eGeU2ECdh07WZq5cm_47kT27V0SbNK8BCU75pNCuSI8_TftS7Lme5QhGqE3VZQLZ-DpsWo_31-BccrK_m6WdMi0Hfx8A3ixZEvL0QQ5dYOIxtup1FFA5dpvFOa5-THVZUeCDDiUPnVkhdYQz8fwUSuP9-TI7WVurgByxirqMMBgsP0BQ8O5W0oa6iOq_7_WMO56aGVcfRqXfX6pqMtDus6Z5ITTh");'
+                ></div>
+              </div>
+            </div>
+            <div class="p-4">
+              <div class="flex items-stretch justify-between gap-4 rounded-lg bg-gray-100 dark:bg-[#182534] p-4 shadow-[0_0_4px_rgba(0,0,0,0.1)]">
+                <div class="flex flex-[2_2_0px] flex-col gap-4">
+                  <div class="flex flex-col gap-1">
+                    <p class="text-black dark:text-white text-base font-bold leading-tight">Database Design Principles</p>
+                    <p class="text-gray-500 dark:text-[#90abcb] text-sm font-normal leading-normal">Best practices for designing efficient and scalable databases.</p>
+                  </div>
+                  <button
+                    class="flex min-w-[84px] max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-lg h-8 px-4 flex-row-reverse bg-gray-200 dark:bg-[#223449] text-black dark:text-white text-sm font-medium leading-normal w-fit"
+                  >
+                    <span class="truncate">Read More</span>
+                  </button>
+                </div>
+                <div
+                  class="w-full bg-center bg-no-repeat aspect-video bg-cover rounded-lg flex-1"
+                  style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuAorIbH_jPiFSnHCCgeakZYINbReBQ8IKYOjXjHf32gtvYxKKHnDxkDPhi5TKPtfY_CF7MgWv6py5h72ETMra_W5MtkIGzQD8HWrnFEfh8PPENmWDdOyLo9ykPiYTqxDwh_cd9cxey0p-5bFJC1CXbtD27vFz7XaCO8lxchGmaxrijROAxv7dr_1Hu-Pqf91YSKZNdp6hpAd8G-ZB1kHhkmPaEXxjlw9K8yALwpXbg0iXisMgBZhIHduExUIjD8G4_rSMSyiqpFIu9z");'
+                ></div>
+              </div>
+            </div>
+            <h2 class="text-black dark:text-white text-[22px] font-bold leading-tight tracking-[-0.015em] px-4 pb-3 pt-5">Contact Me</h2>
+            <div class="flex max-w-[480px] flex-wrap items-end gap-4 px-4 py-3">
+              <label class="flex flex-col min-w-40 flex-1">
+                <p class="text-black dark:text-white text-base font-medium leading-normal pb-2">Name</p>
+                <input
+                  placeholder="Your Name"
+                  class="form-input flex w-full min-w-0 flex-1 resize-none overflow-hidden rounded-lg border border-gray-300 dark:border-[#314b68] bg-white dark:bg-[#182534] focus:border-blue-500 dark:focus:border-blue-500 h-14 placeholder:text-gray-400 dark:placeholder:text-[#90abcb] p-[15px] text-base font-normal leading-normal"
+                  value=""
+                />
+              </label>
+            </div>
+            <div class="flex max-w-[480px] flex-wrap items-end gap-4 px-4 py-3">
+              <label class="flex flex-col min-w-40 flex-1">
+                <p class="text-black dark:text-white text-base font-medium leading-normal pb-2">Email</p>
+                <input
+                  placeholder="Your Email"
+                  class="form-input flex w-full min-w-0 flex-1 resize-none overflow-hidden rounded-lg border border-gray-300 dark:border-[#314b68] bg-white dark:bg-[#182534] focus:border-blue-500 dark:focus:border-blue-500 h-14 placeholder:text-gray-400 dark:placeholder:text-[#90abcb] p-[15px] text-base font-normal leading-normal"
+                  value=""
+                />
+              </label>
+            </div>
+            <div class="flex max-w-[480px] flex-wrap items-end gap-4 px-4 py-3">
+              <label class="flex flex-col min-w-40 flex-1">
+                <p class="text-black dark:text-white text-base font-medium leading-normal pb-2">Message</p>
+                <textarea
+                  placeholder="Your Message"
+                  class="form-input flex w-full min-w-0 flex-1 resize-none overflow-hidden rounded-lg border border-gray-300 dark:border-[#314b68] bg-white dark:bg-[#182534] focus:border-blue-500 dark:focus:border-blue-500 min-h-36 placeholder:text-gray-400 dark:placeholder:text-[#90abcb] p-[15px] text-base font-normal leading-normal"
+                ></textarea>
+              </label>
+            </div>
+            <div class="flex px-4 py-3 justify-end">
+              <button
+              class="flex min-w-[84px] max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-full h-10 px-4 bg-[#cadaec] text-black text-sm font-bold leading-normal tracking-[0.015em]">
+              <span class="truncate">Send Message</span>
+            </button>
+            </div>
+{% endblock %}

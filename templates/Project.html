@@ -5,83 +5,47 @@
 {% block content %}
             <div class="flex flex-wrap justify-between gap-3 p-4">
               <div class="flex min-w-72 flex-col gap-3">
-                <p class="text-white tracking-light text-[32px] font-bold leading-tight">Projects</p>
-                <p class="text-[#9eadbd] text-sm font-normal leading-normal">
+                <p class="text-black dark:text-white tracking-light text-[32px] font-bold leading-tight">Projects</p>
+                <p class="text-gray-600 dark:text-[#9eadbd] text-sm font-normal leading-normal">
                   A collection of my academic and personal projects, showcasing my skills and interests in computer science.
                 </p>
               </div>
             </div>
-            <div class="grid grid-cols-[repeat(auto-fit,minmax(158px,1fr))] gap-3 p-4">
-              <div class="flex flex-col gap-3 pb-3">
-                <div
-                  class="w-full bg-center bg-no-repeat aspect-square bg-cover rounded-xl"
-                  style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuDbmeao5YF-wcQcSXO9ldzRJl_IzC4Epjxho_6IHjcaKUtyA1wXUIK7LmjiCd00V7GM8fSjqG8VyU5lq5VC9wm0T7V4qVxaiLBphY0x4iNTRPXjCYE4u_g6SunB8bYF5C6wxTxRxd9O4kWuhYVXZFrSvsawZK9msl83ftZzD81_65xPiaw51AVzaJCv-QWV73Drf3nJvVAe74xubeJG0_AvS3nBD9LMm1Bkf9Tat7_PnJF76LZksGwpM8a1FQuETBcDuXhcYJQOLQQP");'
-                ></div>
-                <div>
-                  <p class="text-white text-base font-medium leading-normal">E-commerce Platform</p>
-                  <p class="text-[#9eadbd] text-sm font-normal leading-normal">
-                    A full-stack e-commerce platform with user authentication, product management, and payment integration.
-                  </p>
+            <div class="p-4">
+              <div class="flex items-stretch justify-between gap-4 rounded-lg bg-gray-100 dark:bg-[#182534] p-4 shadow-[0_0_4px_rgba(0,0,0,0.1)]">
+                <div class="flex flex-[2_2_0px] flex-col gap-4">
+                  <div class="flex flex-col gap-1">
+                    <p class="text-gray-500 dark:text-[#90abcb] text-sm font-normal leading-normal">Featured Project</p>
+                    <p class="text-black dark:text-white text-base font-bold leading-tight">E-commerce Platform</p>
+                    <p class="text-gray-500 dark:text-[#90abcb] text-sm font-normal leading-normal">
+                      A full-stack e-commerce platform with user authentication, product management, and payment integration.
+                    </p>
+                  </div>
+                  <button
+                    class="flex min-w-[84px] max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-lg h-8 px-4 flex-row-reverse bg-gray-200 dark:bg-[#223449] text-black dark:text-white text-sm font-medium leading-normal w-fit"
+                  >
+                    <span class="truncate">View Project</span>
+                  </button>
                 </div>
-              </div>
-              <div class="flex flex-col gap-3 pb-3">
                 <div
-                  class="w-full bg-center bg-no-repeat aspect-square bg-cover rounded-xl"
-                  style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuAcJED7iMlLG5BMEZhXIcQRnveS97xufdHqbxErzI5cvG8sj8jpcxYVJFXSrll6oj1wbzBwYle_BYCrm7VBHyCO__27bHdftTqrDvqqsqKB4SGx5DKRRCXvd8l6WqNo40JKJfW3yvwmT5DLmDZyA8Sy5jGNy3N1wW7uFpmss1Da-n9O2Ykj_qYnB2TO32zdoswCefQLFlPwx9vZv-0_uNNH3ecBw9PwLCmLz6j1OmYYmnrPmAlMvuisb7Ice011UJB-d_C5L0Ll-6uE");'
+                  class="w-full bg-center bg-no-repeat aspect-video bg-cover rounded-lg flex-1"
+                  style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuB1QsJFMybypMllvWUhubQlEM8gLsvUMUMf2eKrP8Z103OsN40R_4fbtwkSyvs74XgHbHjmKH8SO0Edl1AjRfmIzBN9lLNdygbugAQX222lEsvLh2AlrZAY85v7ify7p7Z1dE5DZr_Uppks9EsVGhDaijoKGdQd06UN3pOk33ul2LcC4R6wHyId_GPz7dFmd6pNDTEgUv1IHofr9B9AC41eT9xiH8N0bxSAQVBlYtkKsvCC9aKet53H8ItLBGeAcUyAYc44mCteHjLy");'
                 ></div>
-                <div>
-                  <p class="text-white text-base font-medium leading-normal">Data Analysis Dashboard</p>
-                  <p class="text-[#9eadbd] text-sm font-normal leading-normal">
-                    An interactive dashboard for visualizing and analyzing large datasets, built with Python and data visualization libraries.
-                  </p>
-                </div>
               </div>
-              <div class="flex flex-col gap-3 pb-3">
-                <div
-                  class="w-full bg-center bg-no-repeat aspect-square bg-cover rounded-xl"
-                  style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuB-fqz3qyDs-hzcq-TtGx5FuuT_AQq2TNlQ6jxgjENXHEfZ2latVte0lNEiHoAvdqef87SVEcVNqGWoY14kQUjbHvg1mybX4jwJgAq8CngeSM3TkmygbGNO4pnmdz8ON_-WA_sudAkOk6K5Ts-IyWvgyXN19u3KJAM4xGGAhJa2_YXb6QuJ1buz8lrcFSv4EKhRtQoBcutKjicA1f_qG_gI6aqiOHlOKtsVQkYMksG7G6TLTwLLxpUaeqyoTWYoRstHzbLh7oaWINYj");'
-                ></div>
-                <div>
-                  <p class="text-white text-base font-medium leading-normal">Mobile App for Fitness Tracking</p>
-                  <p class="text-[#9eadbd] text-sm font-normal leading-normal">
-                    A mobile application for tracking fitness activities, including workouts, steps, and calorie intake.
-                  </p>
-                </div>
-              </div>
-              <div class="flex flex-col gap-3 pb-3">
-                <div
-                  class="w-full bg-center bg-no-repeat aspect-square bg-cover rounded-xl"
-                  style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuCkr-nRYhpMHBo5YLz2alIhdHmEirTJkldMDogApx9BEgj1yZyWT-gNlPDXcrTLO0HK9XfIslC6SGEjVTaXRLjzHxZlbFkrfbofw5wmwdpd-yphJmr_sOsmYGd64p-XXl7qUMWr6hv_MFX1WgBw7XMUbMvQ8byYZMidJWphV2DKNW4gMpmsmYHn2dX-DhcAM4VhvxGxJZgPmgUW_UqOT4K-O40EQG-tNT562GOBJqCP1QEepF4N5iOR3JdAYpxpoRDGmCimdKR4Vzj1");'
-                ></div>
-                <div>
-                  <p class="text-white text-base font-medium leading-normal">AI-Powered Chatbot</p>
-                  <p class="text-[#9eadbd] text-sm font-normal leading-normal">
-                    An AI-powered chatbot for customer support, using natural language processing and machine learning techniques.
-                  </p>
-                </div>
-              </div>
-              <div class="flex flex-col gap-3 pb-3">
-                <div
-                  class="w-full bg-center bg-no-repeat aspect-square bg-cover rounded-xl"
-                  style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuBr51pMV6iVu-x5MVCTPBgOeelbMHSCjCp5FJmmI10kQyFqNObEV0jZZ5k-sRovFwYef-Z5OAr1eTZKpmP9oyR7rzxKtEYEuJIIQQwJGAB_0_zVTRSrswy2t7Do3NhxmetzulPOYSMUmWTvTTUbcQm7DHzUL9HD7sAF14rGths7nPaqEBH854vuUC78SQuAqVn2jS_SJvsyKcIvh9GpEdcTWbXhtL77OuxTNb0Bskf9K0Mtn4alHmcjBVsQuhdzkEc9AdcNFPKa275o");'
-                ></div>
-                <div>
-                  <p class="text-white text-base font-medium leading-normal">Personal Blog</p>
-                  <p class="text-[#9eadbd] text-sm font-normal leading-normal">
-                    A personal blog built with a modern framework, featuring articles on technology, programming, and personal experiences.
-                  </p>
-                </div>
-              </div>
-              <div class="flex flex-col gap-3 pb-3">
-                <div
-                  class="w-full bg-center bg-no-repeat aspect-square bg-cover rounded-xl"
-                  style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuBu-BODmnMCCDuPN8gLhfq51BmhFoVkJBVgXJoq9n2oLImv8mDDXBtgqxTAigfkUeazNQJAuAJsdXqtuNs6yb0Y7_drB7E3XAnHSKZ6e__c_SjZBR29qkOo4mRRrkuCkND-dYBlMyhX14DuLxGF1D-pGiYrDOqI5_ay7EXlPSlEC239B0MKgi8QK9nwo4SVmQugP373FwQgFZaVeO-YW009UrBulXIdH-0RTK4586_7QSsltplcJFXbTvpy3wqqIa7pzmIpwrIAtRuI");'
-                ></div>
-                <div>
-                  <p class="text-white text-base font-medium leading-normal">Game Development Project</p>
-                  <p class="text-[#9eadbd] text-sm font-normal leading-normal">
-                    A game development project using Unity, showcasing skills in game design, scripting, and asset integration.
-                  </p>
+            </div>
+            <div class="p-4">
+              <div class="flex items-stretch justify-between gap-4 rounded-lg bg-gray-100 dark:bg-[#182534] p-4 shadow-[0_0_4px_rgba(0,0,0,0.1)]">
+                <div class="flex flex-[2_2_0px] flex-col gap-4">
+                  <div class="flex flex-col gap-1">
+                    <p class="text-gray-500 dark:text-[#90abcb] text-sm font-normal leading-normal">Project</p>
+                    <p class="text-black dark:text-white text-base font-bold leading-tight">Social Media App</p>
+                    <p class="text-gray-500 dark:text-[#90abcb] text-sm font-normal leading-normal">A social media application with user profiles, posts, and real-time updates.</p>
+                  </div>
+                  <button
+                    class="flex min-w-[84px] max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-lg h-8 px-4 flex-row-reverse bg-gray-200 dark:bg-[#223449] text-black dark:text-white text-sm font-medium leading-normal w-fit"
+                  >
+                    <span class="truncate">View Project</span>
+                  </button>
                 </div>
               </div>
             </div>
