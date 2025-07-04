@@ -1,65 +1,213 @@
 # Mr. Curious's Portfolio
 
-This is a personal portfolio website for Mr. Curious, built with Flask and styled using Tailwind CSS. It showcases projects, skills, blog posts, and provides contact information.
+A modern, responsive personal portfolio website built with Flask and Tailwind CSS. This project showcases skills, projects, blog posts, and provides comprehensive information about Mr. Curious, a final year Computer Science Engineering student.
 
-## Features
+## ✨ Features
 
-*   **Home Page:** Introduction, About Me, Skills (interactive tabs), Projects, Blog, and Contact sections.
-*   **Skills Page:** Detailed breakdown of programming languages, frameworks, databases, and tools.
-*   **Projects Page:** A collection of academic and personal projects.
-*   **Blog Page:** Blog posts and YouTube videos.
-*   **Contact Page:** A contact form and recent social posts/feedback.
-*   **Responsive Design:** Built with Tailwind CSS for a modern and responsive user interface.
+### 🏠 **Home Page**
+- Hero section with professional introduction
+- Comprehensive About Me section
+- Interactive skills showcase with tabbed categories:
+  - Programming Languages (Python, Java, C++, JavaScript)
+  - Frameworks (React, Angular, Express.js, Tailwind CSS)
+  - Databases (PostgreSQL, MongoDB, MySQL)
+  - AI Tools (ChatGPT, Gemini CLI, GitHub Copilot)
+  - Development Tools (VS Code, Git)
+  - Cloud Platforms
+- Featured projects section
 
-## Technologies Used
+### 📊 **Skills Page**
+Detailed breakdown of technical competencies organized by categories
 
-*   **Backend:** Flask (Python)
-*   **Database:** SQLite (managed by Flask-SQLAlchemy)
-*   **Frontend:** HTML, CSS (Tailwind CSS via CDN), JavaScript
-*   **Package Manager:** npm
+### 💼 **Projects Page**
+Showcase of academic and personal projects with:
+- Project descriptions
+- Technology stacks
+- GitHub links
+- Live demo links
+- Project images
 
-## Setup and Installation
+### 📝 **Blog Page**
+Content hub featuring:
+- Technical blog posts
+- Tutorial videos
+- Educational content
 
-To set up and run this project locally, follow these steps:
+### 📞 **Contact Page**
+Professional contact information and social media links
 
-1.  **Clone the repository:**
-    ```bash
-    git clone <your-repository-url>
-    cd CLI_Portfolio
-    ```
+### 🎨 **Design Features**
+- Fully responsive design
+- Dark/Light mode support
+- Modern UI with Tailwind CSS
+- Interactive components
+- Optimized performance
 
-2.  **Create a Python virtual environment (recommended):**
-    ```bash
-    python3 -m venv venv
-    ```
+## 🛠 Technologies Used
 
-3.  **Activate the virtual environment:**
-    *   On macOS/Linux:
-        ```bash
-        source venv/bin/activate
-        ```
-    *   On Windows:
-        ```bash
-        .\venv\Scripts\activate
-        ```
+### Backend
+- **Flask** - Python web framework
+- **Flask-SQLAlchemy** - Database ORM
+- **SQLite** - Database for development
 
-4.  **Install Python dependencies:**
-    ```bash
-    pip install Flask Flask-SQLAlchemy
-    ```
+### Frontend
+- **HTML5** - Semantic markup
+- **Tailwind CSS v4.1.11** - Utility-first CSS framework
+- **JavaScript** - Interactive functionality
+- **PostCSS** - CSS processing
+- **Autoprefixer** - CSS vendor prefixing
 
-5.  **Run the Flask application:**
-    ```bash
-    python3 app.py
-    ```
-    The application will typically run on `http://127.0.0.1:5001/` (or `http://localhost:5001/`).
+### Development Tools
+- **npm** - Package management
+- **PostCSS CLI** - CSS build process
+- **Git** - Version control
 
-## Usage
+### Database Models
+- **Project** - Portfolio project information
+- **BlogPost** - Blog content management
+- **Video** - YouTube video integration
 
-Navigate through the different sections using the header navigation links: Home, Skills, Projects, Blog, and Contact.
+## 🚀 Quick Start
 
-On the Home page, click on the skill categories (Languages, Frameworks, Databases, Tools, AI Tools) to view different sets of skills.
+### Prerequisites
+- Python 3.7+
+- Node.js and npm
+- Git
 
-## Contributing
+### Installation
 
-If you'd like to contribute, please fork the repository and create a pull request.
+1. **Clone the repository:**
+   ```bash
+   git clone https://github.com/yourusername/CLI_Portfolio.git
+   cd CLI_Portfolio
+   ```
+
+2. **Set up Python environment:**
+   ```bash
+   # Create virtual environment
+   python3 -m venv venv
+   
+   # Activate virtual environment
+   # On macOS/Linux:
+   source venv/bin/activate
+   # On Windows:
+   .\venv\Scripts\activate
+   ```
+
+3. **Install Python dependencies:**
+   ```bash
+   pip install Flask Flask-SQLAlchemy
+   ```
+
+4. **Install Node.js dependencies:**
+   ```bash
+   npm install
+   ```
+
+5. **Build CSS (optional):**
+   ```bash
+   npm run build:css
+   ```
+
+6. **Run the application:**
+   ```bash
+   python app.py
+   ```
+
+7. **Access the application:**
+   Open your browser and navigate to `http://localhost:5000`
+
+## 📁 Project Structure
+
+```
+CLI_Portfolio/
+├── app.py                 # Main Flask application
+├── templates/             # HTML templates
+│   ├── base.html         # Base template
+│   ├── index.html        # Home page
+│   ├── skill.html        # Skills page
+│   ├── project.html      # Projects page
+│   ├── blog.html         # Blog page
+│   └── contact.html      # Contact page
+├── static/               # Static assets
+│   └── css/
+│       ├── input.css     # Tailwind input file
+│       └── output.css    # Compiled CSS
+├── package.json          # Node.js dependencies
+├── tailwind.config.js    # Tailwind configuration
+├── postcss.config.js     # PostCSS configuration
+└── README.md            # Project documentation
+```
+
+## 🔧 Development
+
+### Database Setup
+The application automatically creates the SQLite database and populates it with sample data on first run.
+
+### CSS Development
+To rebuild CSS after making changes:
+```bash
+npm run build:css
+```
+
+### Adding New Content
+- **Projects**: Add new entries to the Project model in `app.py`
+- **Blog Posts**: Add new entries to the BlogPost model
+- **Videos**: Add new entries to the Video model
+
+## 🌟 Key Features Breakdown
+
+### Skills Showcase
+- **Languages**: Python, Java, C++, JavaScript
+- **Frameworks**: React, Angular, Express.js, Tailwind CSS
+- **Databases**: PostgreSQL, MongoDB, MySQL
+- **AI Tools**: ChatGPT, Gemini CLI, GitHub Copilot
+- **Tools**: VS Code, Git
+- **Cloud**: Various cloud platforms
+
+### Responsive Design
+- Mobile-first approach
+- Tablet and desktop optimized
+- Cross-browser compatibility
+- Accessibility features
+
+## 📱 Usage
+
+1. **Navigation**: Use the header navigation to explore different sections
+2. **Skills Tab**: Click on skill categories to view different technology stacks
+3. **Projects**: Browse through featured projects with detailed information
+4. **Blog**: Read technical articles and watch educational videos
+5. **Contact**: Get in touch through provided contact information
+
+## 🤝 Contributing
+
+Contributions are welcome! Please feel free to submit a Pull Request. For major changes, please open an issue first to discuss what you would like to change.
+
+### Steps to contribute:
+1. Fork the repository
+2. Create a feature branch (`git checkout -b feature/AmazingFeature`)
+3. Commit your changes (`git commit -m 'Add some AmazingFeature'`)
+4. Push to the branch (`git push origin feature/AmazingFeature`)
+5. Open a Pull Request
+
+## 📄 License
+
+This project is open source and available under the [MIT License](LICENSE).
+
+## 👨‍💻 About the Developer
+
+Mr. Curious is a passionate final year Computer Science Engineering student with expertise in:
+- Full-stack web development
+- Modern JavaScript frameworks
+- Python backend development
+- Database design and management
+- AI tool integration
+- Cloud technologies
+
+## 📞 Contact
+
+Feel free to reach out for collaborations, questions, or just to connect!
+
+---
+
+⭐ **Star this repository if you found it helpful!**
