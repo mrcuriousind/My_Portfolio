@@ -1,9 +1,13 @@
-from flask import Flask, render_template, request, redirect, url_for
+from flask import Flask, render_template, request, redirect, url_for, flash, session, jsonify
 from flask_sqlalchemy import SQLAlchemy
+from werkzeug.security import generate_password_hash, check_password_hash
+from datetime import datetime
+import re
 
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///portfolio.db'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+app.config['SECRET_KEY'] = 'your-secret-key-change-this-in-production'
 db = SQLAlchemy(app)
 
 class Project(db.Model):
@@ -37,6 +41,32 @@ class Video(db.Model):
     def __repr__(self):
         return f'<Video {self.title}>'
 
+class User(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    username = db.Column(db.String(80), unique=True, nullable=False)
+    email = db.Column(db.String(120), unique=True, nullable=False)
+    password_hash = db.Column(db.String(200), nullable=False)
+    first_name = db.Column(db.String(50), nullable=True)
+    last_name = db.Column(db.String(50), nullable=True)
+    bio = db.Column(db.Text, nullable=True)
+    avatar_url = db.Column(db.String(200), nullable=True)
+    location = db.Column(db.String(100), nullable=True)
+    website = db.Column(db.String(200), nullable=True)
+    github_username = db.Column(db.String(100), nullable=True)
+    linkedin_username = db.Column(db.String(100), nullable=True)
+    twitter_username = db.Column(db.String(100), nullable=True)
+    created_at = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
+    is_active = db.Column(db.Boolean, nullable=False, default=True)
+
+    def set_password(self, password):
+        self.password_hash = generate_password_hash(password)
+
+    def check_password(self, password):
+        return check_password_hash(self.password_hash, password)
+
+    def __repr__(self):
+        return f'<User {self.username}>'
+
 @app.route('/')
 def home():
     projects = Project.query.all()
@@ -60,6 +90,78 @@ def blog():
 @app.route('/contact')
 def contact():
     return render_template('contact.html')
+
+@app.route('/signup', methods=['GET', 'POST'])
+def signup():
+    if request.method == 'GET':
+        return redirect(url_for('home'))
+    username = request.form.get('username')
+    email = request.form.get('email')
+    password = request.form.get('password')
+    existing_user = User.query.filter_by(username=username).first()
+    if existing_user:
+        return jsonify({'success': False, 'message': 'Username already exists'})
+    new_user = User(username=username, email=email)
+    new_user.set_password(password)
+    db.session.add(new_user)
+    db.session.commit()
+    return jsonify({'success': True})
+
+@app.route('/login', methods=['GET', 'POST'])
+def login():
+    if request.method == 'GET':
+        return redirect(url_for('home'))
+    username = request.form.get('username')
+    password = request.form.get('password')
+    user = User.query.filter_by(username=username).first()
+    if user and user.check_password(password):
+        session['user_id'] = user.id
+        return jsonify({'success': True})
+    return jsonify({'success': False, 'message': 'Invalid username or password'})
+
+@app.route('/profile')
+def profile():
+    user_id = session.get('user_id')
+    if not user_id:
+        return redirect(url_for('home'))
+    user = User.query.get(user_id)
+    return render_template('profile.html', user=user)
+
+@app.route('/edit_profile', methods=['GET', 'POST'])
+def edit_profile():
+    user_id = session.get('user_id')
+    if not user_id:
+        return redirect(url_for('home'))
+    user = User.query.get(user_id)
+    
+    if request.method == 'POST':
+        user.first_name = request.form.get('first_name', '')
+        user.last_name = request.form.get('last_name', '')
+        user.bio = request.form.get('bio', '')
+        user.location = request.form.get('location', '')
+        user.website = request.form.get('website', '')
+        user.github_username = request.form.get('github_username', '')
+        user.linkedin_username = request.form.get('linkedin_username', '')
+        user.twitter_username = request.form.get('twitter_username', '')
+        
+        db.session.commit()
+        flash('Profile updated successfully')
+        return redirect(url_for('profile'))
+    
+    return render_template('edit_profile.html', user=user)
+
+@app.route('/logout')
+def logout():
+    session.pop('user_id', None)
+    flash('You have been logged out')
+    return redirect(url_for('home'))
+
+@app.context_processor
+def inject_user():
+    user_id = session.get('user_id')
+    if user_id:
+        return dict(current_user=User.query.get(user_id))
+    return dict(current_user=None)
 
 def add_sample_data():
     with app.app_context():
@@ -86,4 +188,4 @@ def create_tables():
 
 if __name__ == '__main__':
     add_sample_data()
-    app.run(debug=True, port=5000)
+    app.run(debug=True, port=5001)

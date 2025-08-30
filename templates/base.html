@@ -1,18 +1,60 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{% block title %}Mr. Curious's Portfolio{% endblock %}</title>
     <link rel="icon" type="image/x-icon" href="data:image/x-icon;base64," />
     <link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin />
-    <link
-      rel="stylesheet"
-      as="style"
-      onload="this.rel='stylesheet'"
-      href="https://fonts.googleapis.com/css2?display=swap&amp;family=Noto+Sans%3Awght%40400%3B500%3B700%3B900&amp;family=Space+Grotesk%3Awght%40400%3B500%3B700"
-    />
+    <link rel="stylesheet" as="style" onload="this.rel='stylesheet'"
+        href="https://fonts.googleapis.com/css2?display=swap&amp;family=Noto+Sans%3Awght%40400%3B500%3B700%3B900&amp;family=Space+Grotesk%3Awght%40400%3B500%3B700" />
     <link href="{{ url_for('static', filename='css/output.css') }}" rel="stylesheet">
+    <style>
+        /* Custom modal styles to ensure proper popup behavior */
+        .modal-overlay {
+            position: fixed !important;
+            top: 0 !important;
+            left: 0 !important;
+            right: 0 !important;
+            bottom: 0 !important;
+            z-index: 9999 !important;
+            background-color: rgba(0, 0, 0, 0.5) !important;
+            display: flex !important;
+            align-items: center !important;
+            justify-content: center !important;
+            padding: 1rem !important;
+        }
+        .modal-content {
+            position: relative !important;
+            background: white !important;
+            border-radius: 0.5rem !important;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25) !important;
+            width: 100% !important;
+            max-width: 28rem !important;
+            max-height: 90vh !important;
+            overflow-y: auto !important;
+        }
+        .dark .modal-content {
+            background: #223449 !important;
+        }
+        .hidden {
+            display: none !important;
+        }
+        .modal-fade-in {
+            animation: fadeIn 0.2s ease-out;
+        }
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: scale(0.95);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+    </style>
     <script>
         // Theme switching script
         const applyTheme = (theme) => {
@@ -27,17 +69,21 @@
         applyTheme(savedTheme);
     </script>
 </head>
+
 <body class="bg-white dark:bg-[#101923] text-black dark:text-white">
-    <div class="relative flex size-full min-h-screen flex-col group/design-root overflow-x-hidden" style='font-family: "Space Grotesk", "Noto Sans", sans-serif;'>
+    <div class="relative flex size-full min-h-screen flex-col group/design-root overflow-x-hidden"
+        style='font-family: "Space Grotesk", "Noto Sans", sans-serif;'>
         <div class="layout-container flex h-full grow flex-col">
-            <header class="flex items-center justify-between whitespace-nowrap border-b border-solid border-b-[#223449] px-10 py-3">
+            <header
+                class="flex items-center justify-between whitespace-nowrap border-b border-solid border-b-[#223449] px-10 py-3">
                 <div class="flex items-center gap-4">
                     <a href="{{ url_for('home') }}" class="h-8 w-auto">
-                        <img src="{{ url_for('static', filename='Curious_Logo.png') }}" alt="My Logo" class="h-full w-1 object-contain" />
+                        <img src="{{ url_for('static', filename='Curious_Logo.png') }}" alt="My Logo"
+                            class="h-full w-1 object-contain" />
                     </a>
                     <h2 class="text-lg font-bold leading-tight tracking-[-0.015em]">Mr. Curious's Portfolio</h2>
                 </div>
-                <div class="flex flex-1 justify-end gap-8">
+                <div class="flex flex-1 justify-end items-center gap-8">
                     <div class="flex items-center gap-9">
                         <a class="text-sm font-medium leading-normal" href="{{ url_for('home') }}">Home</a>
                         <a class="text-sm font-medium leading-normal" href="{{ url_for('skills') }}">Skills</a>
@@ -45,85 +91,202 @@
                         <a class="text-sm font-medium leading-normal" href="{{ url_for('blog') }}">Blog</a>
                         <a class="text-sm font-medium leading-normal" href="{{ url_for('contact') }}">Contact</a>
                     </div>
-                    <button id="theme-toggle" class="flex max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-lg h-10 bg-[#223449] text-white gap-2 text-sm font-bold leading-normal tracking-[0.015em] min-w-0 px-2.5">
+
+                    <button id="theme-toggle"
+                        class="flex max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-lg h-10 bg-[#223449] text-white gap-2 text-sm font-bold leading-normal tracking-[0.015em] min-w-0 px-2.5">
                         <div id="theme-icon-sun" class="hidden" data-icon="Sun" data-size="20px" data-weight="regular">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" fill="currentColor" viewBox="0 0 256 256">
-                                <path d="M120,40V16a8,8,0,0,1,16,0V40a8,8,0,0,1-16,0Zm72,88a64,64,0,1,1-64-64A64.07,64.07,0,0,1,192,128Zm-16,0a48,48,0,1,0-48,48A48.05,48.05,0,0,0,176,128ZM58.34,69.66A8,8,0,0,0,69.66,58.34l-16-16A8,8,0,0,0,42.34,53.66Zm0,116.68-16,16a8,8,0,0,0,11.32,11.32l16-16a8,8,0,0,0-11.32-11.32ZM192,72a8,8,0,0,0,5.66-2.34l16-16a8,8,0,0,0-11.32-11.32l-16,16A8,8,0,0,0,192,72Zm5.66,114.34a8,8,0,0,0-11.32,11.32l16,16a8,8,0,0,0,11.32-11.32ZM48,128a8,8,0,0,0-8-8H16a8,8,0,0,0,0,16H40A8,8,0,0,0,48,128Zm80,80a8,8,0,0,0-8,8v24a8,8,0,0,0,16,0V216A8,8,0,0,0,128,208Zm112-88H216a8,8,0,0,0,0,16h24a8,8,0,0,0,0-16Z"></path>
+                            <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" fill="currentColor"
+                                viewBox="0 0 256 256">
+                                <path
+                                    d="M120,40V16a8,8,0,0,1,16,0V40a8,8,0,0,1-16,0Zm72,88a64,64,0,1,1-64-64A64.07,64.07,0,0,1,192,128Zm-16,0a48,48,0,1,0-48,48A48.05,48.05,0,0,0,176,128ZM58.34,69.66A8,8,0,0,0,69.66,58.34l-16-16A8,8,0,0,0,42.34,53.66Zm0,116.68-16,16a8,8,0,0,0,11.32,11.32l16-16a8,8,0,0,0-11.32-11.32ZM192,72a8,8,0,0,0,5.66-2.34l16-16a8,8,0,0,0-11.32-11.32l-16,16A8,8,0,0,0,192,72Zm5.66,114.34a8,8,0,0,0-11.32,11.32l16,16a8,8,0,0,0,11.32-11.32ZM48,128a8,8,0,0,0-8-8H16a8,8,0,0,0,0,16H40A8,8,0,0,0,48,128Zm80,80a8,8,0,0,0-8,8v24a8,8,0,0,0,16,0V216A8,8,0,0,0,128,208Zm112-88H216a8,8,0,0,0,0,16h24a8,8,0,0,0,0-16Z">
+                                </path>
                             </svg>
                         </div>
                         <div id="theme-icon-moon" data-icon="Moon" data-size="20px" data-weight="regular">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" fill="currentColor" viewBox="0 0 256 256">
-                                <path d="M216.49,155.23a8,8,0,0,0-9.15-1.25,72,72,0,0,1-79.83-79.83,8,8,0,0,0-1.25-9.15,88.08,88.08,0,0,0-120.7,120.7,8,8,0,0,0,9.15,1.25,72,72,0,0,1,79.83,79.83,8,8,0,0,0,1.25,9.15,88.08,88.08,0,0,0,120.7-120.7Z"></path>
+                            <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" fill="currentColor"
+                                viewBox="0 0 256 256">
+                                <path
+                                    d="M216.49,155.23a8,8,0,0,0-9.15-1.25,72,72,0,0,1-79.83-79.83,8,8,0,0,0-1.25-9.15,88.08,88.08,0,0,0-120.7,120.7,8,8,0,0,0,9.15,1.25,72,72,0,0,1,79.83,79.83,8,8,0,0,0,1.25,9.15,88.08,88.08,0,0,0,120.7-120.7Z">
+                                </path>
                             </svg>
                         </div>
                     </button>
-                    <div
-                        onclick="alert('Coming Soon')"
-                        class="bg-center bg-no-repeat aspect-square bg-cover rounded-full size-10 cursor-pointer"
-                        style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuDrz4mlsCszEkSqozWOwDmaR18kSfdDNs4JP2bYQHb01gkm8uSjnXbnFVRR_rJ140jGnlAK6X3cL5AugqbciZIheKCoh04rtuhusKJgTGKauxmy4ej-DbjHtkLzsFEKCkNiK4l6fSde1lXmsuNPEtQRIfc7ZOiHuqUrh-wHSFfsfZUoRhISFQp7ZUtD8fGCprWh6cb2VfVElTaln6-WYqDe5bleg0v3xUdsBUiYB46qo9MjBlyiORo4Cz4dvf6XzlIbH0piqoTuitdE");'
-                    ></div>
+
+                    <div class="flex items-center gap-4">
+                        {% if session['user_id'] %}
+                        <a href="{{ url_for('profile') }}"
+                            class="bg-center bg-no-repeat aspect-square bg-cover rounded-full size-10 cursor-pointer"
+                            style='background-image: url("{{ current_user.avatar_url or '
+                            https://lh3.googleusercontent.com/aida-public/AB6AXuDrz4mlsCszEkSqozWOwDmaR18kSfdDNs4JP2bYQHb01gkm8uSjnXbnFVRR_rJ140jGnlAK6X3cL5AugqbciZIheKCoh04rtuhusKJgTGKauxmy4ej-DbjHtkLzsFEKCkNiK4l6fSde1lXmsuNPEtQRIfc7ZOiHuqUrh-wHSFfsfZUoRhISFQp7ZUtD8fGCprWh6cb2VfVElTaln6-WYqDe5bleg0v3xUdsBUiYB46qo9MjBlyiORo4Cz4dvf6XzlIbH0piqoTuitdE'
+                            }}");'>
+                        </a>
+                        <a class="text-sm font-medium leading-normal" href="{{ url_for('logout') }}">Logout</a>
+                        {% else %}
+                        <a id="login-button" class="text-sm font-medium leading-normal cursor-pointer">Login</a>
+                        {% endif %}
+                    </div>
                 </div>
             </header>
 
             <div class="px-40 flex flex-1 justify-center py-5">
                 <div class="layout-content-container flex flex-col max-w-[960px] flex-1">
+                    <!-- Flash messages -->
+                    {% with messages = get_flashed_messages() %}
+                    {% if messages %}
+                    <div class="mb-4">
+                        {% for message in messages %}
+                        <div
+                            class="bg-blue-100 dark:bg-blue-900 border border-blue-400 text-blue-700 dark:text-blue-300 px-4 py-3 rounded mb-2">
+                            {{ message }}
+                        </div>
+                        {% endfor %}
+                    </div>
+                    {% endif %}
+                    {% endwith %}
                     {% block content %}{% endblock %}
                 </div>
             </div>
-            <p class="text-gray-500 dark:text-[#90abcb] text-sm font-normal leading-normal pb-3 pt-1 px-4 text-center">Connect with me on</p>
+            <p class="text-gray-500 dark:text-[#90abcb] text-sm font-normal leading-normal pb-3 pt-1 px-4 text-center">
+                Connect with me on</p>
             <div class="@container">
-              <div class="flex flex-row gap-4 px-4 justify-center">
-                <a href="https://github.com/mrcuriousind" target="_blank" class="flex flex-col items-center gap-2 py-2.5 text-center">
-                  <div class="rounded-full bg-gray-200 dark:bg-[#223449] p-2.5">
-                    <div class="text-black dark:text-white" data-icon="GithubLogo" data-size="20px" data-weight="regular">
-                      <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" fill="currentColor" viewBox="0 0 256 256">
-                        <path
-                          d="M208.31,75.68A59.78,59.78,0,0,0,202.93,28,8,8,0,0,0,196,24a59.75,59.75,0,0,0-48,24H124A59.75,59.75,0,0,0,76,24a8,8,0,0,0-6.93,4,59.78,59.78,0,0,0-5.38,47.68A58.14,58.14,0,0,0,56,104v8a56.06,56.06,0,0,0,48.44,55.47A39.8,39.8,0,0,0,96,192v8H72a24,24,0,0,1-24-24A40,40,0,0,0,8,136a8,8,0,0,0,0,16,24,24,0,0,1,24,24,40,40,0,0,0,40,40H96v16a8,8,0,0,0,16,0V192a24,24,0,0,1,48,0v40a8,8,0,0,0,16,0V192a39.8,39.8,0,0,0-8.44-24.53A56.06,56.06,0,0,0,216,112v-8A58.14,58.14,0,0,0,208.31,75.68ZM200,112a40,40,0,0,1-40,40H112a40,40,0,0,1-40-40v-8a41.74,41.74,0,0,1,6.9-22.48A8,8,0,0,0,80,73.83a43.81,43.81,0,0,1,.79-33.58,43.88,43.88,0,0,1,32.32,20.06A8,8,0,0,0,119.82,64h32.35a8,8,0,0,0,6.74-3.69,43.87,43.87,0,0,1,32.32-20.06A43.81,43.81,0,0,1,192,73.83a8.09,8.09,0,0,0,1,7.65A41.72,41.72,0,0,1,200,104Z"
-                        ></path>
-                      </svg>
+                <div class="flex flex-row gap-4 px-4 justify-center">
+                    <a href="https://github.com/mrcuriousind" target="_blank"
+                        class="flex flex-col items-center gap-2 py-2.5 text-center">
+                        <div class="rounded-full bg-gray-200 dark:bg-[#223449] p-2.5">
+                            <div class="text-black dark:text-white" data-icon="GithubLogo" data-size="20px"
+                                data-weight="regular">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" fill="currentColor"
+                                    viewBox="0 0 256 256">
+                                    <path
+                                        d="M208.31,75.68A59.78,59.78,0,0,0,202.93,28,8,8,0,0,0,196,24a59.75,59.75,0,0,0-48,24H124A59.75,59.75,0,0,0,76,24a8,8,0,0,0-6.93,4,59.78,59.78,0,0,0-5.38,47.68A58.14,58.14,0,0,0,56,104v8a56.06,56.06,0,0,0,48.44,55.47A39.8,39.8,0,0,0,96,192v8H72a24,24,0,0,1-24-24A40,40,0,0,0,8,136a8,8,0,0,0,0,16,24,24,0,0,1,24,24,40,40,0,0,0,40,40H96v16a8,8,0,0,0,16,0V192a24,24,0,0,1,48,0v40a8,8,0,0,0,16,0V192a39.8,39.8,0,0,0-8.44-24.53A56.06,56.06,0,0,0,216,112v-8A58.14,58.14,0,0,0,208.31,75.68ZM200,112a40,40,0,0,1-40,40H112a40,40,0,0,1-40-40v-8a41.74,41.74,0,0,1,6.9-22.48A8,8,0,0,0,80,73.83a43.81,43.81,0,0,1,.79-33.58,43.88,43.88,0,0,1,32.32,20.06A8,8,0,0,0,119.82,64h32.35a8,8,0,0,0,6.74-3.69,43.87,43.87,0,0,1,32.32-20.06A43.81,43.81,0,0,1,192,73.83a8.09,8.09,0,0,0,1,7.65A41.72,41.72,0,0,1,200,104Z">
+                                    </path>
+                                </svg>
+                            </div>
+                        </div>
+                        <p class="text-sm font-medium leading-normal">GitHub</p>
+                    </a>
+                    <a href="https://www.linkedin.com/in/mrcuriousind" target="_blank"
+                        class="flex flex-col items-center gap-2 py-2.5 text-center">
+                        <div class="rounded-full bg-gray-200 dark:bg-[#223449] p-2.5">
+                            <div class="text-black dark:text-white" data-icon="LinkedinLogo" data-size="20px"
+                                data-weight="regular">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" fill="currentColor"
+                                    viewBox="0 0 256 256">
+                                    <path
+                                        d="M216,24H40A16,16,0,0,0,24,40V216a16,16,0,0,0,16,16H216a16,16,0,0,0,16-16V40A16,16,0,0,0,216,24Zm0,192H40V40H216V216ZM96,112v64a8,8,0,0,1-16,0V112a8,8,0,0,1,16,0Zm88,28v36a8,8,0,0,1-16,0V140a20,20,0,0,0-40,0v36a8,8,0,0,1-16,0V112a8,8,0,0,1,15.79-1.78A36,36,0,0,1,184,140ZM100,84A12,12,0,1,1,88,72,12,12,0,0,1,100,84Z">
+                                    </path>
+                                </svg>
+                            </div>
+                        </div>
+                        <p class="text-sm font-medium leading-normal">LinkedIn</p>
+                    </a>
+                    <div class="flex flex-col items-center gap-2 py-2.5 text-center">
+                        <div class="rounded-full bg-gray-200 dark:bg-[#223449] p-2.5">
+                            <div class="text-black dark:text-white" data-icon="YoutubeLogo" data-size="20px"
+                                data-weight="regular">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" fill="currentColor"
+                                    viewBox="0 0 256 256">
+                                    <path
+                                        d="M164.44,121.34l-48-32A8,8,0,0,0,104,96v64a8,8,0,0,0,12.44,6.66l48-32a8,8,0,0,0,0-13.32ZM120,145.05V111l25.58,17ZM234.33,69.52a24,24,0,0,0-14.49-16.4C185.56,39.88,131,40,128,40s-57.56-.12-91.84,13.12a24,24,0,0,0-14.49,16.4C19.08,79.5,16,97.74,16,128s3.08,48.5,5.67,58.48a24,24,0,0,0,14.49,16.41C69,215.56,120.4,216,127.34,216h1.32c6.94,0,58.37-.44,91.18-13.11a24,24,0,0,0,14.49-16.41c2.59-10,5.67-28.22,5.67-58.48S236.92,79.5,234.33,69.52Zm-15.49,113a8,8,0,0,1-4.77,5.49c-31.65,12.22-85.48,12-86,12H128c-.54,0-54.33.2-86-12a8,8,0,0,1-4.77-5.49C34.8,173.39,32,156.57,32,128s2.8-45.39,5.16-54.47A8,8,0,0,1,41.93,68c30.52-11.79,81.66-12,85.85-12h.27c.54,0,54.38-.18,86,12a8,8,0,0,1,4.77,5.49C221.2,82.61,224,99.43,224,128S221.2,173.39,218.84,182.47Z">
+                                    </path>
+                                </svg>
+                            </div>
+                        </div>
+                        <p class="text-sm font-medium leading-normal">YouTube</p>
                     </div>
-                  </div>
-                  <p class="text-sm font-medium leading-normal">GitHub</p>
-                </a>
-                <a href="https://www.linkedin.com/in/mrcuriousind" target="_blank" class="flex flex-col items-center gap-2 py-2.5 text-center">
-                  <div class="rounded-full bg-gray-200 dark:bg-[#223449] p-2.5">
-                    <div class="text-black dark:text-white" data-icon="LinkedinLogo" data-size="20px" data-weight="regular">
-                      <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" fill="currentColor" viewBox="0 0 256 256">
-                        <path
-                          d="M216,24H40A16,16,0,0,0,24,40V216a16,16,0,0,0,16,16H216a16,16,0,0,0,16-16V40A16,16,0,0,0,216,24Zm0,192H40V40H216V216ZM96,112v64a8,8,0,0,1-16,0V112a8,8,0,0,1,16,0Zm88,28v36a8,8,0,0,1-16,0V140a20,20,0,0,0-40,0v36a8,8,0,0,1-16,0V112a8,8,0,0,1,15.79-1.78A36,36,0,0,1,184,140ZM100,84A12,12,0,1,1,88,72,12,12,0,0,1,100,84Z"
-                        ></path>
-                      </svg>
-                    </div>
-                  </div>
-                  <p class="text-sm font-medium leading-normal">LinkedIn</p>
-                </a>
-                <div class="flex flex-col items-center gap-2 py-2.5 text-center">
-                  <div class="rounded-full bg-gray-200 dark:bg-[#223449] p-2.5">
-                    <div class="text-black dark:text-white" data-icon="YoutubeLogo" data-size="20px" data-weight="regular">
-                      <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" fill="currentColor" viewBox="0 0 256 256">
-                        <path
-                          d="M164.44,121.34l-48-32A8,8,0,0,0,104,96v64a8,8,0,0,0,12.44,6.66l48-32a8,8,0,0,0,0-13.32ZM120,145.05V111l25.58,17ZM234.33,69.52a24,24,0,0,0-14.49-16.4C185.56,39.88,131,40,128,40s-57.56-.12-91.84,13.12a24,24,0,0,0-14.49,16.4C19.08,79.5,16,97.74,16,128s3.08,48.5,5.67,58.48a24,24,0,0,0,14.49,16.41C69,215.56,120.4,216,127.34,216h1.32c6.94,0,58.37-.44,91.18-13.11a24,24,0,0,0,14.49-16.41c2.59-10,5.67-28.22,5.67-58.48S236.92,79.5,234.33,69.52Zm-15.49,113a8,8,0,0,1-4.77,5.49c-31.65,12.22-85.48,12-86,12H128c-.54,0-54.33.2-86-12a8,8,0,0,1-4.77-5.49C34.8,173.39,32,156.57,32,128s2.8-45.39,5.16-54.47A8,8,0,0,1,41.93,68c30.52-11.79,81.66-12,85.85-12h.27c.54,0,54.38-.18,86,12a8,8,0,0,1,4.77,5.49C221.2,82.61,224,99.43,224,128S221.2,173.39,218.84,182.47Z"
-                        ></path>
-                      </svg>
-                    </div>
-                  </div>
-                  <p class="text-sm font-medium leading-normal">YouTube</p>
                 </div>
-              </div>
             </div>
             <footer class="flex justify-center">
                 <div class="flex max-w-[960px] flex-1 flex-col">
                     <footer class="flex flex-col gap-6 px-5 py-10 text-center @container">
-                        <p class="text-gray-500 dark:text-[#90abcb] text-base font-normal leading-normal">© 2025 Mr. Curious. All rights reserved.</p>
+                        <p class="text-gray-500 dark:text-[#90abcb] text-base font-normal leading-normal">© 2025 Mr.
+                            Curious. All rights reserved.</p>
                     </footer>
                 </div>
             </footer>
         </div>
     </div>
-    
+
+    <!-- Modals -->
+    <div id="login-modal" class="hidden modal-overlay">
+        <div class="modal-content modal-fade-in p-6">
+            <button id="close-login-modal"
+                class="absolute top-2 right-2 text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-white text-2xl font-bold leading-none">&times;</button>
+            <h2 class="text-2xl font-bold text-center mb-6 text-black dark:text-white">Login</h2>
+            <form id="login-form" class="space-y-4">
+                <div>
+                    <label for="login-username"
+                        class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Username</label>
+                    <input type="text" name="username" id="login-username" required
+                        class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white"
+                        placeholder="Enter your username">
+                </div>
+                <div>
+                    <label for="login-password"
+                        class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Password</label>
+                    <input type="password" name="password" id="login-password" required
+                        class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white"
+                        placeholder="Enter your password">
+                </div>
+                <button type="submit"
+                    class="w-full bg-blue-600 hover:bg-blue-700 text-white font-medium py-2 px-4 rounded-md transition duration-200">Login</button>
+            </form>
+            <div id="login-error" class="text-red-500 text-sm mt-2"></div>
+            <div class="mt-4 text-center">
+                <p class="text-sm text-gray-600 dark:text-gray-400">
+                    Don't have an account?
+                    <a id="show-signup-modal"
+                        class="text-blue-600 dark:text-blue-400 hover:underline cursor-pointer">Sign up here</a>
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <div id="signup-modal" class="hidden modal-overlay">
+        <div class="modal-content modal-fade-in p-6">
+            <button id="close-signup-modal"
+                class="absolute top-2 right-2 text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-white text-2xl font-bold leading-none">&times;</button>
+            <h2 class="text-2xl font-bold text-center mb-6 text-black dark:text-white">Create Account</h2>
+            <form id="signup-form" class="space-y-4">
+                <div>
+                    <label for="signup-username"
+                        class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Username</label>
+                    <input type="text" name="username" id="signup-username" required
+                        class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white"
+                        placeholder="Choose a username">
+                </div>
+                <div>
+                    <label for="signup-email"
+                        class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Email</label>
+                    <input type="email" name="email" id="signup-email" required
+                        class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white"
+                        placeholder="Enter your email">
+                </div>
+                <div>
+                    <label for="signup-password"
+                        class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Password</label>
+                    <input type="password" name="password" id="signup-password" required
+                        class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white"
+                        placeholder="Create a password">
+                </div>
+                <button type="submit"
+                    class="w-full bg-green-600 hover:bg-green-700 text-white font-medium py-2 px-4 rounded-md transition duration-200">Sign
+                    Up</button>
+            </form>
+            <div id="signup-error" class="text-red-500 text-sm mt-2"></div>
+            <div class="mt-4 text-center">
+                <p class="text-sm text-gray-600 dark:text-gray-400">
+                    Already have an account?
+                    <a id="show-login-modal"
+                        class="text-blue-600 dark:text-blue-400 hover:underline cursor-pointer">Login here</a>
+                </p>
+            </div>
+        </div>
+    </div>
+
     <!-- Theme Toggle Script -->
     <script>
-        document.addEventListener('DOMContentLoaded', function() {
+        document.addEventListener('DOMContentLoaded', function () {
             const themeToggle = document.getElementById('theme-toggle');
             const sunIcon = document.getElementById('theme-icon-sun');
             const moonIcon = document.getElementById('theme-icon-moon');
@@ -146,7 +309,7 @@
             const toggleTheme = () => {
                 const currentTheme = document.documentElement.classList.contains('dark') ? 'dark' : 'light';
                 const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
-                
+
                 localStorage.setItem('theme', newTheme);
                 applyTheme(newTheme);
                 updateIcons(newTheme);
@@ -160,5 +323,106 @@
             updateIcons(currentTheme);
         });
     </script>
+
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const loginButton = document.getElementById('login-button');
+            const loginModal = document.getElementById('login-modal');
+            const closeLoginModal = document.getElementById('close-login-modal');
+            const showSignupModal = document.getElementById('show-signup-modal');
+
+            const signupModal = document.getElementById('signup-modal');
+            const closeSignupModal = document.getElementById('close-signup-modal');
+            const showLoginModal = document.getElementById('show-login-modal');
+
+            const openModal = (modal) => {
+                modal.classList.remove('hidden');
+                // No need to add 'flex' class since modal-overlay CSS handles display
+            };
+
+            const closeModal = (modal) => {
+                modal.classList.add('hidden');
+                // No need to remove 'flex' class
+            };
+
+            if (loginButton) {
+                loginButton.addEventListener('click', () => openModal(loginModal));
+            }
+
+            if (closeLoginModal) {
+                closeLoginModal.addEventListener('click', () => closeModal(loginModal));
+            }
+
+            if (closeSignupModal) {
+                closeSignupModal.addEventListener('click', () => closeModal(signupModal));
+            }
+
+            if (showSignupModal) {
+                showSignupModal.addEventListener('click', () => {
+                    closeModal(loginModal);
+                    openModal(signupModal);
+                });
+            }
+
+            if (showLoginModal) {
+                showLoginModal.addEventListener('click', () => {
+                    closeModal(signupModal);
+                    openModal(loginModal);
+                });
+            }
+
+            // Close modal if clicking outside of it
+            window.addEventListener('click', function (event) {
+                if (event.target == loginModal) {
+                    closeModal(loginModal);
+                }
+                if (event.target == signupModal) {
+                    closeModal(signupModal);
+                }
+            });
+
+            const loginForm = document.getElementById('login-form');
+            if (loginForm) {
+                loginForm.addEventListener('submit', async (e) => {
+                    e.preventDefault();
+                    const formData = new FormData(loginForm);
+                    const response = await fetch('{{ url_for("login") }}', {
+                        method: 'POST',
+                        body: formData
+                    });
+                    const result = await response.json();
+                    if (result.success) {
+                        window.location.reload();
+                    } else {
+                        document.getElementById('login-error').textContent = result.message;
+                    }
+                });
+            }
+
+            const signupForm = document.getElementById('signup-form');
+            if (signupForm) {
+                signupForm.addEventListener('submit', async (e) => {
+                    e.preventDefault();
+                    const formData = new FormData(signupForm);
+                    const response = await fetch('{{ url_for("signup") }}', {
+                        method: 'POST',
+                        body: formData
+                    });
+                    const result = await response.json();
+                    if (result.success) {
+                        closeModal(signupModal);
+                        openModal(loginModal);
+                        // Optionally, show a success message before switching
+                        alert('Signup successful! Please log in.');
+                    } else {
+                        document.getElementById('signup-error').textContent = result.message;
+                    }
+                });
+            }
+        });
+    </script>
+
 </body>
+
 </html>
