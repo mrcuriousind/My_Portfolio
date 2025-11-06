@@ -10,51 +10,8 @@
     <link rel="stylesheet" as="style" onload="this.rel='stylesheet'"
         href="https://fonts.googleapis.com/css2?display=swap&amp;family=Noto+Sans%3Awght%40400%3B500%3B700%3B900&amp;family=Space+Grotesk%3Awght%40400%3B500%3B700" />
     <link href="{{ url_for('static', filename='css/output.css') }}" rel="stylesheet">
-    <style>
-        /* Custom modal styles to ensure proper popup behavior */
-        .modal-overlay {
-            position: fixed !important;
-            top: 0 !important;
-            left: 0 !important;
-            right: 0 !important;
-            bottom: 0 !important;
-            z-index: 9999 !important;
-            background-color: rgba(0, 0, 0, 0.5) !important;
-            display: flex !important;
-            align-items: center !important;
-            justify-content: center !important;
-            padding: 1rem !important;
-        }
-        .modal-content {
-            position: relative !important;
-            background: white !important;
-            border-radius: 0.5rem !important;
-            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25) !important;
-            width: 100% !important;
-            max-width: 28rem !important;
-            max-height: 90vh !important;
-            overflow-y: auto !important;
-        }
-        .dark .modal-content {
-            background: #223449 !important;
-        }
-        .hidden {
-            display: none !important;
-        }
-        .modal-fade-in {
-            animation: fadeIn 0.2s ease-out;
-        }
-        @keyframes fadeIn {
-            from {
-                opacity: 0;
-                transform: scale(0.95);
-            }
-            to {
-                opacity: 1;
-                transform: scale(1);
-            }
-        }
-    </style>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/js/all.min.js"></script>
+
     <script>
         // Theme switching script
         const applyTheme = (theme) => {
@@ -79,7 +36,7 @@
                 <div class="flex items-center gap-4">
                     <a href="{{ url_for('home') }}" class="h-8 w-auto">
                         <img src="{{ url_for('static', filename='Curious_Logo.png') }}" alt="My Logo"
-                            class="h-full w-1 object-contain" />
+                            class="h-full w-auto object-contain glow-on-hover" />
                     </a>
                     <h2 class="text-lg font-bold leading-tight tracking-[-0.015em]">Mr. Curious's Portfolio</h2>
                 </div>
@@ -87,8 +44,8 @@
                     <div class="flex items-center gap-9">
                         <a class="text-sm font-medium leading-normal" href="{{ url_for('home') }}">Home</a>
                         <a class="text-sm font-medium leading-normal" href="{{ url_for('skills') }}">Skills</a>
-                        <a class="text-sm font-medium leading-normal" href="{{ url_for('projects') }}">Projects</a>
-                        <a class="text-sm font-medium leading-normal" href="{{ url_for('blog') }}">Blog</a>
+                        <a class="text-sm font-medium leading-normal nav-link" href="{{ url_for('projects') }}">Projects</a>
+                        <a class="text-sm font-medium leading-normal nav-link" href="{{ url_for('blog') }}">Blog</a>
                         <a class="text-sm font-medium leading-normal" href="{{ url_for('contact') }}">Contact</a>
                     </div>
 
@@ -151,8 +108,8 @@
             <div class="@container">
                 <div class="flex flex-row gap-4 px-4 justify-center">
                     <a href="https://github.com/mrcuriousind" target="_blank"
-                        class="flex flex-col items-center gap-2 py-2.5 text-center">
-                        <div class="rounded-full bg-gray-200 dark:bg-[#223449] p-2.5">
+                        class="flex flex-col items-center gap-2 py-2.5 text-center transition-transform hover:scale-110">
+                        <div class="rounded-full bg-gray-200 dark:bg-[#223449] p-2.5 glow-on-hover">
                             <div class="text-black dark:text-white" data-icon="GithubLogo" data-size="20px"
                                 data-weight="regular">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" fill="currentColor"
@@ -166,8 +123,8 @@
                         <p class="text-sm font-medium leading-normal">GitHub</p>
                     </a>
                     <a href="https://www.linkedin.com/in/mrcuriousind" target="_blank"
-                        class="flex flex-col items-center gap-2 py-2.5 text-center">
-                        <div class="rounded-full bg-gray-200 dark:bg-[#223449] p-2.5">
+                        class="flex flex-col items-center gap-2 py-2.5 text-center transition-transform hover:scale-110">
+                        <div class="rounded-full bg-gray-200 dark:bg-[#223449] p-2.5 glow-on-hover">
                             <div class="text-black dark:text-white" data-icon="LinkedinLogo" data-size="20px"
                                 data-weight="regular">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" fill="currentColor"
@@ -180,8 +137,9 @@
                         </div>
                         <p class="text-sm font-medium leading-normal">LinkedIn</p>
                     </a>
-                    <div class="flex flex-col items-center gap-2 py-2.5 text-center">
-                        <div class="rounded-full bg-gray-200 dark:bg-[#223449] p-2.5">
+                    <a href="https://www.youtube.com/@brocheloraspirants" target="_blank"
+                        class="flex flex-col items-center gap-2 py-2.5 text-center transition-transform hover:scale-110">
+                        <div class="rounded-full bg-gray-200 dark:bg-[#223449] p-2.5 glow-on-hover">
                             <div class="text-black dark:text-white" data-icon="YoutubeLogo" data-size="20px"
                                 data-weight="regular">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" fill="currentColor"
@@ -193,7 +151,7 @@
                             </div>
                         </div>
                         <p class="text-sm font-medium leading-normal">YouTube</p>
-                    </div>
+                    </a>
                 </div>
             </div>
             <footer class="flex justify-center">
@@ -207,79 +165,136 @@
         </div>
     </div>
 
-    <!-- Modals -->
-    <div id="login-modal" class="hidden modal-overlay">
-        <div class="modal-content modal-fade-in p-6">
-            <button id="close-login-modal"
-                class="absolute top-2 right-2 text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-white text-2xl font-bold leading-none">&times;</button>
-            <h2 class="text-2xl font-bold text-center mb-6 text-black dark:text-white">Login</h2>
-            <form id="login-form" class="space-y-4">
-                <div>
-                    <label for="login-username"
-                        class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Username</label>
-                    <input type="text" name="username" id="login-username" required
-                        class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white"
-                        placeholder="Enter your username">
+    <!-- Beautiful Login Modal -->
+    <div id="login-modal" class="hidden popup-overlay">
+        <div class="login-container">
+            <!-- Close Button -->
+            <button id="close-login-modal" class="close-btn" title="Close">
+                <i class="fas fa-times"></i>
+            </button>
+
+            <!-- Login Header -->
+            <div class="login-header">
+                <h2><i class="fas fa-user-circle"></i> Welcome Back</h2>
+                <p>Sign in to access your portfolio</p>
+            </div>
+
+            <!-- Login Form -->
+            <form id="login-form" class="login-form">
+                <div class="form-group">
+                    <label for="login-username">Username</label>
+                    <div class="input-wrapper">
+                        <input
+                            type="text"
+                            name="username"
+                            id="login-username"
+                            required
+                            placeholder="Enter your username"
+                        />
+                        <i class="fas fa-user input-icon"></i>
+                    </div>
                 </div>
-                <div>
-                    <label for="login-password"
-                        class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Password</label>
-                    <input type="password" name="password" id="login-password" required
-                        class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white"
-                        placeholder="Enter your password">
+
+                <div class="form-group">
+                    <label for="login-password">Password</label>
+                    <div class="input-wrapper">
+                        <input
+                            type="password"
+                            name="password"
+                            id="login-password"
+                            required
+                            placeholder="Enter your password"
+                        />
+                        <i class="fas fa-lock input-icon"></i>
+                        <i class="fas fa-eye password-toggle" id="login-password-toggle" title="Show/Hide Password"></i>
+                    </div>
                 </div>
-                <button type="submit"
-                    class="w-full bg-blue-600 hover:bg-blue-700 text-white font-medium py-2 px-4 rounded-md transition duration-200">Login</button>
+
+                <button type="submit" class="submit-btn">
+                    <i class="fas fa-sign-in-alt"></i> Sign In
+                </button>
             </form>
-            <div id="login-error" class="text-red-500 text-sm mt-2"></div>
-            <div class="mt-4 text-center">
-                <p class="text-sm text-gray-600 dark:text-gray-400">
-                    Don't have an account?
-                    <a id="show-signup-modal"
-                        class="text-blue-600 dark:text-blue-400 hover:underline cursor-pointer">Sign up here</a>
-                </p>
+
+            <div id="login-error" class="text-red-500 text-sm mt-2 p-2 rounded bg-red-50 dark:bg-red-900/20" style="display: none;"></div>
+
+            <!-- Footer -->
+            <div class="login-footer">
+                <p>Don't have an account?</p>
+                <a id="show-signup-modal">Create Account</a>
             </div>
         </div>
     </div>
 
-    <div id="signup-modal" class="hidden modal-overlay">
-        <div class="modal-content modal-fade-in p-6">
-            <button id="close-signup-modal"
-                class="absolute top-2 right-2 text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-white text-2xl font-bold leading-none">&times;</button>
-            <h2 class="text-2xl font-bold text-center mb-6 text-black dark:text-white">Create Account</h2>
-            <form id="signup-form" class="space-y-4">
-                <div>
-                    <label for="signup-username"
-                        class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Username</label>
-                    <input type="text" name="username" id="signup-username" required
-                        class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white"
-                        placeholder="Choose a username">
+    <!-- Beautiful Signup Modal -->
+    <div id="signup-modal" class="hidden popup-overlay">
+        <div class="login-container">
+            <!-- Close Button -->
+            <button id="close-signup-modal" class="close-btn" title="Close">
+                <i class="fas fa-times"></i>
+            </button>
+
+            <!-- Signup Header -->
+            <div class="login-header">
+                <h2><i class="fas fa-user-plus"></i> Join Us</h2>
+                <p>Create your account to get started</p>
+            </div>
+
+            <!-- Signup Form -->
+            <form id="signup-form" class="login-form">
+                <div class="form-group">
+                    <label for="signup-username">Username</label>
+                    <div class="input-wrapper">
+                        <input
+                            type="text"
+                            name="username"
+                            id="signup-username"
+                            required
+                            placeholder="Choose a username"
+                        />
+                        <i class="fas fa-user input-icon"></i>
+                    </div>
                 </div>
-                <div>
-                    <label for="signup-email"
-                        class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Email</label>
-                    <input type="email" name="email" id="signup-email" required
-                        class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white"
-                        placeholder="Enter your email">
+
+                <div class="form-group">
+                    <label for="signup-email">Email</label>
+                    <div class="input-wrapper">
+                        <input
+                            type="email"
+                            name="email"
+                            id="signup-email"
+                            required
+                            placeholder="Enter your email"
+                        />
+                        <i class="fas fa-envelope input-icon"></i>
+                    </div>
                 </div>
-                <div>
-                    <label for="signup-password"
-                        class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Password</label>
-                    <input type="password" name="password" id="signup-password" required
-                        class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white"
-                        placeholder="Create a password">
+
+                <div class="form-group">
+                    <label for="signup-password">Password</label>
+                    <div class="input-wrapper">
+                        <input
+                            type="password"
+                            name="password"
+                            id="signup-password"
+                            required
+                            placeholder="Create a password"
+                        />
+                        <i class="fas fa-lock input-icon"></i>
+                        <i class="fas fa-eye password-toggle" id="signup-password-toggle" title="Show/Hide Password"></i>
+                    </div>
                 </div>
-                <button type="submit"
-                    class="w-full bg-green-600 hover:bg-green-700 text-white font-medium py-2 px-4 rounded-md transition duration-200">Sign
-                    Up</button>
+
+                <button type="submit" class="submit-btn">
+                    <i class="fas fa-user-plus"></i> Create Account
+                </button>
             </form>
-            <div id="signup-error" class="text-red-500 text-sm mt-2"></div>
-            <div class="mt-4 text-center">
-                <p class="text-sm text-gray-600 dark:text-gray-400">
-                    Already have an account?
-                    <a id="show-login-modal"
-                        class="text-blue-600 dark:text-blue-400 hover:underline cursor-pointer">Login here</a>
-                </p>
+
+            <div id="signup-error" class="text-red-500 text-sm mt-2 p-2 rounded bg-red-50 dark:bg-red-900/20" style="display: none;"></div>
+
+            <!-- Footer -->
+            <div class="login-footer">
+                <p>Already have an account?</p>
+                <a id="show-login-modal">Sign In</a>
             </div>
         </div>
     </div>
@@ -336,16 +351,38 @@
             const closeSignupModal = document.getElementById('close-signup-modal');
             const showLoginModal = document.getElementById('show-login-modal');
 
+            const loginPasswordToggle = document.getElementById('login-password-toggle');
+            const signupPasswordToggle = document.getElementById('signup-password-toggle');
+
+            // Beautiful modal open/close functions
             const openModal = (modal) => {
                 modal.classList.remove('hidden');
-                // No need to add 'flex' class since modal-overlay CSS handles display
+                setTimeout(() => {
+                    modal.classList.add('active');
+                }, 10);
+                document.body.style.overflow = 'hidden';
             };
 
             const closeModal = (modal) => {
-                modal.classList.add('hidden');
-                // No need to remove 'flex' class
+                modal.classList.remove('active');
+                setTimeout(() => {
+                    modal.classList.add('hidden');
+                    document.body.style.overflow = 'auto';
+                }, 300);
             };
 
+            // Password visibility toggle function
+            const togglePassword = (passwordInput, toggleIcon) => {
+                if (passwordInput.type === 'password') {
+                    passwordInput.type = 'text';
+                    toggleIcon.className = 'fas fa-eye-slash password-toggle';
+                } else {
+                    passwordInput.type = 'password';
+                    toggleIcon.className = 'fas fa-eye password-toggle';
+                }
+            };
+
+            // Event listeners
             if (loginButton) {
                 loginButton.addEventListener('click', () => openModal(loginModal));
             }
@@ -361,41 +398,95 @@
             if (showSignupModal) {
                 showSignupModal.addEventListener('click', () => {
                     closeModal(loginModal);
-                    openModal(signupModal);
+                    setTimeout(() => openModal(signupModal), 300);
                 });
             }
 
             if (showLoginModal) {
                 showLoginModal.addEventListener('click', () => {
                     closeModal(signupModal);
-                    openModal(loginModal);
+                    setTimeout(() => openModal(loginModal), 300);
                 });
             }
 
-            // Close modal if clicking outside of it
-            window.addEventListener('click', function (event) {
-                if (event.target == loginModal) {
+            // Password toggle event listeners
+            if (loginPasswordToggle) {
+                loginPasswordToggle.addEventListener('click', () => {
+                    const passwordInput = document.getElementById('login-password');
+                    togglePassword(passwordInput, loginPasswordToggle);
+                });
+            }
+
+            if (signupPasswordToggle) {
+                signupPasswordToggle.addEventListener('click', () => {
+                    const passwordInput = document.getElementById('signup-password');
+                    togglePassword(passwordInput, signupPasswordToggle);
+                });
+            }
+
+            // Close modal when clicking outside
+            loginModal && loginModal.addEventListener('click', function(e) {
+                if (e.target === this) {
                     closeModal(loginModal);
                 }
-                if (event.target == signupModal) {
+            });
+
+            signupModal && signupModal.addEventListener('click', function(e) {
+                if (e.target === this) {
                     closeModal(signupModal);
                 }
             });
 
+            // Close modal with Escape key
+            document.addEventListener('keydown', function(e) {
+                if (e.key === 'Escape') {
+                    if (loginModal && !loginModal.classList.contains('hidden')) {
+                        closeModal(loginModal);
+                    }
+                    if (signupModal && !signupModal.classList.contains('hidden')) {
+                        closeModal(signupModal);
+                    }
+                }
+            });
+
+            // Enhanced form submission with loading states
             const loginForm = document.getElementById('login-form');
             if (loginForm) {
                 loginForm.addEventListener('submit', async (e) => {
                     e.preventDefault();
-                    const formData = new FormData(loginForm);
-                    const response = await fetch('{{ url_for("login") }}', {
-                        method: 'POST',
-                        body: formData
-                    });
-                    const result = await response.json();
-                    if (result.success) {
-                        window.location.reload();
-                    } else {
-                        document.getElementById('login-error').textContent = result.message;
+                    const submitBtn = loginForm.querySelector('.submit-btn');
+                    const originalText = submitBtn.innerHTML;
+                    
+                    // Add loading state
+                    submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Signing In...';
+                    submitBtn.disabled = true;
+                    
+                    try {
+                        const formData = new FormData(loginForm);
+                        const response = await fetch('{{ url_for("login") }}', {
+                            method: 'POST',
+                            body: formData
+                        });
+                        const result = await response.json();
+                        
+                        if (result.success) {
+                            submitBtn.innerHTML = '<i class="fas fa-check"></i> Success!';
+                            setTimeout(() => {
+                                window.location.reload();
+                            }, 500);
+                        } else {
+                            const errorDiv = document.getElementById('login-error');
+                            errorDiv.textContent = result.message;
+                            errorDiv.style.display = 'block';
+                            submitBtn.innerHTML = originalText;
+                            submitBtn.disabled = false;
+                        }
+                    } catch (error) {
+                        const errorDiv = document.getElementById('login-error');
+                        errorDiv.textContent = 'An error occurred. Please try again.';
+                        errorDiv.style.display = 'block';
+                        submitBtn.innerHTML = originalText;
+                        submitBtn.disabled = false;
                     }
                 });
             }
@@ -404,19 +495,51 @@
             if (signupForm) {
                 signupForm.addEventListener('submit', async (e) => {
                     e.preventDefault();
-                    const formData = new FormData(signupForm);
-                    const response = await fetch('{{ url_for("signup") }}', {
-                        method: 'POST',
-                        body: formData
-                    });
-                    const result = await response.json();
-                    if (result.success) {
-                        closeModal(signupModal);
-                        openModal(loginModal);
-                        // Optionally, show a success message before switching
-                        alert('Signup successful! Please log in.');
-                    } else {
-                        document.getElementById('signup-error').textContent = result.message;
+                    const submitBtn = signupForm.querySelector('.submit-btn');
+                    const originalText = submitBtn.innerHTML;
+                    
+                    // Add loading state
+                    submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Creating Account...';
+                    submitBtn.disabled = true;
+                    
+                    try {
+                        const formData = new FormData(signupForm);
+                        const response = await fetch('{{ url_for("signup") }}', {
+                            method: 'POST',
+                            body: formData
+                        });
+                        const result = await response.json();
+                        
+                        if (result.success) {
+                            submitBtn.innerHTML = '<i class="fas fa-check"></i> Account Created!';
+                            setTimeout(() => {
+                                closeModal(signupModal);
+                                setTimeout(() => {
+                                    openModal(loginModal);
+                                    // Show success message in login modal
+                                    const loginHeader = loginModal.querySelector('.login-header p');
+                                    const originalLoginText = loginHeader.textContent;
+                                    loginHeader.textContent = '✓ Account created successfully! Please sign in.';
+                                    loginHeader.style.color = '#10B981';
+                                    setTimeout(() => {
+                                        loginHeader.textContent = originalLoginText;
+                                        loginHeader.style.color = '';
+                                    }, 3000);
+                                }, 300);
+                            }, 1000);
+                        } else {
+                            const errorDiv = document.getElementById('signup-error');
+                            errorDiv.textContent = result.message;
+                            errorDiv.style.display = 'block';
+                            submitBtn.innerHTML = originalText;
+                            submitBtn.disabled = false;
+                        }
+                    } catch (error) {
+                        const errorDiv = document.getElementById('signup-error');
+                        errorDiv.textContent = 'An error occurred. Please try again.';
+                        errorDiv.style.display = 'block';
+                        submitBtn.innerHTML = originalText;
+                        submitBtn.disabled = false;
                     }
                 });
             }

@@ -3,41 +3,62 @@
 {% block title %}Contact - Mr. Curious's Portfolio{% endblock %}
 
 {% block content %}
-          <h2 class="text-black dark:text-white text-[22px] font-bold leading-tight tracking-[-0.015em] px-4 pb-3 pt-5">Contact Me</h2>
-            <div class="flex max-w-[480px] flex-wrap items-end gap-4 px-4 py-3">
-              <label class="flex flex-col min-w-40 flex-1">
-                <p class="text-black dark:text-white text-base font-medium leading-normal pb-2">Name</p>
-                <input
-                  placeholder="Your Name"
-                  class="form-input flex w-full min-w-0 flex-1 resize-none overflow-hidden rounded-lg border border-gray-300 dark:border-[#314b68] bg-white dark:bg-[#182534] focus:border-blue-500 dark:focus:border-blue-500 h-14 placeholder:text-gray-400 dark:placeholder:text-[#90abcb] p-[15px] text-base font-normal leading-normal"
-                  value=""
-                />
-              </label>
-            </div>
-            <div class="flex max-w-[480px] flex-wrap items-end gap-4 px-4 py-3">
-              <label class="flex flex-col min-w-40 flex-1">
-                <p class="text-black dark:text-white text-base font-medium leading-normal pb-2">Email</p>
-                <input
-                  placeholder="Your Email"
-                  class="form-input flex w-full min-w-0 flex-1 resize-none overflow-hidden rounded-lg border border-gray-300 dark:border-[#314b68] bg-white dark:bg-[#182534] focus:border-blue-500 dark:focus:border-blue-500 h-14 placeholder:text-gray-400 dark:placeholder:text-[#90abcb] p-[15px] text-base font-normal leading-normal"
-                  value=""
-                />
-              </label>
-            </div>
-            <div class="flex max-w-[480px] flex-wrap items-end gap-4 px-4 py-3">
-              <label class="flex flex-col min-w-40 flex-1">
-                <p class="text-black dark:text-white text-base font-medium leading-normal pb-2">Message</p>
-                <textarea
-                  placeholder="Your Message"
-                  class="form-input flex w-full min-w-0 flex-1 resize-none overflow-hidden rounded-lg border border-gray-300 dark:border-[#314b68] bg-white dark:bg-[#182534] focus:border-blue-500 dark:focus:border-blue-500 min-h-36 placeholder:text-gray-400 dark:placeholder:text-[#90abcb] p-[15px] text-base font-normal leading-normal"
-                ></textarea>
-              </label>
-            </div>
-            <div class="flex px-4 py-3 justify-end">
+          <div class="grid md:grid-cols-2 gap-16">
+            <div>
+              <h2 class="text-black dark:text-white text-[22px] font-bold leading-tight tracking-[-0.015em] px-4 pb-3 pt-5">Contact Me</h2>
+              <form class="space-y-4">
+                <div class="form-group">
+                  <label for="contact-name">Name</label>
+                  <div class="input-wrapper">
+                    <input
+                      type="text"
+                      name="name"
+                      id="contact-name"
+                      required
+                      placeholder="Enter your name"
+                      class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white"
+                    />
+                    <i class="fas fa-user input-icon"></i>
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label for="contact-email">Email</label>
+                  <div class="input-wrapper">
+                    <input
+                      type="email"
+                      name="email"
+                      id="contact-email"
+                      required
+                      placeholder="Enter your email"
+                      class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white"
+                    />
+                    <i class="fas fa-envelope input-icon"></i>
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label for="contact-message">Message</label>
+                  <div class="input-wrapper">
+                    <textarea
+                      name="message"
+                      id="contact-message"
+                      required
+                      placeholder="Enter your message"
+                      rows="4"
+                      class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white"
+                    ></textarea>
+                    <i class="fas fa-comment-dots input-icon"></i>
+                  </div>
+                </div>
+                <div class="flex px-4 py-3 justify-end">
               <button
-              class="flex min-w-[84px] max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-full h-10 px-4 bg-[#cadaec] text-black text-sm font-bold leading-normal tracking-[0.015em]">
+              class="flex min-w-[84px] max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-lg h-10 px-6 bg-gradient-to-r from-[#9de1f5] to-[#33c46b] hover:opacity-90 text-white text-sm font-bold leading-normal tracking-[0.015em] transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-xl glow-on-hover">
+              <i class="fas fa-paper-plane mr-2"></i>
               <span class="truncate">Send Message</span>
             </button>
+            </div>
+              </form>
+            </div>
+
           </div>
           <h2 class="text-black dark:text-white text-[22px] font-bold leading-tight tracking-[-0.015em] px-4 pb-3 pt-5">Recent Social
             Posts</h2>
