@@ -57,6 +57,7 @@ class User(db.Model):
     twitter_username = db.Column(db.String(100), nullable=True)
     created_at = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
     is_active = db.Column(db.Boolean, nullable=False, default=True)
+    is_admin = db.Column(db.Boolean, nullable=False, default=False)
 
     def set_password(self, password):
         self.password_hash = generate_password_hash(password)
@@ -91,33 +92,58 @@ def blog():
 def contact():
     return render_template('contact.html')
 
+@app.route('/animations-demo')
+def animations_demo():
+    return render_template('animations_demo.html')
+
 @app.route('/signup', methods=['GET', 'POST'])
 def signup():
     if request.method == 'GET':
         return redirect(url_for('home'))
-    username = request.form.get('username')
     email = request.form.get('email')
     password = request.form.get('password')
-    existing_user = User.query.filter_by(username=username).first()
+    
+    # Check if email already exists
+    existing_user = User.query.filter_by(email=email).first()
     if existing_user:
-        return jsonify({'success': False, 'message': 'Username already exists'})
+        return jsonify({'success': False, 'message': 'Email already registered'})
+    
+    # Generate username from email (part before @)
+    username_base = email.split('@')[0]
+    # Remove special characters and make it lowercase
+    username_base = re.sub(r'[^a-zA-Z0-9]', '', username_base).lower()
+    
+    # Check if username exists, if so add numbers
+    username = username_base
+    counter = 1
+    while User.query.filter_by(username=username).first():
+        username = f"{username_base}{counter}"
+        counter += 1
+    
     new_user = User(username=username, email=email)
     new_user.set_password(password)
     db.session.add(new_user)
     db.session.commit()
-    return jsonify({'success': True})
+    return jsonify({'success': True, 'username': username})
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
     if request.method == 'GET':
         return redirect(url_for('home'))
-    username = request.form.get('username')
+    username_or_email = request.form.get('username')
     password = request.form.get('password')
-    user = User.query.filter_by(username=username).first()
+    
+    # Try to find user by username or email
+    user = User.query.filter(
+        (User.username == username_or_email) | (User.email == username_or_email)
+    ).first()
+    
     if user and user.check_password(password):
         session['user_id'] = user.id
+        session['user_initial'] = user.username[0].upper()
+        session['is_admin'] = user.is_admin
         return jsonify({'success': True})
-    return jsonify({'success': False, 'message': 'Invalid username or password'})
+    return jsonify({'success': False, 'message': 'Invalid username/email or password'})
 
 @app.route('/profile')
 def profile():
@@ -135,6 +161,16 @@ def edit_profile():
     user = User.query.get(user_id)
     
     if request.method == 'POST':
+        # Check if username is being changed
+        new_username = request.form.get('username', '').strip()
+        if new_username and new_username != user.username:
+            # Check if new username is already taken
+            existing_user = User.query.filter_by(username=new_username).first()
+            if existing_user:
+                flash('Username already taken. Please choose another one.')
+                return render_template('edit_profile.html', user=user)
+            user.username = new_username
+        
         user.first_name = request.form.get('first_name', '')
         user.last_name = request.form.get('last_name', '')
         user.bio = request.form.get('bio', '')
@@ -153,7 +189,9 @@ def edit_profile():
 @app.route('/logout')
 def logout():
     session.pop('user_id', None)
-    flash('You have been logged out')
+    session.pop('user_initial', None)
+    session.pop('is_admin', None)
+    flash('You have been logged out successfully')
     return redirect(url_for('home'))
 
 @app.context_processor
@@ -185,6 +223,115 @@ def add_sample_data():
 @app.before_request
 def create_tables():
     db.create_all()
+
+# Admin Panel Routes
+@app.route('/admin')
+def admin_dashboard():
+    user_id = session.get('user_id')
+    if not user_id:
+        flash('Please login to access admin panel')
+        return redirect(url_for('home'))
+    
+    user = User.query.get(user_id)
+    if not user or not user.is_admin:
+        flash('Access denied. Admin privileges required.')
+        return redirect(url_for('home'))
+    
+    # Get statistics
+    total_users = User.query.count()
+    total_projects = Project.query.count()
+    total_posts = BlogPost.query.count()
+    total_videos = Video.query.count()
+    
+    # Get recent users
+    recent_users = User.query.order_by(User.created_at.desc()).limit(5).all()
+    
+    return render_template('admin/dashboard.html', 
+                         user=user,
+                         total_users=total_users,
+                         total_projects=total_projects,
+                         total_posts=total_posts,
+                         total_videos=total_videos,
+                         recent_users=recent_users)
+
+@app.route('/admin/users')
+def admin_users():
+    user_id = session.get('user_id')
+    if not user_id:
+        return redirect(url_for('home'))
+    
+    user = User.query.get(user_id)
+    if not user or not user.is_admin:
+        return redirect(url_for('home'))
+    
+    users = User.query.order_by(User.created_at.desc()).all()
+    return render_template('admin/users.html', user=user, users=users)
+
+@app.route('/admin/make-admin/<int:user_id>')
+def make_admin(user_id):
+    admin_id = session.get('user_id')
+    if not admin_id:
+        return redirect(url_for('home'))
+    
+    admin = User.query.get(admin_id)
+    if not admin or not admin.is_admin:
+        return redirect(url_for('home'))
+    
+    target_user = User.query.get(user_id)
+    if target_user:
+        target_user.is_admin = True
+        db.session.commit()
+        flash(f'{target_user.username} is now an admin')
+    
+    return redirect(url_for('admin_users'))
+
+@app.route('/admin/delete-user/<int:user_id>')
+def delete_user(user_id):
+    admin_id = session.get('user_id')
+    if not admin_id:
+        return redirect(url_for('home'))
+    
+    admin = User.query.get(admin_id)
+    if not admin or not admin.is_admin:
+        return redirect(url_for('home'))
+    
+    target_user = User.query.get(user_id)
+    if target_user:
+        # Prevent admin from deleting themselves
+        if target_user.id == admin.id:
+            flash('You cannot delete your own account')
+            return redirect(url_for('admin_users'))
+        
+        username = target_user.username
+        db.session.delete(target_user)
+        db.session.commit()
+        flash(f'User {username} has been deleted')
+    
+    return redirect(url_for('admin_users'))
+
+@app.route('/admin/toggle-status/<int:user_id>')
+def toggle_user_status(user_id):
+    admin_id = session.get('user_id')
+    if not admin_id:
+        return redirect(url_for('home'))
+    
+    admin = User.query.get(admin_id)
+    if not admin or not admin.is_admin:
+        return redirect(url_for('home'))
+    
+    target_user = User.query.get(user_id)
+    if target_user:
+        # Prevent admin from deactivating themselves
+        if target_user.id == admin.id:
+            flash('You cannot deactivate your own account')
+            return redirect(url_for('admin_users'))
+        
+        target_user.is_active = not target_user.is_active
+        status = 'activated' if target_user.is_active else 'deactivated'
+        db.session.commit()
+        flash(f'{target_user.username} has been {status}')
+    
+    return redirect(url_for('admin_users'))
 
 if __name__ == '__main__':
     add_sample_data()

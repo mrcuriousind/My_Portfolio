@@ -1,0 +1,168 @@
+{% extends 'base.html' %}
+
+{% block title %}Animation Demo - Mr. Curious's Portfolio{% endblock %}
+
+{% block content %}
+<div class="page-transition">
+  <h1 class="text-4xl font-bold text-center mb-8 gradient-text-animated reveal">
+    🎨 Animation Showcase
+  </h1>
+  
+  <p class="text-center mb-12 reveal">
+    Scroll down to see all the amazing animations in action!
+  </p>
+
+  <!-- Scroll Reveal Animations -->
+  <section class="mb-16">
+    <h2 class="text-2xl font-bold mb-6 reveal">Scroll Reveal Animations</h2>
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+      <div class="p-6 bg-gray-100 dark:bg-[#182534] rounded-lg reveal fade-in-up">
+        <h3 class="font-bold mb-2">Fade In Up</h3>
+        <p class="text-sm">Fades in while sliding up</p>
+      </div>
+      <div class="p-6 bg-gray-100 dark:bg-[#182534] rounded-lg reveal slide-in-left delay-200">
+        <h3 class="font-bold mb-2">Slide In Left</h3>
+        <p class="text-sm">Slides in from the left</p>
+      </div>
+      <div class="p-6 bg-gray-100 dark:bg-[#182534] rounded-lg reveal slide-in-right delay-400">
+        <h3 class="font-bold mb-2">Slide In Right</h3>
+        <p class="text-sm">Slides in from the right</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Button Animations -->
+  <section class="mb-16">
+    <h2 class="text-2xl font-bold mb-6 reveal">Button Animations</h2>
+    <div class="flex flex-wrap gap-4">
+      <button class="px-6 py-3 bg-gradient-to-r from-[#9de1f5] to-[#33c46b] text-white rounded-lg btn-glow btn-ripple reveal">
+        Glow + Ripple Button
+      </button>
+      <button class="px-6 py-3 bg-gradient-to-r from-[#9de1f5] to-[#33c46b] text-white rounded-lg magnetic-btn reveal delay-200">
+        Magnetic Button
+      </button>
+      <button class="px-6 py-3 bg-gradient-to-r from-[#9de1f5] to-[#33c46b] text-white rounded-lg btn-ripple hover:scale-110 transition-all reveal delay-400">
+        Scale Button
+      </button>
+    </div>
+  </section>
+
+  <!-- Card Animations -->
+  <section class="mb-16">
+    <h2 class="text-2xl font-bold mb-6 reveal">Card Animations</h2>
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+      <div class="p-6 bg-gray-100 dark:bg-[#182534] rounded-lg card-hover reveal">
+        <h3 class="font-bold mb-2">Card Hover</h3>
+        <p class="text-sm">Lifts up with gradient overlay</p>
+      </div>
+      <div class="p-6 bg-gray-100 dark:bg-[#182534] rounded-lg card-3d reveal delay-200">
+        <h3 class="font-bold mb-2">3D Card</h3>
+        <p class="text-sm">Tilts based on mouse position</p>
+      </div>
+      <div class="p-6 bg-gray-100 dark:bg-[#182534] rounded-lg skill-card reveal delay-400">
+        <h3 class="font-bold mb-2">Skill Card</h3>
+        <p class="text-sm">Shimmer effect on hover</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Text Animations -->
+  <section class="mb-16">
+    <h2 class="text-2xl font-bold mb-6 reveal">Text Animations</h2>
+    <div class="space-y-4">
+      <div class="p-6 bg-gray-100 dark:bg-[#182534] rounded-lg reveal">
+        <h3 class="gradient-text-animated text-2xl font-bold mb-2">Animated Gradient Text</h3>
+        <p class="text-sm">The gradient flows smoothly across the text</p>
+      </div>
+      <div class="p-6 bg-gray-100 dark:bg-[#182534] rounded-lg reveal delay-200">
+        <h3 class="font-bold mb-2">Counter Animation</h3>
+        <div class="text-4xl font-bold">
+          <span class="counter text-[#33c46b]" data-count="1000">0</span>+
+        </div>
+        <p class="text-sm mt-2">Counts up when scrolled into view</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Special Effects -->
+  <section class="mb-16">
+    <h2 class="text-2xl font-bold mb-6 reveal">Special Effects</h2>
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+      <div class="p-6 glass rounded-lg reveal float">
+        <h3 class="font-bold mb-2">Floating + Glass</h3>
+        <p class="text-sm">Floats up and down with glassmorphism</p>
+      </div>
+      <div class="p-6 bg-gray-100 dark:bg-[#182534] rounded-lg reveal bounce delay-200">
+        <h3 class="font-bold mb-2">Bounce Effect</h3>
+        <p class="text-sm">Bounces continuously</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Social Icons -->
+  <section class="mb-16">
+    <h2 class="text-2xl font-bold mb-6 reveal">Social Icon Animations</h2>
+    <div class="flex gap-6 justify-center">
+      <div class="social-icon p-4 bg-gray-100 dark:bg-[#182534] rounded-full reveal">
+        <i class="fab fa-github text-2xl"></i>
+      </div>
+      <div class="social-icon p-4 bg-gray-100 dark:bg-[#182534] rounded-full reveal delay-100">
+        <i class="fab fa-linkedin text-2xl"></i>
+      </div>
+      <div class="social-icon p-4 bg-gray-100 dark:bg-[#182534] rounded-full reveal delay-200">
+        <i class="fab fa-twitter text-2xl"></i>
+      </div>
+      <div class="social-icon p-4 bg-gray-100 dark:bg-[#182534] rounded-full reveal delay-300">
+        <i class="fab fa-youtube text-2xl"></i>
+      </div>
+    </div>
+  </section>
+
+  <!-- Progress Bars -->
+  <section class="mb-16">
+    <h2 class="text-2xl font-bold mb-6 reveal">Progress Bar Animations</h2>
+    <div class="space-y-4">
+      <div class="reveal">
+        <div class="flex justify-between mb-2">
+          <span class="font-medium">Python</span>
+          <span>90%</span>
+        </div>
+        <div class="w-full bg-gray-200 dark:bg-[#223449] rounded-full h-3 overflow-hidden">
+          <div class="progress-bar h-full bg-gradient-to-r from-[#9de1f5] to-[#33c46b] rounded-full transition-all duration-1000 ease-out" data-progress="90" style="width: 0%"></div>
+        </div>
+      </div>
+      <div class="reveal delay-200">
+        <div class="flex justify-between mb-2">
+          <span class="font-medium">JavaScript</span>
+          <span>85%</span>
+        </div>
+        <div class="w-full bg-gray-200 dark:bg-[#223449] rounded-full h-3 overflow-hidden">
+          <div class="progress-bar h-full bg-gradient-to-r from-[#9de1f5] to-[#33c46b] rounded-full transition-all duration-1000 ease-out" data-progress="85" style="width: 0%"></div>
+        </div>
+      </div>
+      <div class="reveal delay-400">
+        <div class="flex justify-between mb-2">
+          <span class="font-medium">React</span>
+          <span>80%</span>
+        </div>
+        <div class="w-full bg-gray-200 dark:bg-[#223449] rounded-full h-3 overflow-hidden">
+          <div class="progress-bar h-full bg-gradient-to-r from-[#9de1f5] to-[#33c46b] rounded-full transition-all duration-1000 ease-out" data-progress="80" style="width: 0%"></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Scroll to Top Button -->
+  <div class="text-center mb-8">
+    <button onclick="window.scrollTo({top: 0, behavior: 'smooth'})" 
+            class="px-8 py-4 bg-gradient-to-r from-[#9de1f5] to-[#33c46b] text-white rounded-lg btn-glow btn-ripple magnetic-btn">
+      <i class="fas fa-arrow-up mr-2"></i>
+      Scroll to Top
+    </button>
+  </div>
+
+  <div class="text-center text-sm text-gray-500 dark:text-gray-400 mb-8">
+    <p>✨ All animations are optimized for performance and accessibility</p>
+  </div>
+</div>
+{% endblock %}

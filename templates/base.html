@@ -11,6 +11,40 @@
         href="https://fonts.googleapis.com/css2?display=swap&amp;family=Noto+Sans%3Awght%40400%3B500%3B700%3B900&amp;family=Space+Grotesk%3Awght%40400%3B500%3B700" />
     <link href="{{ url_for('static', filename='css/output.css') }}" rel="stylesheet">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/js/all.min.js"></script>
+    
+    <style>
+        /* Header scroll effect */
+        header {
+            transition: transform 0.3s ease, box-shadow 0.3s ease, background-color 0.3s ease;
+        }
+        
+        header.scrolled {
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+            background-color: rgba(255, 255, 255, 0.95);
+        }
+        
+        .dark header.scrolled {
+            background-color: rgba(16, 25, 35, 0.95);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+        }
+        
+        /* Ripple effect styles */
+        .ripple-effect {
+            position: absolute;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.6);
+            transform: scale(0);
+            animation: ripple-animation 0.6s ease-out;
+            pointer-events: none;
+        }
+        
+        @keyframes ripple-animation {
+            to {
+                transform: scale(4);
+                opacity: 0;
+            }
+        }
+    </style>
 
     <script>
         // Theme switching script
@@ -34,50 +68,48 @@
             <header
                 class="flex items-center justify-between whitespace-nowrap border-b border-solid border-b-[#223449] px-10 py-3">
                 <div class="flex items-center gap-4">
-                    <a href="{{ url_for('home') }}" class="h-8 w-auto">
+                    <a href="{{ url_for('home') }}" class="block">
                         <img src="{{ url_for('static', filename='Curious_Logo.png') }}" alt="My Logo"
-                            class="h-full w-auto object-contain glow-on-hover" />
+                            class="h-8 w-auto object-contain glow-on-hover" />
                     </a>
                     <h2 class="text-lg font-bold leading-tight tracking-[-0.015em]">Mr. Curious's Portfolio</h2>
                 </div>
                 <div class="flex flex-1 justify-end items-center gap-8">
                     <div class="flex items-center gap-9">
-                        <a class="text-sm font-medium leading-normal" href="{{ url_for('home') }}">Home</a>
-                        <a class="text-sm font-medium leading-normal" href="{{ url_for('skills') }}">Skills</a>
-                        <a class="text-sm font-medium leading-normal nav-link" href="{{ url_for('projects') }}">Projects</a>
-                        <a class="text-sm font-medium leading-normal nav-link" href="{{ url_for('blog') }}">Blog</a>
-                        <a class="text-sm font-medium leading-normal" href="{{ url_for('contact') }}">Contact</a>
+                        <a class="text-sm font-medium leading-normal nav-link transition-colors duration-300 hover:text-[#33c46b] {% if request.endpoint == 'home' %}text-[#33c46b] border-b-2 border-[#33c46b]{% endif %}" href="{{ url_for('home') }}">Home</a>
+                        <a class="text-sm font-medium leading-normal nav-link transition-colors duration-300 hover:text-[#33c46b] {% if request.endpoint == 'skills' %}text-[#33c46b] border-b-2 border-[#33c46b]{% endif %}" href="{{ url_for('skills') }}">Skills</a>
+                        <a class="text-sm font-medium leading-normal nav-link transition-colors duration-300 hover:text-[#33c46b] {% if request.endpoint == 'projects' %}text-[#33c46b] border-b-2 border-[#33c46b]{% endif %}" href="{{ url_for('projects') }}">Projects</a>
+                        <a class="text-sm font-medium leading-normal nav-link transition-colors duration-300 hover:text-[#33c46b] {% if request.endpoint == 'blog' %}text-[#33c46b] border-b-2 border-[#33c46b]{% endif %}" href="{{ url_for('blog') }}">Blog</a>
+                        <a class="text-sm font-medium leading-normal nav-link transition-colors duration-300 hover:text-[#33c46b] {% if request.endpoint == 'contact' %}text-[#33c46b] border-b-2 border-[#33c46b]{% endif %}" href="{{ url_for('contact') }}">Contact</a>
                     </div>
 
-                    <button id="theme-toggle"
-                        class="flex max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-lg h-10 bg-[#223449] text-white gap-2 text-sm font-bold leading-normal tracking-[0.015em] min-w-0 px-2.5">
-                        <div id="theme-icon-sun" class="hidden" data-icon="Sun" data-size="20px" data-weight="regular">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" fill="currentColor"
-                                viewBox="0 0 256 256">
-                                <path
-                                    d="M120,40V16a8,8,0,0,1,16,0V40a8,8,0,0,1-16,0Zm72,88a64,64,0,1,1-64-64A64.07,64.07,0,0,1,192,128Zm-16,0a48,48,0,1,0-48,48A48.05,48.05,0,0,0,176,128ZM58.34,69.66A8,8,0,0,0,69.66,58.34l-16-16A8,8,0,0,0,42.34,53.66Zm0,116.68-16,16a8,8,0,0,0,11.32,11.32l16-16a8,8,0,0,0-11.32-11.32ZM192,72a8,8,0,0,0,5.66-2.34l16-16a8,8,0,0,0-11.32-11.32l-16,16A8,8,0,0,0,192,72Zm5.66,114.34a8,8,0,0,0-11.32,11.32l16,16a8,8,0,0,0,11.32-11.32ZM48,128a8,8,0,0,0-8-8H16a8,8,0,0,0,0,16H40A8,8,0,0,0,48,128Zm80,80a8,8,0,0,0-8,8v24a8,8,0,0,0,16,0V216A8,8,0,0,0,128,208Zm112-88H216a8,8,0,0,0,0,16h24a8,8,0,0,0,0-16Z">
-                                </path>
+                    <button id="theme-toggle" class="theme-toggle-btn" title="Toggle theme">
+                        <div class="theme-toggle-track">
+                            <svg class="theme-icon-left sun-icon-track" xmlns="http://www.w3.org/2000/svg" width="12" height="12" fill="currentColor" viewBox="0 0 256 256">
+                                <path d="M120,40V16a8,8,0,0,1,16,0V40a8,8,0,0,1-16,0Zm72,88a64,64,0,1,1-64-64A64.07,64.07,0,0,1,192,128Zm-16,0a48,48,0,1,0-48,48A48.05,48.05,0,0,0,176,128ZM58.34,69.66A8,8,0,0,0,69.66,58.34l-16-16A8,8,0,0,0,42.34,53.66Zm0,116.68-16,16a8,8,0,0,0,11.32,11.32l16-16a8,8,0,0,0-11.32-11.32ZM192,72a8,8,0,0,0,5.66-2.34l16-16a8,8,0,0,0-11.32-11.32l-16,16A8,8,0,0,0,192,72Zm5.66,114.34a8,8,0,0,0-11.32,11.32l16,16a8,8,0,0,0,11.32-11.32ZM48,128a8,8,0,0,0-8-8H16a8,8,0,0,0,0,16H40A8,8,0,0,0,48,128Zm80,80a8,8,0,0,0-8,8v24a8,8,0,0,0,16,0V216A8,8,0,0,0,128,208Zm112-88H216a8,8,0,0,0,0,16h24a8,8,0,0,0,0-16Z"></path>
                             </svg>
-                        </div>
-                        <div id="theme-icon-moon" data-icon="Moon" data-size="20px" data-weight="regular">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" fill="currentColor"
-                                viewBox="0 0 256 256">
-                                <path
-                                    d="M216.49,155.23a8,8,0,0,0-9.15-1.25,72,72,0,0,1-79.83-79.83,8,8,0,0,0-1.25-9.15,88.08,88.08,0,0,0-120.7,120.7,8,8,0,0,0,9.15,1.25,72,72,0,0,1,79.83,79.83,8,8,0,0,0,1.25,9.15,88.08,88.08,0,0,0,120.7-120.7Z">
-                                </path>
+                            <svg class="theme-icon-right moon-icon-track" xmlns="http://www.w3.org/2000/svg" width="12" height="12" fill="currentColor" viewBox="0 0 256 256"></svg>
+                                <path d="M216.49,155.23a8,8,0,0,0-9.15-1.25,72,72,0,0,1-79.83-79.83,8,8,0,0,0-1.25-9.15,88.08,88.08,0,0,0-120.7,120.7,8,8,0,0,0,9.15,1.25,72,72,0,0,1,79.83,79.83,8,8,0,0,0,1.25,9.15,88.08,88.08,0,0,0,120.7-120.7Z"></path>
                             </svg>
+                            <div class="theme-toggle-thumb"></div>
                         </div>
                     </button>
 
                     <div class="flex items-center gap-4">
-                        {% if session['user_id'] %}
-                        <a href="{{ url_for('profile') }}"
-                            class="bg-center bg-no-repeat aspect-square bg-cover rounded-full size-10 cursor-pointer"
-                            style='background-image: url("{{ current_user.avatar_url or '
-                            https://lh3.googleusercontent.com/aida-public/AB6AXuDrz4mlsCszEkSqozWOwDmaR18kSfdDNs4JP2bYQHb01gkm8uSjnXbnFVRR_rJ140jGnlAK6X3cL5AugqbciZIheKCoh04rtuhusKJgTGKauxmy4ej-DbjHtkLzsFEKCkNiK4l6fSde1lXmsuNPEtQRIfc7ZOiHuqUrh-wHSFfsfZUoRhISFQp7ZUtD8fGCprWh6cb2VfVElTaln6-WYqDe5bleg0v3xUdsBUiYB46qo9MjBlyiORo4Cz4dvf6XzlIbH0piqoTuitdE'
-                            }}");'>
+                        {% if session.get('user_id') %}
+                        {% if session.get('is_admin') %}
+                        <a href="{{ url_for('admin_dashboard') }}" 
+                           class="flex items-center gap-2 text-sm font-medium leading-normal text-[#33c46b] hover:underline"
+                           title="Admin Panel">
+                            <i class="fas fa-shield-alt"></i>
+                            <span>Admin</span>
                         </a>
-                        <a class="text-sm font-medium leading-normal" href="{{ url_for('logout') }}">Logout</a>
+                        {% endif %}
+                        <a href="{{ url_for('profile') }}" 
+                           class="w-10 h-10 bg-gradient-to-r from-[#9de1f5] to-[#33c46b] rounded-full flex items-center justify-center text-white font-bold text-lg cursor-pointer hover:scale-110 transition-transform duration-300"
+                           title="View Profile">
+                            {{ session.get('user_initial', 'U') }}
+                        </a>
                         {% else %}
                         <a id="login-button" class="text-sm font-medium leading-normal cursor-pointer">Login</a>
                         {% endif %}
@@ -182,21 +214,26 @@
             <!-- Login Form -->
             <form id="login-form" class="login-form">
                 <div class="form-group">
-                    <label for="login-username">Username</label>
+                    <label for="login-username">Username or Email</label>
                     <div class="input-wrapper">
                         <input
                             type="text"
                             name="username"
                             id="login-username"
                             required
-                            placeholder="Enter your username"
+                            placeholder="Enter your username or email"
                         />
-                        <i class="fas fa-user input-icon"></i>
+                        <i class="fas fa-user-circle input-icon"></i>
                     </div>
                 </div>
 
                 <div class="form-group">
-                    <label for="login-password">Password</label>
+                    <div class="flex items-center justify-between mb-2">
+                        <label for="login-password">Password</label>
+                        <a id="forgot-password-link" class="text-xs text-[#33c46b] hover:underline cursor-pointer">
+                            Forgot Password?
+                        </a>
+                    </div>
                     <div class="input-wrapper">
                         <input
                             type="password"
@@ -242,31 +279,20 @@
             <!-- Signup Form -->
             <form id="signup-form" class="login-form">
                 <div class="form-group">
-                    <label for="signup-username">Username</label>
-                    <div class="input-wrapper">
-                        <input
-                            type="text"
-                            name="username"
-                            id="signup-username"
-                            required
-                            placeholder="Choose a username"
-                        />
-                        <i class="fas fa-user input-icon"></i>
-                    </div>
-                </div>
-
-                <div class="form-group">
-                    <label for="signup-email">Email</label>
+                    <label for="signup-email">Email Address</label>
                     <div class="input-wrapper">
                         <input
                             type="email"
                             name="email"
                             id="signup-email"
                             required
-                            placeholder="Enter your email"
+                            placeholder="Enter your email address"
+                            pattern="[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}"
                         />
                         <i class="fas fa-envelope input-icon"></i>
+                        <i class="fas fa-check-circle email-valid-icon" id="email-valid-icon" style="display: none;"></i>
                     </div>
+                    <p class="email-validation-text" id="email-validation-text"></p>
                 </div>
 
                 <div class="form-group">
@@ -277,14 +303,42 @@
                             name="password"
                             id="signup-password"
                             required
-                            placeholder="Create a password"
+                            placeholder="Create a strong password"
+                            minlength="8"
                         />
                         <i class="fas fa-lock input-icon"></i>
                         <i class="fas fa-eye password-toggle" id="signup-password-toggle" title="Show/Hide Password"></i>
                     </div>
+                    <!-- Password Strength Indicator -->
+                    <div class="password-strength-bar" id="password-strength-bar" style="display: none;">
+                        <div class="password-strength-fill" id="password-strength-fill"></div>
+                    </div>
+                    <p class="password-strength-text" id="password-strength-text"></p>
+                    <div class="password-requirements" id="password-requirements" style="display: none;">
+                        <p class="requirement" id="req-length"><i class="fas fa-circle"></i> At least 8 characters</p>
+                        <p class="requirement" id="req-uppercase"><i class="fas fa-circle"></i> One uppercase letter</p>
+                        <p class="requirement" id="req-lowercase"><i class="fas fa-circle"></i> One lowercase letter</p>
+                        <p class="requirement" id="req-number"><i class="fas fa-circle"></i> One number</p>
+                    </div>
                 </div>
 
-                <button type="submit" class="submit-btn">
+                <div class="form-group">
+                    <label for="signup-confirm-password">Confirm Password</label>
+                    <div class="input-wrapper">
+                        <input
+                            type="password"
+                            name="confirm_password"
+                            id="signup-confirm-password"
+                            required
+                            placeholder="Re-enter your password"
+                        />
+                        <i class="fas fa-lock input-icon"></i>
+                        <i class="fas fa-eye password-toggle" id="signup-confirm-password-toggle" title="Show/Hide Password"></i>
+                    </div>
+                    <p class="password-match-text" id="password-match-text"></p>
+                </div>
+
+                <button type="submit" class="submit-btn" id="signup-submit-btn" disabled>
                     <i class="fas fa-user-plus"></i> Create Account
                 </button>
             </form>
@@ -299,27 +353,60 @@
         </div>
     </div>
 
+    <!-- Forgot Password Modal -->
+    <div id="forgot-password-modal" class="hidden popup-overlay">
+        <div class="login-container">
+            <!-- Close Button -->
+            <button id="close-forgot-password-modal" class="close-btn" title="Close">
+                <i class="fas fa-times"></i>
+            </button>
+
+            <!-- Header -->
+            <div class="login-header">
+                <h2><i class="fas fa-key"></i> Reset Password</h2>
+                <p>Enter your email to receive reset instructions</p>
+            </div>
+
+            <!-- Forgot Password Form -->
+            <form id="forgot-password-form" class="login-form">
+                <div class="form-group">
+                    <label for="forgot-email">Email Address</label>
+                    <div class="input-wrapper">
+                        <input
+                            type="email"
+                            name="email"
+                            id="forgot-email"
+                            required
+                            placeholder="Enter your email address"
+                        />
+                        <i class="fas fa-envelope input-icon"></i>
+                    </div>
+                </div>
+
+                <button type="submit" class="submit-btn">
+                    <i class="fas fa-paper-plane"></i> Send Reset Link
+                </button>
+            </form>
+
+            <div id="forgot-password-message" class="text-sm mt-2 p-2 rounded" style="display: none;"></div>
+
+            <!-- Footer -->
+            <div class="login-footer">
+                <p>Remember your password?</p>
+                <a id="back-to-login">Sign In</a>
+            </div>
+        </div>
+    </div>
+
     <!-- Theme Toggle Script -->
     <script>
         document.addEventListener('DOMContentLoaded', function () {
             const themeToggle = document.getElementById('theme-toggle');
-            const sunIcon = document.getElementById('theme-icon-sun');
-            const moonIcon = document.getElementById('theme-icon-moon');
 
-            if (!themeToggle || !sunIcon || !moonIcon) {
-                console.error('Theme toggle elements not found');
+            if (!themeToggle) {
+                console.error('Theme toggle element not found');
                 return;
             }
-
-            const updateIcons = (theme) => {
-                if (theme === 'dark') {
-                    sunIcon.classList.remove('hidden');
-                    moonIcon.classList.add('hidden');
-                } else {
-                    sunIcon.classList.add('hidden');
-                    moonIcon.classList.remove('hidden');
-                }
-            };
 
             const toggleTheme = () => {
                 const currentTheme = document.documentElement.classList.contains('dark') ? 'dark' : 'light';
@@ -327,15 +414,10 @@
 
                 localStorage.setItem('theme', newTheme);
                 applyTheme(newTheme);
-                updateIcons(newTheme);
             };
 
             // Set up click event listener
             themeToggle.addEventListener('click', toggleTheme);
-
-            // Initialize icons based on current theme
-            const currentTheme = localStorage.getItem('theme') || 'dark';
-            updateIcons(currentTheme);
         });
     </script>
 
@@ -350,9 +432,200 @@
             const signupModal = document.getElementById('signup-modal');
             const closeSignupModal = document.getElementById('close-signup-modal');
             const showLoginModal = document.getElementById('show-login-modal');
+            
+            const forgotPasswordModal = document.getElementById('forgot-password-modal');
+            const closeForgotPasswordModal = document.getElementById('close-forgot-password-modal');
+            const forgotPasswordLink = document.getElementById('forgot-password-link');
+            const backToLogin = document.getElementById('back-to-login');
 
             const loginPasswordToggle = document.getElementById('login-password-toggle');
             const signupPasswordToggle = document.getElementById('signup-password-toggle');
+            const signupConfirmPasswordToggle = document.getElementById('signup-confirm-password-toggle');
+            
+            // Email validation
+            const signupEmail = document.getElementById('signup-email');
+            const emailValidIcon = document.getElementById('email-valid-icon');
+            const emailValidationText = document.getElementById('email-validation-text');
+            
+            // Password strength validation
+            const signupPassword = document.getElementById('signup-password');
+            const signupConfirmPassword = document.getElementById('signup-confirm-password');
+            const passwordStrengthFill = document.getElementById('password-strength-fill');
+            const passwordStrengthText = document.getElementById('password-strength-text');
+            const passwordMatchText = document.getElementById('password-match-text');
+            const signupSubmitBtn = document.getElementById('signup-submit-btn');
+            
+            const requirements = {
+                length: document.getElementById('req-length'),
+                uppercase: document.getElementById('req-uppercase'),
+                lowercase: document.getElementById('req-lowercase'),
+                number: document.getElementById('req-number')
+            };
+            
+            function checkPasswordStrength(password) {
+                // Show requirements when user starts typing
+                const passwordStrengthBar = document.getElementById('password-strength-bar');
+                const passwordRequirements = document.getElementById('password-requirements');
+                
+                if (password.length > 0) {
+                    passwordStrengthBar.style.display = 'block';
+                    passwordRequirements.style.display = 'block';
+                } else {
+                    passwordStrengthBar.style.display = 'none';
+                    passwordRequirements.style.display = 'none';
+                    passwordStrengthText.textContent = '';
+                    return false;
+                }
+                
+                let strength = 0;
+                const checks = {
+                    length: password.length >= 8,
+                    uppercase: /[A-Z]/.test(password),
+                    lowercase: /[a-z]/.test(password),
+                    number: /[0-9]/.test(password)
+                };
+                
+                // Update requirement indicators
+                Object.keys(checks).forEach(key => {
+                    if (checks[key]) {
+                        requirements[key].classList.add('met');
+                        strength++;
+                    } else {
+                        requirements[key].classList.remove('met');
+                    }
+                });
+                
+                // Update strength bar and text
+                passwordStrengthFill.className = 'password-strength-fill';
+                passwordStrengthText.className = 'password-strength-text';
+                
+                if (strength === 1) {
+                    passwordStrengthFill.classList.add('weak');
+                    passwordStrengthText.classList.add('weak');
+                    passwordStrengthText.textContent = 'Weak';
+                } else if (strength === 2) {
+                    passwordStrengthFill.classList.add('fair');
+                    passwordStrengthText.classList.add('fair');
+                    passwordStrengthText.textContent = 'Fair';
+                } else if (strength === 3) {
+                    passwordStrengthFill.classList.add('good');
+                    passwordStrengthText.classList.add('good');
+                    passwordStrengthText.textContent = 'Good';
+                } else if (strength === 4) {
+                    passwordStrengthFill.classList.add('strong');
+                    passwordStrengthText.classList.add('strong');
+                    passwordStrengthText.textContent = 'Strong!';
+                }
+                
+                return strength === 4;
+            }
+            
+            function checkPasswordMatch() {
+                const password = signupPassword.value;
+                const confirmPassword = signupConfirmPassword.value;
+                
+                if (confirmPassword === '') {
+                    passwordMatchText.textContent = '';
+                    passwordMatchText.className = 'password-match-text';
+                    return false;
+                } else if (password === confirmPassword) {
+                    passwordMatchText.textContent = '✓ Passwords match';
+                    passwordMatchText.className = 'password-match-text match';
+                    return true;
+                } else {
+                    passwordMatchText.textContent = '✗ Passwords do not match';
+                    passwordMatchText.className = 'password-match-text no-match';
+                    return false;
+                }
+            }
+            
+            function validateEmail(email, showError = false) {
+                // Comprehensive email validation
+                const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+                
+                // Don't show anything if empty
+                if (email === '') {
+                    emailValidIcon.style.display = 'none';
+                    emailValidationText.textContent = '';
+                    emailValidationText.className = 'email-validation-text';
+                    return false;
+                }
+                
+                // Full regex validation
+                if (emailRegex.test(email)) {
+                    // Valid email - show green checkmark icon
+                    emailValidIcon.style.display = 'block';
+                    emailValidationText.textContent = '';
+                    emailValidationText.className = 'email-validation-text';
+                    return true;
+                } else {
+                    // Invalid email
+                    emailValidIcon.style.display = 'none';
+                    
+                    // Only show error message if showError is true (on blur)
+                    if (showError && email.length > 0) {
+                        if (!email.includes('@')) {
+                            emailValidationText.textContent = '✗ Email must contain @';
+                            emailValidationText.className = 'email-validation-text invalid';
+                        } else if (!email.split('@')[1] || !email.split('@')[1].includes('.')) {
+                            emailValidationText.textContent = '✗ Invalid email format';
+                            emailValidationText.className = 'email-validation-text invalid';
+                        } else {
+                            emailValidationText.textContent = '✗ Invalid email format';
+                            emailValidationText.className = 'email-validation-text invalid';
+                        }
+                    } else {
+                        // While typing, don't show error
+                        emailValidationText.textContent = '';
+                        emailValidationText.className = 'email-validation-text';
+                    }
+                    return false;
+                }
+            }
+            
+            function updateSignupButton() {
+                const isValidEmail = validateEmail(signupEmail.value);
+                const isStrongPassword = checkPasswordStrength(signupPassword.value);
+                const passwordsMatch = checkPasswordMatch();
+                
+                if (isValidEmail && isStrongPassword && passwordsMatch && signupPassword.value.length >= 8) {
+                    signupSubmitBtn.disabled = false;
+                    signupSubmitBtn.style.opacity = '1';
+                    signupSubmitBtn.style.cursor = 'pointer';
+                } else {
+                    signupSubmitBtn.disabled = true;
+                    signupSubmitBtn.style.opacity = '0.5';
+                    signupSubmitBtn.style.cursor = 'not-allowed';
+                }
+            }
+            
+            if (signupEmail) {
+                // While typing - validate but don't show errors
+                signupEmail.addEventListener('input', () => {
+                    validateEmail(signupEmail.value, false);
+                    updateSignupButton();
+                });
+                
+                // When user leaves field - show errors if invalid
+                signupEmail.addEventListener('blur', () => {
+                    validateEmail(signupEmail.value, true);
+                });
+                
+                // When user focuses back - hide errors
+                signupEmail.addEventListener('focus', () => {
+                    if (!validateEmail(signupEmail.value, false)) {
+                        emailValidationText.textContent = '';
+                    }
+                });
+            }
+            
+            if (signupPassword) {
+                signupPassword.addEventListener('input', updateSignupButton);
+            }
+            
+            if (signupConfirmPassword) {
+                signupConfirmPassword.addEventListener('input', updateSignupButton);
+            }
 
             // Beautiful modal open/close functions
             const openModal = (modal) => {
@@ -408,6 +681,24 @@
                     setTimeout(() => openModal(loginModal), 300);
                 });
             }
+            
+            if (forgotPasswordLink) {
+                forgotPasswordLink.addEventListener('click', () => {
+                    closeModal(loginModal);
+                    setTimeout(() => openModal(forgotPasswordModal), 300);
+                });
+            }
+            
+            if (closeForgotPasswordModal) {
+                closeForgotPasswordModal.addEventListener('click', () => closeModal(forgotPasswordModal));
+            }
+            
+            if (backToLogin) {
+                backToLogin.addEventListener('click', () => {
+                    closeModal(forgotPasswordModal);
+                    setTimeout(() => openModal(loginModal), 300);
+                });
+            }
 
             // Password toggle event listeners
             if (loginPasswordToggle) {
@@ -423,6 +714,13 @@
                     togglePassword(passwordInput, signupPasswordToggle);
                 });
             }
+            
+            if (signupConfirmPasswordToggle) {
+                signupConfirmPasswordToggle.addEventListener('click', () => {
+                    const passwordInput = document.getElementById('signup-confirm-password');
+                    togglePassword(passwordInput, signupConfirmPasswordToggle);
+                });
+            }
 
             // Close modal when clicking outside
             loginModal && loginModal.addEventListener('click', function(e) {
@@ -436,6 +734,12 @@
                     closeModal(signupModal);
                 }
             });
+            
+            forgotPasswordModal && forgotPasswordModal.addEventListener('click', function(e) {
+                if (e.target === this) {
+                    closeModal(forgotPasswordModal);
+                }
+            });
 
             // Close modal with Escape key
             document.addEventListener('keydown', function(e) {
@@ -445,6 +749,9 @@
                     }
                     if (signupModal && !signupModal.classList.contains('hidden')) {
                         closeModal(signupModal);
+                    }
+                    if (forgotPasswordModal && !forgotPasswordModal.classList.contains('hidden')) {
+                        closeModal(forgotPasswordModal);
                     }
                 }
             });
@@ -516,15 +823,15 @@
                                 closeModal(signupModal);
                                 setTimeout(() => {
                                     openModal(loginModal);
-                                    // Show success message in login modal
+                                    // Show success message in login modal with username
                                     const loginHeader = loginModal.querySelector('.login-header p');
                                     const originalLoginText = loginHeader.textContent;
-                                    loginHeader.textContent = '✓ Account created successfully! Please sign in.';
-                                    loginHeader.style.color = '#10B981';
+                                    loginHeader.innerHTML = `✓ Account created! Your username is: <strong>${result.username}</strong>`;
+                                    loginHeader.style.color = '#33c46b';
                                     setTimeout(() => {
                                         loginHeader.textContent = originalLoginText;
                                         loginHeader.style.color = '';
-                                    }, 3000);
+                                    }, 5000);
                                 }, 300);
                             }, 1000);
                         } else {
@@ -543,8 +850,43 @@
                     }
                 });
             }
+            
+            // Forgot Password Form Handler
+            const forgotPasswordForm = document.getElementById('forgot-password-form');
+            if (forgotPasswordForm) {
+                forgotPasswordForm.addEventListener('submit', async (e) => {
+                    e.preventDefault();
+                    const submitBtn = forgotPasswordForm.querySelector('.submit-btn');
+                    const originalText = submitBtn.innerHTML;
+                    const messageDiv = document.getElementById('forgot-password-message');
+                    
+                    // Add loading state
+                    submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Sending...';
+                    submitBtn.disabled = true;
+                    messageDiv.style.display = 'none';
+                    
+                    // Simulate sending email (you'll need to implement backend)
+                    setTimeout(() => {
+                        submitBtn.innerHTML = '<i class="fas fa-check"></i> Email Sent!';
+                        messageDiv.textContent = '✓ Password reset instructions have been sent to your email.';
+                        messageDiv.className = 'text-sm mt-2 p-2 rounded bg-green-50 dark:bg-green-900/20 text-green-600 dark:text-green-400';
+                        messageDiv.style.display = 'block';
+                        
+                        setTimeout(() => {
+                            closeModal(forgotPasswordModal);
+                            forgotPasswordForm.reset();
+                            submitBtn.innerHTML = originalText;
+                            submitBtn.disabled = false;
+                            messageDiv.style.display = 'none';
+                        }, 3000);
+                    }, 1500);
+                });
+            }
         });
     </script>
+
+    <!-- Animations Script -->
+    <script src="{{ url_for('static', filename='js/animations.js') }}"></script>
 
 </body>
 

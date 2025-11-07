@@ -3,76 +3,130 @@
 {% block title %}Edit Profile{% endblock %}
 
 {% block content %}
-    <div class="max-w-4xl mx-auto">
-        <div class="bg-white dark:bg-[#223449] rounded-lg shadow-md p-6">
-            <h1 class="text-3xl font-bold text-black dark:text-white mb-6">Edit Profile</h1>
+    <div class="max-w-4xl mx-auto reveal">
+        <div class="bg-gray-100 dark:bg-[#182534] rounded-lg p-8 border border-gray-200 dark:border-[#314b68]">
+            <div class="flex items-center justify-between mb-8">
+                <h1 class="text-3xl font-black gradient-text-animated">Edit Profile</h1>
+                <a href="{{ url_for('profile') }}" 
+                   class="text-gray-600 dark:text-[#90abcb] hover:text-[#33c46b] transition-colors flex items-center gap-2">
+                    <i class="fas fa-arrow-left"></i>
+                    <span>Back to Profile</span>
+                </a>
+            </div>
 
-            <form method="post" class="space-y-6">
+            <form method="post" class="space-y-8">
                 <!-- Basic Information Section -->
                 <div>
-                    <h2 class="text-xl font-semibold text-black dark:text-white mb-4">Basic Information</h2>
+                    <h2 class="text-xl font-bold text-black dark:text-white mb-6 flex items-center gap-2 pb-3 border-b border-gray-200 dark:border-[#314b68]">
+                        <i class="fas fa-user text-[#33c46b]"></i>
+                        Basic Information
+                    </h2>
                     <div class="grid md:grid-cols-2 gap-6">
-                        <div>
-                            <label for="first_name" class="block text-sm font-medium text-gray-600 dark:text-gray-400 mb-1">First Name</label>
+                        <div class="form-group md:col-span-2">
+                            <label for="username" class="block text-sm font-medium text-black dark:text-white mb-2">
+                                <i class="fas fa-at text-[#33c46b] mr-2"></i>Username
+                            </label>
+                            <input type="text" name="username" id="username" value="{{ user.username }}"
+                                   class="w-full px-4 py-3 border border-gray-200 dark:border-[#314b68] rounded-lg focus:outline-none focus:ring-2 focus:ring-[#33c46b] focus:border-transparent bg-white dark:bg-[#101923] text-black dark:text-white placeholder:text-gray-400 dark:placeholder:text-[#90abcb] transition-all"
+                                   placeholder="Your unique username" required>
+                            <p class="text-xs text-gray-500 dark:text-[#90abcb] mt-1">
+                                <i class="fas fa-info-circle"></i> This is your unique identifier on the platform
+                            </p>
+                        </div>
+                        <div class="form-group">
+                            <label for="first_name" class="block text-sm font-medium text-black dark:text-white mb-2">
+                                <i class="fas fa-user-circle text-[#33c46b] mr-2"></i>First Name
+                            </label>
                             <input type="text" name="first_name" id="first_name" value="{{ user.first_name or '' }}"
-                                   class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white">
+                                   class="w-full px-4 py-3 border border-gray-200 dark:border-[#314b68] rounded-lg focus:outline-none focus:ring-2 focus:ring-[#33c46b] focus:border-transparent bg-white dark:bg-[#101923] text-black dark:text-white placeholder:text-gray-400 dark:placeholder:text-[#90abcb] transition-all"
+                                   placeholder="Enter your first name">
                         </div>
-                        <div>
-                            <label for="last_name" class="block text-sm font-medium text-gray-600 dark:text-gray-400 mb-1">Last Name</label>
+                        <div class="form-group">
+                            <label for="last_name" class="block text-sm font-medium text-black dark:text-white mb-2">
+                                <i class="fas fa-user-circle text-[#33c46b] mr-2"></i>Last Name
+                            </label>
                             <input type="text" name="last_name" id="last_name" value="{{ user.last_name or '' }}"
-                                   class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white">
+                                   class="w-full px-4 py-3 border border-gray-200 dark:border-[#314b68] rounded-lg focus:outline-none focus:ring-2 focus:ring-[#33c46b] focus:border-transparent bg-white dark:bg-[#101923] text-black dark:text-white placeholder:text-gray-400 dark:placeholder:text-[#90abcb] transition-all"
+                                   placeholder="Enter your last name">
                         </div>
-                        <div>
-                            <label for="location" class="block text-sm font-medium text-gray-600 dark:text-gray-400 mb-1">Location</label>
+                        <div class="form-group">
+                            <label for="location" class="block text-sm font-medium text-black dark:text-white mb-2">
+                                <i class="fas fa-map-marker-alt text-[#33c46b] mr-2"></i>Location
+                            </label>
                             <input type="text" name="location" id="location" value="{{ user.location or '' }}"
-                                   class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white">
+                                   class="w-full px-4 py-3 border border-gray-200 dark:border-[#314b68] rounded-lg focus:outline-none focus:ring-2 focus:ring-[#33c46b] focus:border-transparent bg-white dark:bg-[#101923] text-black dark:text-white placeholder:text-gray-400 dark:placeholder:text-[#90abcb] transition-all"
+                                   placeholder="City, Country">
                         </div>
-                        <div>
-                            <label for="website" class="block text-sm font-medium text-gray-600 dark:text-gray-400 mb-1">Website</label>
+                        <div class="form-group">
+                            <label for="website" class="block text-sm font-medium text-black dark:text-white mb-2">
+                                <i class="fas fa-globe text-[#33c46b] mr-2"></i>Website
+                            </label>
                             <input type="url" name="website" id="website" value="{{ user.website or '' }}"
-                                   class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white">
+                                   class="w-full px-4 py-3 border border-gray-200 dark:border-[#314b68] rounded-lg focus:outline-none focus:ring-2 focus:ring-[#33c46b] focus:border-transparent bg-white dark:bg-[#101923] text-black dark:text-white placeholder:text-gray-400 dark:placeholder:text-[#90abcb] transition-all"
+                                   placeholder="https://yourwebsite.com">
                         </div>
                     </div>
                 </div>
 
                 <!-- Bio Section -->
                 <div>
-                    <label for="bio" class="block text-sm font-medium text-gray-600 dark:text-gray-400 mb-1">Bio</label>
-                    <textarea name="bio" id="bio" rows="4"
-                              class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white">{{ user.bio or '' }}</textarea>
+                    <h2 class="text-xl font-bold text-black dark:text-white mb-6 flex items-center gap-2 pb-3 border-b border-gray-200 dark:border-[#314b68]">
+                        <i class="fas fa-info-circle text-[#33c46b]"></i>
+                        About You
+                    </h2>
+                    <div class="form-group">
+                        <label for="bio" class="block text-sm font-medium text-black dark:text-white mb-2">Bio</label>
+                        <textarea name="bio" id="bio" rows="5"
+                                  class="w-full px-4 py-3 border border-gray-200 dark:border-[#314b68] rounded-lg focus:outline-none focus:ring-2 focus:ring-[#33c46b] focus:border-transparent bg-white dark:bg-[#101923] text-black dark:text-white placeholder:text-gray-400 dark:placeholder:text-[#90abcb] resize-none transition-all"
+                                  placeholder="Tell us about yourself...">{{ user.bio or '' }}</textarea>
+                    </div>
                 </div>
 
                 <!-- Social Profiles Section -->
                 <div>
-                    <h2 class="text-xl font-semibold text-black dark:text-white mb-4">Social Profiles</h2>
+                    <h2 class="text-xl font-bold text-black dark:text-white mb-6 flex items-center gap-2 pb-3 border-b border-gray-200 dark:border-[#314b68]">
+                        <i class="fas fa-share-alt text-[#33c46b]"></i>
+                        Social Profiles
+                    </h2>
                     <div class="space-y-4">
-                        <div>
-                            <label for="github_username" class="block text-sm font-medium text-gray-600 dark:text-gray-400 mb-1">GitHub Username</label>
+                        <div class="form-group">
+                            <label for="github_username" class="block text-sm font-medium text-black dark:text-white mb-2">
+                                <i class="fab fa-github text-[#33c46b] mr-2"></i>GitHub Username
+                            </label>
                             <input type="text" name="github_username" id="github_username" value="{{ user.github_username or '' }}"
-                                   class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white">
+                                   class="w-full px-4 py-3 border border-gray-200 dark:border-[#314b68] rounded-lg focus:outline-none focus:ring-2 focus:ring-[#33c46b] focus:border-transparent bg-white dark:bg-[#101923] text-black dark:text-white placeholder:text-gray-400 dark:placeholder:text-[#90abcb] transition-all"
+                                   placeholder="yourusername">
                         </div>
-                        <div>
-                            <label for="linkedin_username" class="block text-sm font-medium text-gray-600 dark:text-gray-400 mb-1">LinkedIn Username</label>
+                        <div class="form-group">
+                            <label for="linkedin_username" class="block text-sm font-medium text-black dark:text-white mb-2">
+                                <i class="fab fa-linkedin text-[#33c46b] mr-2"></i>LinkedIn Username
+                            </label>
                             <input type="text" name="linkedin_username" id="linkedin_username" value="{{ user.linkedin_username or '' }}"
-                                   class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white">
+                                   class="w-full px-4 py-3 border border-gray-200 dark:border-[#314b68] rounded-lg focus:outline-none focus:ring-2 focus:ring-[#33c46b] focus:border-transparent bg-white dark:bg-[#101923] text-black dark:text-white placeholder:text-gray-400 dark:placeholder:text-[#90abcb] transition-all"
+                                   placeholder="yourusername">
                         </div>
-                        <div>
-                            <label for="twitter_username" class="block text-sm font-medium text-gray-600 dark:text-gray-400 mb-1">Twitter Username</label>
+                        <div class="form-group">
+                            <label for="twitter_username" class="block text-sm font-medium text-black dark:text-white mb-2">
+                                <i class="fab fa-twitter text-[#33c46b] mr-2"></i>Twitter Username
+                            </label>
                             <input type="text" name="twitter_username" id="twitter_username" value="{{ user.twitter_username or '' }}"
-                                   class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white">
+                                   class="w-full px-4 py-3 border border-gray-200 dark:border-[#314b68] rounded-lg focus:outline-none focus:ring-2 focus:ring-[#33c46b] focus:border-transparent bg-white dark:bg-[#101923] text-black dark:text-white placeholder:text-gray-400 dark:placeholder:text-[#90abcb] transition-all"
+                                   placeholder="yourusername">
                         </div>
                     </div>
                 </div>
 
                 <!-- Form Actions -->
-                <div class="flex justify-end space-x-4">
+                <div class="flex justify-end gap-4 pt-6 border-t border-gray-200 dark:border-[#314b68]">
                     <a href="{{ url_for('profile') }}" 
-                       class="bg-gray-500 hover:bg-gray-600 text-white px-4 py-2 rounded-md transition duration-200">
-                        Cancel
+                       class="flex items-center gap-2 rounded-lg h-12 px-8 bg-gray-200 dark:bg-[#223449] hover:bg-gray-300 dark:hover:bg-[#314b68] text-black dark:text-white font-bold transition-all duration-300">
+                        <i class="fas fa-times"></i>
+                        <span>Cancel</span>
                     </a>
                     <button type="submit" 
-                            class="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-md transition duration-200">
-                        Save Changes
+                            class="flex items-center gap-2 rounded-lg h-12 px-8 bg-gradient-to-r from-[#9de1f5] to-[#33c46b] hover:opacity-90 text-white font-bold transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-xl btn-glow">
+                        <i class="fas fa-save"></i>
+                        <span>Save Changes</span>
                     </button>
                 </div>
             </form>

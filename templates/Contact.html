@@ -3,116 +3,224 @@
 {% block title %}Contact - Mr. Curious's Portfolio{% endblock %}
 
 {% block content %}
-          <div class="grid md:grid-cols-2 gap-16">
-            <div>
-              <h2 class="text-black dark:text-white text-[22px] font-bold leading-tight tracking-[-0.015em] px-4 pb-3 pt-5">Contact Me</h2>
-              <form class="space-y-4">
-                <div class="form-group">
-                  <label for="contact-name">Name</label>
-                  <div class="input-wrapper">
-                    <input
-                      type="text"
-                      name="name"
-                      id="contact-name"
-                      required
-                      placeholder="Enter your name"
-                      class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white"
-                    />
-                    <i class="fas fa-user input-icon"></i>
-                  </div>
-                </div>
-                <div class="form-group">
-                  <label for="contact-email">Email</label>
-                  <div class="input-wrapper">
-                    <input
-                      type="email"
-                      name="email"
-                      id="contact-email"
-                      required
-                      placeholder="Enter your email"
-                      class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white"
-                    />
-                    <i class="fas fa-envelope input-icon"></i>
-                  </div>
-                </div>
-                <div class="form-group">
-                  <label for="contact-message">Message</label>
-                  <div class="input-wrapper">
-                    <textarea
-                      name="message"
-                      id="contact-message"
-                      required
-                      placeholder="Enter your message"
-                      rows="4"
-                      class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white"
-                    ></textarea>
-                    <i class="fas fa-comment-dots input-icon"></i>
-                  </div>
-                </div>
-                <div class="flex px-4 py-3 justify-end">
-              <button
-              class="flex min-w-[84px] max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-lg h-10 px-6 bg-gradient-to-r from-[#9de1f5] to-[#33c46b] hover:opacity-90 text-white text-sm font-bold leading-normal tracking-[0.015em] transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-xl glow-on-hover">
-              <i class="fas fa-paper-plane mr-2"></i>
-              <span class="truncate">Send Message</span>
-            </button>
-            </div>
-              </form>
-            </div>
+<div class="page-transition max-w-7xl mx-auto">
+  
+  <!-- Hero Section -->
+  <div class="text-center mb-6 reveal">
+    <h1 class="gradient-text-animated text-4xl md:text-5xl font-black mb-4">Get In Touch</h1>
+    <p class="text-gray-600 dark:text-[#90abcb] text-lg max-w-2xl mx-auto">
+      Have a project in mind or just want to chat? I'd love to hear from you!
+    </p>
+  </div>
 
-          </div>
-          <h2 class="text-black dark:text-white text-[22px] font-bold leading-tight tracking-[-0.015em] px-4 pb-3 pt-5">Recent Social
-            Posts</h2>
-          <div
-            class="flex overflow-y-auto [-ms-scrollbar-style:none] [scrollbar-width:none] [&amp;::-webkit-scrollbar]:hidden">
-            <div class="flex items-stretch p-4 gap-3">
-              <div class="flex h-full flex-1 flex-col gap-4 rounded-lg min-w-40">
-                <div class="w-full bg-center bg-no-repeat aspect-square bg-cover rounded-xl flex flex-col"
-                  style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuDCqKxKvXsM02hIwGrlhS3yqgLKLoT46CwJUuEu6ypGL8h87TVZx0JNTjJUbVN6tK_YPpw_3UpWBd7BvFkodQVsJSc_7pPKdHzJlJ28t1k9BvIxz2Oe8KaFDQACWVCWnTdHt79mSKhdrZxX5Gg0K7LgAfqzqccGoZh2TpFxJF_ghBtRFV23t3qR0gB6gIikC6DrpkGJ5sU6KMxeDupmodIEtoyiQa_g8sk8II_dbdPOeH5S9d8SjBI99mAF7zJhYe1Jz6tgl2pOcpqV");'>
-                </div>
-                <p class="text-black dark:text-white text-base font-medium leading-normal">Check out my latest project on GitHub!</p>
-              </div>
-              <div class="flex h-full flex-1 flex-col gap-4 rounded-lg min-w-40">
-                <div class="w-full bg-center bg-no-repeat aspect-square bg-cover rounded-xl flex flex-col"
-                  style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuAgTQrjXvrT91NxGMZ-zUUh_4sfKBZlaG-aJUum16-zRbSYnzCKKvKVYXmcbFJ3KOdBoHphtuhBf3SOyPtYnEprXKjyZ228M73VjZtO1CV_o1OUUEC3_9bU0cFatzkInjVlRSY4kO48lCg5Xgozxoh-ZGl21PCcRf9UCV_wypvcB79OTelAe7un_dk-bmgDca2Krg6iBBpdNlj2uVw7tMiknUEr304AVRs5N3r8Qte6hoNIZKNpJoK8xUtUJ5rRO_GgNW6jiy30ZrhR");'>
-                </div>
-                <p class="text-black dark:text-white text-base font-medium leading-normal">Excited to share my new blog post on Medium.
-                </p>
-              </div>
-              <div class="flex h-full flex-1 flex-col gap-4 rounded-lg min-w-40">
-                <div class="w-full bg-center bg-no-repeat aspect-square bg-cover rounded-xl flex flex-col"
-                  style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuCS0vaqcWu74ThN-3xwMe4XYqDznBhVE6RDZO2q3XkRSjgau-cM8ZYI287edFsFNBeCwkmv0EwaXQr-V3qC4UbrVTQpEfcSavasZNzZvpuP13ozQAfTKMS3Rbhy46WlqPzdCYqtT0Wmw4CRI4LJ6K80ZAs-qfJMYnuNxjva60wWaQUoePiWklilaZewE5zWn3MIJs-8FfkzswGmDnmSJSDUjywGKKC11gt67CzSjYG5P-Ng1Albqko4DHrPBdUd9R9cvBRdByJRbSo2swykfn9rOuNWVG2e5pPD2MHxa5y4aTlNJpc-Q2eR");'>
-                </div>
-                <p class="text-black dark:text-white text-sm font-medium leading-normal">Follow me on Twitter for daily tech updates.
-                </p>
-              </div>
+  <!-- Availability Banner -->
+  <div class="mb-8 reveal">
+    <div class="bg-gradient-to-r from-[#9de1f5]/10 to-[#33c46b]/10 dark:from-[#9de1f5]/5 dark:to-[#33c46b]/5 rounded-lg p-4 border border-gray-200 dark:border-[#314b68]">
+      <div class="flex items-center justify-center gap-3 mb-3">
+        <div class="w-3 h-3 bg-green-500 rounded-full animate-pulse"></div>
+        <h2 class="text-xl font-bold text-black dark:text-white">Available for Work</h2>
+      </div>
+      <p class="text-center text-gray-600 dark:text-[#90abcb] max-w-3xl mx-auto">
+        I'm currently open to freelance projects and full-time opportunities. Whether you need a complete website, a custom web application, or technical consultation, I'm here to help bring your ideas to life.
+      </p>
+    </div>
+  </div>
+
+  <!-- Contact Form Section -->
+  <h2 class="text-black dark:text-white text-[22px] font-bold leading-tight tracking-[-0.015em] px-4 pb-3 pt-5 reveal">Contact Me
+  </h2>
+  <div class="p-4">
+    <form class="space-y-4">
+        <!-- Name and Email Row -->
+        <div class="grid md:grid-cols-2 gap-3">
+          <div class="form-group">
+            <label for="contact-name" class="block text-black dark:text-white text-sm font-medium mb-2">
+              Name
+            </label>
+            <div class="input-wrapper relative">
+              <input
+                type="text"
+                name="name"
+                id="contact-name"
+                required
+                placeholder="Your name"
+                class="w-full px-4 py-3 pl-12 border border-gray-200 dark:border-[#314b68] rounded-lg focus:outline-none focus:ring-2 focus:ring-[#33c46b] focus:border-transparent bg-gray-100 dark:bg-[#182534] text-black dark:text-white placeholder:text-gray-400 dark:placeholder:text-[#90abcb] transition-all form-input-animated"
+              />
+              <i class="fas fa-user absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400 dark:text-[#90abcb]"></i>
             </div>
           </div>
-          <h2 class="text-black dark:text-white text-[22px] font-bold leading-tight tracking-[-0.015em] px-4 pb-3 pt-5">Recent Feedback
-          </h2>
-          <div class="flex w-full flex-row items-start justify-start gap-3 p-4">
-            <div class="bg-center bg-no-repeat aspect-square bg-cover rounded-full w-10 shrink-0"
-              style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuAH5u59IG047i9AHlEwgtsgzKoZD6gO1b_8dG8nfPhpnpzWTMHaAMEjq2i2ZaOwOMAzeNEasdp-qkWA2MMiw3qQaODRA4MPkmhK4pvhkPwsRPdABjT-Nffa2A8WNBOwwi8zEHRFVuwu6hF1I87GTaBPG1O-Mo5qArPOyQ4k1BpF9Ai7phyI7WhTuEdaOqjMYF-aPyahFwjVaERmIp0W4qCqALFGa-VoyAMnTRjlcZkIk6tt7W9wyauIopQ4FPIQU8yJQ4APqTa8TUbm");'>
-            </div>
-            <div class="flex h-full flex-1 flex-col items-start justify-start">
-              <div class="flex w-full flex-row items-start justify-start gap-x-3">
-                <p class="text-black dark:text-white text-sm font-bold leading-normal tracking-[0.015em]">Sahil Jha</p>
-                <p class="text-gray-600 dark:text-[#9eacbd] text-sm font-normal leading-normal">2 hours ago</p>
-              </div>
-              <p class="text-black dark:text-white text-sm font-normal leading-normal">Great work on the portfolio! Really impressed
-                with your project descriptions.</p>
-            </div>
-          </div>
-          <div class="flex w-full flex-row items-start justify-start gap-3 p-4">
-            <div class="bg-center bg-no-repeat aspect-square bg-cover rounded-full w-10 shrink-0"
-              style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuABl1nWH98IgO_PP57ToCuKXXUCiQq7MZCBHUV15E9mVk-B-kwb-G2Av3slHroeIwjpzVR0snAGcAN3EMViTD0F-M1_wHkx3k1s9mdo5BtAyai5XBGs43CVWtb0Xbsy6_Qhcsa7M-O20HAmClieNv6PjXyOhJneHmQoe6dq_o15fRaIV3lZfPBa2TlTcE9HOXktT-1b8BapG4tTCShHMBBZpPatyUotG7YHUn1LeLNx_Zce_mzDwy3eM1vmzVnqb3IGjyocT4JC2djH");'>
-            </div>
-            <div class="flex h-full flex-1 flex-col items-start justify-start">
-              <div class="flex w-full flex-row items-start justify-start gap-x-3">
-                <p class="text-black dark:text-white text-sm font-bold leading-normal tracking-[0.015em]">Khushi Singh</p>
-                <p class="text-gray-600 dark:text-[#9eacbd] text-sm font-normal leading-normal">1 day ago</p>
-              </div>
-              <p class="text-black dark:text-white text-sm font-normal leading-normal">I love the design of your website. It's very
-                clean and easy to navigate.</p>
+
+          <div class="form-group">
+            <label for="contact-email" class="block text-black dark:text-white text-sm font-medium mb-2">
+              Email
+            </label>
+            <div class="input-wrapper relative">
+              <input
+                type="email"
+                name="email"
+                id="contact-email"
+                required
+                placeholder="your@email.com"
+                class="w-full px-4 py-3 pl-12 border border-gray-200 dark:border-[#314b68] rounded-lg focus:outline-none focus:ring-2 focus:ring-[#33c46b] focus:border-transparent bg-gray-100 dark:bg-[#182534] text-black dark:text-white placeholder:text-gray-400 dark:placeholder:text-[#90abcb] transition-all form-input-animated"
+              />
+              <i class="fas fa-envelope absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400 dark:text-[#90abcb]"></i>
             </div>
           </div>
+        </div>
+
+        <!-- Subject -->
+        <div class="form-group">
+          <label for="contact-subject" class="block text-black dark:text-white text-sm font-medium mb-2">
+            Subject
+          </label>
+          <div class="input-wrapper relative">
+            <input
+              type="text"
+              name="subject"
+              id="contact-subject"
+              required
+              placeholder="What's this about?"
+              class="w-full px-4 py-3 pl-12 border border-gray-200 dark:border-[#314b68] rounded-lg focus:outline-none focus:ring-2 focus:ring-[#33c46b] focus:border-transparent bg-gray-100 dark:bg-[#182534] text-black dark:text-white placeholder:text-gray-400 dark:placeholder:text-[#90abcb] transition-all form-input-animated"
+            />
+            <i class="fas fa-tag absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400 dark:text-[#90abcb]"></i>
+          </div>
+        </div>
+
+        <!-- Message -->
+        <div class="form-group">
+          <label for="contact-message" class="block text-black dark:text-white text-sm font-medium mb-2">
+            Message
+          </label>
+          <div class="input-wrapper relative">
+            <textarea
+              name="message"
+              id="contact-message"
+              required
+              placeholder="Tell me about your project..."
+              rows="5"
+              class="w-full px-4 py-3 pl-12 border border-gray-200 dark:border-[#314b68] rounded-lg focus:outline-none focus:ring-2 focus:ring-[#33c46b] focus:border-transparent bg-gray-100 dark:bg-[#182534] text-black dark:text-white placeholder:text-gray-400 dark:placeholder:text-[#90abcb] resize-none transition-all form-input-animated"
+            ></textarea>
+            <i class="fas fa-comment-dots absolute left-4 top-4 text-gray-400 dark:text-[#90abcb]"></i>
+          </div>
+        </div>
+
+        <!-- Submit Button -->
+        <div class="pt-2 flex justify-end">
+          <button type="submit"
+            class="flex items-center justify-center gap-2 rounded-lg h-12 px-8 bg-gradient-to-r from-[#9de1f5] to-[#33c46b] hover:opacity-90 text-white text-base font-bold leading-normal transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-xl btn-glow btn-ripple magnetic-btn">
+            <span>Send Message</span>
+            <i class="fas fa-paper-plane"></i>
+          </button>
+        </div>
+      </form>
+  </div>
+
+  <!-- Stats Section -->
+  <div class="grid grid-cols-2 md:grid-cols-4 gap-3 mb-8 reveal">
+    <div class="bg-gray-100 dark:bg-[#182534] rounded-lg p-4 text-center border border-gray-200 dark:border-[#314b68] card-hover">
+      <div class="text-3xl font-black gradient-text-animated mb-2 counter" data-count="50">0</div>
+      <p class="text-sm text-gray-600 dark:text-[#90abcb]">Projects Completed</p>
+    </div>
+    <div class="bg-gray-100 dark:bg-[#182534] rounded-lg p-4 text-center border border-gray-200 dark:border-[#314b68] card-hover">
+      <div class="text-3xl font-black gradient-text-animated mb-2 counter" data-count="30">0</div>
+      <p class="text-sm text-gray-600 dark:text-[#90abcb]">Happy Clients</p>
+    </div>
+    <div class="bg-gray-100 dark:bg-[#182534] rounded-lg p-4 text-center border border-gray-200 dark:border-[#314b68] card-hover">
+      <div class="text-3xl font-black gradient-text-animated mb-2 counter" data-count="100">0</div>
+      <p class="text-sm text-gray-600 dark:text-[#90abcb]">Cups of Coffee</p>
+    </div>
+    <div class="bg-gray-100 dark:bg-[#182534] rounded-lg p-4 text-center border border-gray-200 dark:border-[#314b68] card-hover">
+      <div class="text-3xl font-black gradient-text-animated mb-2">24h</div>
+      <p class="text-sm text-gray-600 dark:text-[#90abcb]">Response Time</p>
+    </div>
+  </div>
+
+  <!-- Testimonials -->
+  <div class="mb-8">
+    <div class="text-center mb-10 reveal">
+      <h2 class="text-3xl md:text-4xl font-black text-black dark:text-white mb-3">What People Say</h2>
+      <p class="text-gray-600 dark:text-[#90abcb]">Don't just take my word for it</p>
+    </div>
+
+    <div class="grid md:grid-cols-2 gap-3">
+      <div class="bg-gray-100 dark:bg-[#182534] rounded-lg p-4 border border-gray-200 dark:border-[#314b68] card-hover reveal">
+        <div class="flex gap-1 mb-4">
+          <i class="fas fa-star text-yellow-400 text-lg"></i>
+          <i class="fas fa-star text-yellow-400 text-lg"></i>
+          <i class="fas fa-star text-yellow-400 text-lg"></i>
+          <i class="fas fa-star text-yellow-400 text-lg"></i>
+          <i class="fas fa-star text-yellow-400 text-lg"></i>
+        </div>
+        <p class="text-gray-600 dark:text-[#90abcb] mb-6 leading-relaxed">
+          "Excellent work! The portfolio is stunning and the attention to detail is remarkable. Highly recommended for any web development project."
+        </p>
+        <div class="flex items-center gap-4">
+          <div class="w-12 h-12 bg-gradient-to-r from-[#9de1f5] to-[#33c46b] rounded-full flex items-center justify-center text-white font-bold">
+            SJ
+          </div>
+          <div>
+            <h4 class="font-bold text-black dark:text-white">Sahil Jha</h4>
+            <p class="text-sm text-gray-500 dark:text-[#90abcb]">Software Engineer</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="bg-gray-100 dark:bg-[#182534] rounded-lg p-4 border border-gray-200 dark:border-[#314b68] card-hover reveal delay-200">
+        <div class="flex gap-1 mb-4">
+          <i class="fas fa-star text-yellow-400 text-lg"></i>
+          <i class="fas fa-star text-yellow-400 text-lg"></i>
+          <i class="fas fa-star text-yellow-400 text-lg"></i>
+          <i class="fas fa-star text-yellow-400 text-lg"></i>
+          <i class="fas fa-star text-yellow-400 text-lg"></i>
+        </div>
+        <p class="text-gray-600 dark:text-[#90abcb] mb-6 leading-relaxed">
+          "Amazing design and smooth animations! The website is very clean, modern, and easy to navigate. Great job on the overall user experience."
+        </p>
+        <div class="flex items-center gap-4">
+          <div class="w-12 h-12 bg-gradient-to-r from-[#9de1f5] to-[#33c46b] rounded-full flex items-center justify-center text-white font-bold">
+            KS
+          </div>
+          <div>
+            <h4 class="font-bold text-black dark:text-white">Khushi Singh</h4>
+            <p class="text-sm text-gray-500 dark:text-[#90abcb]">UI/UX Designer</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Contact Info Section at Bottom -->
+  <div class="grid md:grid-cols-3 gap-3 mt-8 reveal">
+    <div class="bg-gray-100 dark:bg-[#182534] rounded-lg p-4 border border-gray-200 dark:border-[#314b68] card-hover">
+      <div class="flex items-center gap-3 mb-3">
+        <div class="w-10 h-10 bg-gradient-to-r from-[#9de1f5] to-[#33c46b] rounded-lg flex items-center justify-center">
+          <i class="fas fa-envelope text-white"></i>
+        </div>
+        <h3 class="text-lg font-bold text-black dark:text-white">Email</h3>
+      </div>
+      <a href="mailto:contact@mrcurious.dev" class="text-gray-600 dark:text-[#90abcb] hover:text-[#33c46b] transition-colors">
+        contact@mrcurious.dev
+      </a>
+    </div>
+
+    <div class="bg-gray-100 dark:bg-[#182534] rounded-lg p-4 border border-gray-200 dark:border-[#314b68] card-hover">
+      <div class="flex items-center gap-3 mb-3">
+        <div class="w-10 h-10 bg-gradient-to-r from-[#9de1f5] to-[#33c46b] rounded-lg flex items-center justify-center">
+          <i class="fas fa-map-marker-alt text-white"></i>
+        </div>
+        <h3 class="text-lg font-bold text-black dark:text-white">Location</h3>
+      </div>
+      <p class="text-gray-600 dark:text-[#90abcb]">India</p>
+    </div>
+
+    <div class="bg-gray-100 dark:bg-[#182534] rounded-lg p-4 border border-gray-200 dark:border-[#314b68] card-hover">
+      <div class="flex items-center gap-3 mb-3">
+        <div class="w-3 h-3 bg-green-500 rounded-full animate-pulse"></div>
+        <h3 class="text-lg font-bold text-black dark:text-white">Available for Work</h3>
+      </div>
+      <p class="text-sm text-gray-600 dark:text-[#90abcb]">Response time: Within 24 hours</p>
+    </div>
+  </div>
+
+</div>
 {% endblock %}
