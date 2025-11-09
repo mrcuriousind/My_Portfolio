@@ -19,7 +19,7 @@
     </div>
 
     <!-- Statistics Cards -->
-    <div class="grid grid-cols-1 md:grid-cols-4 gap-4 mb-6">
+    <div class="grid grid-cols-1 md:grid-cols-5 gap-4 mb-6">
         <div class="bg-gray-100 dark:bg-[#182534] rounded-lg p-6 border border-gray-200 dark:border-[#314b68] card-hover">
             <div class="flex items-center justify-between mb-4">
                 <div class="w-12 h-12 bg-blue-500 rounded-lg flex items-center justify-center">
@@ -59,6 +59,19 @@
             </div>
             <h3 class="text-sm font-medium text-gray-600 dark:text-[#90abcb]">Videos</h3>
         </div>
+
+        <div class="bg-gray-100 dark:bg-[#182534] rounded-lg p-6 border border-gray-200 dark:border-[#314b68] card-hover cursor-pointer" onclick="window.location.href='{{ url_for('admin_messages') }}'">
+            <div class="flex items-center justify-between mb-4">
+                <div class="w-12 h-12 bg-orange-500 rounded-lg flex items-center justify-center relative">
+                    <i class="fas fa-envelope text-white text-xl"></i>
+                    {% if unread_messages > 0 %}
+                    <span class="absolute -top-1 -right-1 w-5 h-5 bg-red-500 rounded-full flex items-center justify-center text-white text-xs font-bold">{{ unread_messages }}</span>
+                    {% endif %}
+                </div>
+                <span class="text-3xl font-black gradient-text-animated">{{ total_messages }}</span>
+            </div>
+            <h3 class="text-sm font-medium text-gray-600 dark:text-[#90abcb]">Messages</h3>
+        </div>
     </div>
 
     <!-- Quick Actions -->
@@ -74,15 +87,20 @@
                     <i class="fas fa-users text-gray-600 dark:text-[#90abcb] group-hover:text-[#33c46b]"></i>
                     <span class="font-medium text-black dark:text-white">Manage Users</span>
                 </a>
+                <a href="{{ url_for('admin_messages') }}" 
+                   class="flex items-center justify-between p-3 rounded-lg bg-white dark:bg-[#101923] border border-gray-200 dark:border-[#314b68] hover:border-[#33c46b] transition-all group">
+                    <div class="flex items-center gap-3">
+                        <i class="fas fa-envelope text-gray-600 dark:text-[#90abcb] group-hover:text-[#33c46b]"></i>
+                        <span class="font-medium text-black dark:text-white">View Messages</span>
+                    </div>
+                    {% if unread_messages > 0 %}
+                    <span class="px-2 py-1 bg-red-500 text-white text-xs rounded-full font-bold">{{ unread_messages }}</span>
+                    {% endif %}
+                </a>
                 <a href="#" 
                    class="flex items-center gap-3 p-3 rounded-lg bg-white dark:bg-[#101923] border border-gray-200 dark:border-[#314b68] hover:border-[#33c46b] transition-all group">
                     <i class="fas fa-plus-circle text-gray-600 dark:text-[#90abcb] group-hover:text-[#33c46b]"></i>
                     <span class="font-medium text-black dark:text-white">Add New Project</span>
-                </a>
-                <a href="#" 
-                   class="flex items-center gap-3 p-3 rounded-lg bg-white dark:bg-[#101923] border border-gray-200 dark:border-[#314b68] hover:border-[#33c46b] transition-all group">
-                    <i class="fas fa-pen text-gray-600 dark:text-[#90abcb] group-hover:text-[#33c46b]"></i>
-                    <span class="font-medium text-black dark:text-white">Write Blog Post</span>
                 </a>
             </div>
         </div>

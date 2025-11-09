@@ -3,7 +3,102 @@
 {% block title %}Blog & Videos - Mr. Curious's Portfolio{% endblock %}
 
 {% block content %}
-            <div class="flex flex-wrap justify-between gap-3 p-4"><p class="text-black dark:text-white tracking-light text-[32px] font-bold leading-tight min-w-72">Blog &amp; Videos</p></div>
+            <div class="flex flex-wrap justify-between gap-3 p-4">
+                <p class="text-black dark:text-white tracking-light text-[32px] font-bold leading-tight min-w-72">Blog &amp; Videos</p>
+            </div>
+
+            <!-- Social Media & Coding Stats Grid -->
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 px-4 pb-6">
+                <!-- Instagram Latest Post -->
+                <div class="bg-gradient-to-br from-purple-500/10 to-pink-500/10 dark:from-purple-500/5 dark:to-pink-500/5 rounded-lg p-4 border border-gray-200 dark:border-[#314b68] card-hover">
+                    <div class="flex items-center gap-3 mb-3">
+                        <div class="w-10 h-10 bg-gradient-to-br from-purple-500 to-pink-500 rounded-lg flex items-center justify-center">
+                            <i class="fab fa-instagram text-white text-xl"></i>
+                        </div>
+                        <div>
+                            <h3 class="text-sm font-bold text-black dark:text-white">Instagram</h3>
+                            <p class="text-xs text-gray-500 dark:text-[#90abcb]">Latest Post</p>
+                        </div>
+                    </div>
+                    <a href="https://www.instagram.com/brocheloraspirants" target="_blank" class="block">
+                        <div class="aspect-square bg-gray-200 dark:bg-[#223449] rounded-lg mb-2 flex items-center justify-center">
+                            <i class="fab fa-instagram text-4xl text-gray-400 dark:text-[#90abcb]"></i>
+                        </div>
+                        <p class="text-xs text-gray-600 dark:text-[#90abcb] text-center">@brocheloraspirants</p>
+                    </a>
+                </div>
+
+                <!-- YouTube Latest Video -->
+                <div class="bg-gradient-to-br from-red-500/10 to-red-600/10 dark:from-red-500/5 dark:to-red-600/5 rounded-lg p-4 border border-gray-200 dark:border-[#314b68] card-hover">
+                    <div class="flex items-center gap-3 mb-3">
+                        <div class="w-10 h-10 bg-gradient-to-br from-red-500 to-red-600 rounded-lg flex items-center justify-center">
+                            <i class="fab fa-youtube text-white text-xl"></i>
+                        </div>
+                        <div>
+                            <h3 class="text-sm font-bold text-black dark:text-white">YouTube</h3>
+                            <p class="text-xs text-gray-500 dark:text-[#90abcb]">Latest Video</p>
+                        </div>
+                    </div>
+                    <a href="https://www.youtube.com/@brocheloraspirants" target="_blank" class="block">
+                        <div class="aspect-video bg-gray-200 dark:bg-[#223449] rounded-lg mb-2 flex items-center justify-center">
+                            <i class="fab fa-youtube text-4xl text-gray-400 dark:text-[#90abcb]"></i>
+                        </div>
+                        <p class="text-xs text-gray-600 dark:text-[#90abcb] text-center">@brocheloraspirants</p>
+                    </a>
+                </div>
+
+                <!-- GitHub Activity -->
+                <div class="bg-gradient-to-br from-gray-700/10 to-gray-900/10 dark:from-gray-700/5 dark:to-gray-900/5 rounded-lg p-4 border border-gray-200 dark:border-[#314b68] card-hover">
+                    <div class="flex items-center gap-3 mb-3">
+                        <div class="w-10 h-10 bg-gradient-to-br from-gray-700 to-gray-900 rounded-lg flex items-center justify-center">
+                            <i class="fab fa-github text-white text-xl"></i>
+                        </div>
+                        <div>
+                            <h3 class="text-sm font-bold text-black dark:text-white">GitHub</h3>
+                            <p class="text-xs text-gray-500 dark:text-[#90abcb]">Activity</p>
+                        </div>
+                    </div>
+                    <div class="space-y-2">
+                        <div class="flex items-center justify-between">
+                            <span class="text-xs text-gray-600 dark:text-[#90abcb]">Repositories</span>
+                            <span class="text-sm font-bold text-black dark:text-white">--</span>
+                        </div>
+                        <div class="flex items-center justify-between">
+                            <span class="text-xs text-gray-600 dark:text-[#90abcb]">Contributions</span>
+                            <span class="text-sm font-bold text-black dark:text-white">--</span>
+                        </div>
+                        <a href="https://github.com/mrcuriousind" target="_blank" class="block text-center mt-3 text-xs text-[#33c46b] hover:underline">
+                            View Profile →
+                        </a>
+                    </div>
+                </div>
+
+                <!-- LeetCode Streak -->
+                <div class="bg-gradient-to-br from-yellow-500/10 to-orange-500/10 dark:from-yellow-500/5 dark:to-orange-500/5 rounded-lg p-4 border border-gray-200 dark:border-[#314b68] card-hover">
+                    <div class="flex items-center gap-3 mb-3">
+                        <div class="w-10 h-10 bg-gradient-to-br from-yellow-500 to-orange-500 rounded-lg flex items-center justify-center">
+                            <i class="fas fa-code text-white text-xl"></i>
+                        </div>
+                        <div>
+                            <h3 class="text-sm font-bold text-black dark:text-white">LeetCode</h3>
+                            <p class="text-xs text-gray-500 dark:text-[#90abcb]">Streak</p>
+                        </div>
+                    </div>
+                    <div class="space-y-2">
+                        <div class="flex items-center justify-between">
+                            <span class="text-xs text-gray-600 dark:text-[#90abcb]">Current Streak</span>
+                            <span class="text-sm font-bold text-black dark:text-white">-- days</span>
+                        </div>
+                        <div class="flex items-center justify-between">
+                            <span class="text-xs text-gray-600 dark:text-[#90abcb]">Problems Solved</span>
+                            <span class="text-sm font-bold text-black dark:text-white">--</span>
+                        </div>
+                        <a href="https://leetcode.com/u/mrcuriousind/" target="_blank" class="block text-center mt-3 text-xs text-[#33c46b] hover:underline">
+                            View Profile →
+                        </a>
+                    </div>
+                </div>
+            </div>
             <h3 class="text-black dark:text-white text-lg font-bold leading-tight tracking-[-0.015em] px-4 pb-2 pt-4">Blog Posts</h3>
             {% for post in blog_posts %}
             <div class="p-4">

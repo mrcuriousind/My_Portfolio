@@ -1,8 +1,15 @@
 from flask import Flask, render_template, request, redirect, url_for, flash, session, jsonify
 from flask_sqlalchemy import SQLAlchemy
 from werkzeug.security import generate_password_hash, check_password_hash
-from datetime import datetime
+from datetime import datetime, timezone, timedelta
 import re
+
+# Indian Standard Time (IST) timezone
+IST = timezone(timedelta(hours=5, minutes=30))
+
+def get_ist_time():
+    """Get current time in IST"""
+    return datetime.now(IST)
 
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///portfolio.db'
@@ -55,7 +62,7 @@ class User(db.Model):
     github_username = db.Column(db.String(100), nullable=True)
     linkedin_username = db.Column(db.String(100), nullable=True)
     twitter_username = db.Column(db.String(100), nullable=True)
-    created_at = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
+    created_at = db.Column(db.DateTime, nullable=False, default=get_ist_time)
     is_active = db.Column(db.Boolean, nullable=False, default=True)
     is_admin = db.Column(db.Boolean, nullable=False, default=False)
 
@@ -67,6 +74,18 @@ class User(db.Model):
 
     def __repr__(self):
         return f'<User {self.username}>'
+
+class ContactMessage(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(100), nullable=False)
+    email = db.Column(db.String(120), nullable=False)
+    subject = db.Column(db.String(200), nullable=False)
+    message = db.Column(db.Text, nullable=False)
+    created_at = db.Column(db.DateTime, nullable=False, default=get_ist_time)
+    is_read = db.Column(db.Boolean, nullable=False, default=False)
+
+    def __repr__(self):
+        return f'<ContactMessage from {self.name}>'
 
 @app.route('/')
 def home():
@@ -91,6 +110,40 @@ def blog():
 @app.route('/contact')
 def contact():
     return render_template('contact.html')
+
+@app.route('/submit-contact', methods=['POST'])
+def submit_contact():
+    try:
+        name = request.form.get('name', '').strip()
+        email = request.form.get('email', '').strip()
+        subject = request.form.get('subject', '').strip()
+        message = request.form.get('message', '').strip()
+        
+        # Validate required fields
+        if not all([name, email, subject, message]):
+            return jsonify({'success': False, 'message': 'All fields are required'})
+        
+        # Validate email format
+        email_regex = r'^[^\s@]+@[^\s@]+\.[^\s@]+$'
+        if not re.match(email_regex, email):
+            return jsonify({'success': False, 'message': 'Invalid email address'})
+        
+        # Create new contact message
+        new_message = ContactMessage(
+            name=name,
+            email=email,
+            subject=subject,
+            message=message
+        )
+        
+        db.session.add(new_message)
+        db.session.commit()
+        
+        return jsonify({'success': True, 'message': 'Thank you for your message! I will get back to you soon.'})
+    
+    except Exception as e:
+        db.session.rollback()
+        return jsonify({'success': False, 'message': 'An error occurred. Please try again later.'})
 
 @app.route('/animations-demo')
 def animations_demo():
@@ -133,9 +186,9 @@ def login():
     username_or_email = request.form.get('username')
     password = request.form.get('password')
     
-    # Try to find user by username or email
+    # Try to find user by username or email (username is case-insensitive)
     user = User.query.filter(
-        (User.username == username_or_email) | (User.email == username_or_email)
+        (User.username == username_or_email.lower()) | (User.email == username_or_email)
     ).first()
     
     if user and user.check_password(password):
@@ -162,7 +215,7 @@ def edit_profile():
     
     if request.method == 'POST':
         # Check if username is being changed
-        new_username = request.form.get('username', '').strip()
+        new_username = request.form.get('username', '').strip().lower()
         if new_username and new_username != user.username:
             # Check if new username is already taken
             existing_user = User.query.filter_by(username=new_username).first()
@@ -186,6 +239,33 @@ def edit_profile():
     
     return render_template('edit_profile.html', user=user)
 
+@app.route('/check-username', methods=['POST'])
+def check_username():
+    username = request.form.get('username', '').strip().lower()
+    user_id = session.get('user_id')
+    
+    if not username:
+        return jsonify({'available': False, 'message': 'Username cannot be empty'})
+    
+    # Check if username contains only valid characters
+    if not re.match(r'^[a-z0-9_]+$', username):
+        return jsonify({'available': False, 'message': 'Username can only contain lowercase letters, numbers, and underscores'})
+    
+    # Check if username is too short
+    if len(username) < 3:
+        return jsonify({'available': False, 'message': 'Username must be at least 3 characters'})
+    
+    # Check if username already exists
+    existing_user = User.query.filter_by(username=username).first()
+    
+    # If user is editing their own profile, allow their current username
+    if existing_user:
+        if user_id and existing_user.id == user_id:
+            return jsonify({'available': True, 'message': 'This is your current username'})
+        return jsonify({'available': False, 'message': 'Username already taken'})
+    
+    return jsonify({'available': True, 'message': 'Username is available'})
+
 @app.route('/logout')
 def logout():
     session.pop('user_id', None)
@@ -197,9 +277,25 @@ def logout():
 @app.context_processor
 def inject_user():
     user_id = session.get('user_id')
+    unread_messages_count = 0
     if user_id:
-        return dict(current_user=User.query.get(user_id))
-    return dict(current_user=None)
+        user = User.query.get(user_id)
+        if user and user.is_admin:
+            unread_messages_count = ContactMessage.query.filter_by(is_read=False).count()
+        return dict(current_user=user, unread_messages_count=unread_messages_count)
+    return dict(current_user=None, unread_messages_count=0)
+
+@app.template_filter('ist_datetime')
+def ist_datetime_filter(dt):
+    """Convert datetime to IST and format it"""
+    if dt is None:
+        return ''
+    # If datetime is naive (no timezone), assume it's already IST
+    if dt.tzinfo is None:
+        return dt.strftime('%b %d, %Y %I:%M %p IST')
+    # If datetime has timezone, convert to IST
+    ist_dt = dt.astimezone(IST)
+    return ist_dt.strftime('%b %d, %Y %I:%M %p IST')
 
 def add_sample_data():
     with app.app_context():
@@ -242,6 +338,8 @@ def admin_dashboard():
     total_projects = Project.query.count()
     total_posts = BlogPost.query.count()
     total_videos = Video.query.count()
+    total_messages = ContactMessage.query.count()
+    unread_messages = ContactMessage.query.filter_by(is_read=False).count()
     
     # Get recent users
     recent_users = User.query.order_by(User.created_at.desc()).limit(5).all()
@@ -252,6 +350,8 @@ def admin_dashboard():
                          total_projects=total_projects,
                          total_posts=total_posts,
                          total_videos=total_videos,
+                         total_messages=total_messages,
+                         unread_messages=unread_messages,
                          recent_users=recent_users)
 
 @app.route('/admin/users')
@@ -266,6 +366,56 @@ def admin_users():
     
     users = User.query.order_by(User.created_at.desc()).all()
     return render_template('admin/users.html', user=user, users=users)
+
+@app.route('/admin/messages')
+def admin_messages():
+    user_id = session.get('user_id')
+    if not user_id:
+        return redirect(url_for('home'))
+    
+    user = User.query.get(user_id)
+    if not user or not user.is_admin:
+        return redirect(url_for('home'))
+    
+    messages = ContactMessage.query.order_by(ContactMessage.created_at.desc()).all()
+    unread_count = ContactMessage.query.filter_by(is_read=False).count()
+    return render_template('admin/messages.html', user=user, messages=messages, unread_count=unread_count)
+
+@app.route('/admin/message/<int:message_id>/mark-read')
+def mark_message_read(message_id):
+    user_id = session.get('user_id')
+    if not user_id:
+        return redirect(url_for('home'))
+    
+    user = User.query.get(user_id)
+    if not user or not user.is_admin:
+        return redirect(url_for('home'))
+    
+    message = ContactMessage.query.get(message_id)
+    if message:
+        message.is_read = True
+        db.session.commit()
+        flash('Message marked as read')
+    
+    return redirect(url_for('admin_messages'))
+
+@app.route('/admin/message/<int:message_id>/delete')
+def delete_message(message_id):
+    user_id = session.get('user_id')
+    if not user_id:
+        return redirect(url_for('home'))
+    
+    user = User.query.get(user_id)
+    if not user or not user.is_admin:
+        return redirect(url_for('home'))
+    
+    message = ContactMessage.query.get(message_id)
+    if message:
+        db.session.delete(message)
+        db.session.commit()
+        flash('Message deleted successfully')
+    
+    return redirect(url_for('admin_messages'))
 
 @app.route('/admin/make-admin/<int:user_id>')
 def make_admin(user_id):

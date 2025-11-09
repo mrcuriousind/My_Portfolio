@@ -6,7 +6,7 @@
 <div class="page-transition max-w-7xl mx-auto">
   
   <!-- Hero Section -->
-  <div class="text-center mb-6 reveal">
+  <div class="text-center px-4 pb-8 reveal">
     <h1 class="gradient-text-animated text-4xl md:text-5xl font-black mb-4">Get In Touch</h1>
     <p class="text-gray-600 dark:text-[#90abcb] text-lg max-w-2xl mx-auto">
       Have a project in mind or just want to chat? I'd love to hear from you!
@@ -14,8 +14,8 @@
   </div>
 
   <!-- Availability Banner -->
-  <div class="mb-8 reveal">
-    <div class="bg-gradient-to-r from-[#9de1f5]/10 to-[#33c46b]/10 dark:from-[#9de1f5]/5 dark:to-[#33c46b]/5 rounded-lg p-4 border border-gray-200 dark:border-[#314b68]">
+  <div class="px-4 pb-8 reveal">
+    <div class="bg-gradient-to-r from-[#9de1f5]/10 to-[#33c46b]/10 dark:from-[#9de1f5]/5 dark:to-[#33c46b]/5 rounded-lg p-6 border border-gray-200 dark:border-[#314b68]">
       <div class="flex items-center justify-center gap-3 mb-3">
         <div class="w-3 h-3 bg-green-500 rounded-full animate-pulse"></div>
         <h2 class="text-xl font-bold text-black dark:text-white">Available for Work</h2>
@@ -27,96 +27,197 @@
   </div>
 
   <!-- Contact Form Section -->
-  <h2 class="text-black dark:text-white text-[22px] font-bold leading-tight tracking-[-0.015em] px-4 pb-3 pt-5 reveal">Contact Me
-  </h2>
+  <h2 class="text-black dark:text-white text-[22px] font-bold leading-tight tracking-[-0.015em] px-4 pb-3 pt-5 reveal">Contact Me</h2>
   <div class="px-4 pb-8">
-    <form class="space-y-3 max-w-4xl"></form>
-        <!-- Name and Email Row -->
-        <div class="grid md:grid-cols-2 gap-3">
-          <div class="form-group">
-            <label for="contact-name" class="block text-black dark:text-white text-sm font-medium mb-2">
-              Name
-            </label>
-            <div class="input-wrapper relative">
-              <input
-                type="text"
-                name="name"
-                id="contact-name"
-                required
-                placeholder="Your name"
-                class="w-full px-4 py-3 pl-12 border border-gray-200 dark:border-[#314b68] rounded-lg focus:outline-none focus:ring-2 focus:ring-[#33c46b] focus:border-transparent bg-gray-100 dark:bg-[#182534] text-black dark:text-white placeholder:text-gray-400 dark:placeholder:text-[#90abcb] transition-all form-input-animated"
-              />
-              <i class="fas fa-user absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400 dark:text-[#90abcb]"></i>
+    <form class="space-y-3">
+      <!-- Name and Email Row -->
+      <div class="grid md:grid-cols-2 gap-3">
+        <div class="form-group">
+          <label for="contact-name" class="block text-black dark:text-white text-sm font-medium mb-2">Name</label>
+          <div class="input-wrapper relative">
+            <input type="text" name="name" id="contact-name" required placeholder="Your name"
+              class="w-full px-4 py-3 pl-12 border border-gray-200 dark:border-[#314b68] rounded-lg focus:outline-none focus:ring-2 focus:ring-[#33c46b] focus:border-transparent bg-gray-100 dark:bg-[#182534] text-black dark:text-white placeholder:text-gray-400 dark:placeholder:text-[#90abcb] transition-all" />
+            <i class="fas fa-user absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400 dark:text-[#90abcb]"></i>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="contact-email" class="block text-black dark:text-white text-sm font-medium mb-2">Email</label>
+          <div class="input-wrapper relative">
+            <input type="email" name="email" id="contact-email" required placeholder="your@email.com"
+              class="w-full px-4 py-3 pl-12 pr-14 border border-gray-200 dark:border-[#314b68] rounded-lg focus:outline-none focus:ring-2 focus:ring-[#33c46b] focus:border-transparent bg-gray-100 dark:bg-[#182534] text-black dark:text-white placeholder:text-gray-400 dark:placeholder:text-[#90abcb] transition-all"
+              oninput="validateEmail()" />
+            <i class="fas fa-envelope absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400 dark:text-[#90abcb]"></i>
+            <div id="email-status" class="absolute right-4 top-1/2 -translate-y-1/2 hidden">
+              <i class="fas fa-spinner fa-spin text-gray-400"></i>
             </div>
           </div>
-
-          <div class="form-group">
-            <label for="contact-email" class="block text-black dark:text-white text-sm font-medium mb-2">
-              Email
-            </label>
-            <div class="input-wrapper relative">
-              <input
-                type="email"
-                name="email"
-                id="contact-email"
-                required
-                placeholder="your@email.com"
-                class="w-full px-4 py-3 pl-12 border border-gray-200 dark:border-[#314b68] rounded-lg focus:outline-none focus:ring-2 focus:ring-[#33c46b] focus:border-transparent bg-gray-100 dark:bg-[#182534] text-black dark:text-white placeholder:text-gray-400 dark:placeholder:text-[#90abcb] transition-all form-input-animated"
-              />
-              <i class="fas fa-envelope absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400 dark:text-[#90abcb]"></i>
-            </div>
-          </div>
+          <p id="email-message" class="text-xs mt-1 hidden"></p>
         </div>
+      </div>
 
-        <!-- Subject -->
-        <div class="form-group">
-          <label for="contact-subject" class="block text-black dark:text-white text-sm font-medium mb-2">
-            Subject
-          </label>
-          <div class="input-wrapper relative">
-            <input
-              type="text"
-              name="subject"
-              id="contact-subject"
-              required
-              placeholder="What's this about?"
-              class="w-full px-4 py-3 pl-12 border border-gray-200 dark:border-[#314b68] rounded-lg focus:outline-none focus:ring-2 focus:ring-[#33c46b] focus:border-transparent bg-gray-100 dark:bg-[#182534] text-black dark:text-white placeholder:text-gray-400 dark:placeholder:text-[#90abcb] transition-all form-input-animated"
-            />
-            <i class="fas fa-tag absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400 dark:text-[#90abcb]"></i>
-          </div>
+      <!-- Subject -->
+      <div class="form-group">
+        <label for="contact-subject" class="block text-black dark:text-white text-sm font-medium mb-2">Subject</label>
+        <div class="input-wrapper relative">
+          <input type="text" name="subject" id="contact-subject" required placeholder="What's this about?"
+            class="w-full px-4 py-3 pl-12 border border-gray-200 dark:border-[#314b68] rounded-lg focus:outline-none focus:ring-2 focus:ring-[#33c46b] focus:border-transparent bg-gray-100 dark:bg-[#182534] text-black dark:text-white placeholder:text-gray-400 dark:placeholder:text-[#90abcb] transition-all" />
+          <i class="fas fa-tag absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400 dark:text-[#90abcb]"></i>
         </div>
+      </div>
 
-        <!-- Message -->
-        <div class="form-group">
-          <label for="contact-message" class="block text-black dark:text-white text-sm font-medium mb-2">
-            Message
-          </label>
-          <div class="input-wrapper relative">
-            <textarea
-              name="message"
-              id="contact-message"
-              required
-              placeholder="Tell me about your project..."
-              rows="5"
-              class="w-full px-4 py-3 pl-12 border border-gray-200 dark:border-[#314b68] rounded-lg focus:outline-none focus:ring-2 focus:ring-[#33c46b] focus:border-transparent bg-gray-100 dark:bg-[#182534] text-black dark:text-white placeholder:text-gray-400 dark:placeholder:text-[#90abcb] resize-none transition-all form-input-animated"
-            ></textarea>
-            <i class="fas fa-comment-dots absolute left-4 top-4 text-gray-400 dark:text-[#90abcb]"></i>
-          </div>
+      <!-- Message -->
+      <div class="form-group">
+        <label for="contact-message" class="block text-black dark:text-white text-sm font-medium mb-2">Message</label>
+        <div class="input-wrapper relative">
+          <textarea name="message" id="contact-message" required placeholder="Tell me about your project..." rows="5"
+            class="w-full px-4 py-3 pl-12 border border-gray-200 dark:border-[#314b68] rounded-lg focus:outline-none focus:ring-2 focus:ring-[#33c46b] focus:border-transparent bg-gray-100 dark:bg-[#182534] text-black dark:text-white placeholder:text-gray-400 dark:placeholder:text-[#90abcb] resize-none transition-all"></textarea>
+          <i class="fas fa-comment-dots absolute left-4 top-4 text-gray-400 dark:text-[#90abcb]"></i>
         </div>
+      </div>
 
-        <!-- Submit Button -->
-        <div class="pt-2 flex justify-end">
-          <button type="submit"
-            class="flex items-center justify-center gap-2 rounded-lg h-12 px-8 bg-gradient-to-r from-[#9de1f5] to-[#33c46b] hover:opacity-90 text-white text-base font-bold leading-normal transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-xl btn-glow btn-ripple magnetic-btn">
-            <span>Send Message</span>
-            <i class="fas fa-paper-plane"></i>
-          </button>
-        </div>
-      </form>
+      <!-- Submit Button -->
+      <div class="pt-2 flex justify-end">
+        <button type="submit" id="submit-btn"
+          class="flex items-center justify-center gap-2 rounded-lg h-12 px-8 bg-gradient-to-r from-[#9de1f5] to-[#33c46b] hover:opacity-90 text-white text-base font-bold leading-normal transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-xl btn-glow">
+          <span>Send Message</span>
+          <i class="fas fa-paper-plane"></i>
+        </button>
+      </div>
+    </form>
   </div>
 
+  <script>
+    let emailTimeout;
+    let isEmailValid = false;
+
+    function validateEmail() {
+      clearTimeout(emailTimeout);
+      
+      const emailInput = document.getElementById('contact-email');
+      const emailStatus = document.getElementById('email-status');
+      const emailMessage = document.getElementById('email-message');
+      const submitButton = document.getElementById('submit-btn');
+      const email = emailInput.value.trim();
+      
+      // Reset if empty
+      if (!email) {
+        emailStatus.classList.add('hidden');
+        emailMessage.classList.add('hidden');
+        isEmailValid = false;
+        return;
+      }
+      
+      // Show loading
+      emailStatus.classList.remove('hidden');
+      emailStatus.innerHTML = '<i class="fas fa-spinner fa-spin text-gray-400"></i>';
+      emailMessage.classList.add('hidden');
+      
+      // Wait for user to stop typing
+      emailTimeout = setTimeout(() => {
+        // Basic email regex validation
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        
+        if (!emailRegex.test(email)) {
+          emailStatus.innerHTML = '<i class="fas fa-times-circle text-red-500"></i>';
+          emailMessage.innerHTML = '<i class="fas fa-times-circle"></i> <span class="text-red-500">Please enter a valid email address</span>';
+          emailMessage.classList.remove('hidden');
+          emailInput.classList.remove('border-green-500');
+          emailInput.classList.add('border-red-500');
+          isEmailValid = false;
+          return;
+        }
+        
+        // Check for common typos in popular domains
+        const commonDomains = ['gmail.com', 'yahoo.com', 'hotmail.com', 'outlook.com', 'icloud.com'];
+        const domain = email.split('@')[1];
+        let suggestion = '';
+        
+        // Check for common typos
+        if (domain === 'gmial.com' || domain === 'gmai.com' || domain === 'gmil.com') {
+          suggestion = 'Did you mean gmail.com?';
+        } else if (domain === 'yahooo.com' || domain === 'yaho.com') {
+          suggestion = 'Did you mean yahoo.com?';
+        } else if (domain === 'hotmial.com' || domain === 'hotmai.com') {
+          suggestion = 'Did you mean hotmail.com?';
+        }
+        
+        if (suggestion) {
+          emailStatus.innerHTML = '<i class="fas fa-exclamation-triangle text-yellow-500"></i>';
+          emailMessage.innerHTML = '<i class="fas fa-exclamation-triangle"></i> <span class="text-yellow-500">' + suggestion + '</span>';
+          emailMessage.classList.remove('hidden');
+          emailInput.classList.remove('border-green-500', 'border-red-500');
+          emailInput.classList.add('border-yellow-500');
+          isEmailValid = true; // Still valid, just a warning
+        } else {
+          emailStatus.innerHTML = '<i class="fas fa-check-circle text-green-500"></i>';
+          emailMessage.innerHTML = '<i class="fas fa-check-circle"></i> <span class="text-green-500">Email looks good!</span>';
+          emailMessage.classList.remove('hidden');
+          emailInput.classList.remove('border-red-500', 'border-yellow-500');
+          emailInput.classList.add('border-green-500');
+          isEmailValid = true;
+        }
+      }, 500); // Wait 500ms after user stops typing
+    }
+    
+    // Form submission validation
+    document.querySelector('form').addEventListener('submit', function(e) {
+      e.preventDefault();
+      
+      const emailInput = document.getElementById('contact-email');
+      const email = emailInput.value.trim();
+      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      
+      if (!emailRegex.test(email)) {
+        alert('Please enter a valid email address before submitting.');
+        emailInput.focus();
+        return false;
+      }
+      
+      // Get form data
+      const formData = new FormData(this);
+      const submitBtn = document.getElementById('submit-btn');
+      const originalBtnText = submitBtn.innerHTML;
+      
+      // Disable button and show loading
+      submitBtn.disabled = true;
+      submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> <span>Sending...</span>';
+      
+      // Submit form
+      fetch('/submit-contact', {
+        method: 'POST',
+        body: formData
+      })
+      .then(response => response.json())
+      .then(data => {
+        if (data.success) {
+          // Show success message with custom styling
+          alert('✅ Message Sent Successfully!\n\nThank you for reaching out! Your message has been received.\n\nI typically respond within 24 hours. Looking forward to connecting with you!');
+          this.reset();
+          
+          // Reset email validation UI
+          document.getElementById('email-status').classList.add('hidden');
+          document.getElementById('email-message').classList.add('hidden');
+          emailInput.classList.remove('border-green-500', 'border-red-500', 'border-yellow-500');
+        } else {
+          alert('❌ ' + (data.message || 'An error occurred. Please try again.'));
+        }
+      })
+      .catch(error => {
+        console.error('Error:', error);
+        alert('❌ An error occurred. Please try again later.');
+      })
+      .finally(() => {
+        // Re-enable button
+        submitBtn.disabled = false;
+        submitBtn.innerHTML = originalBtnText;
+      });
+    });
+  </script>
+
   <!-- Stats Section -->
-  <div class="grid grid-cols-2 md:grid-cols-4 gap-3 px-4 pb-8 reveal"></div>
+  <h2 class="text-black dark:text-white text-[22px] font-bold leading-tight tracking-[-0.015em] px-4 pb-3 pt-5 reveal">Quick Stats</h2>
+  <div class="grid grid-cols-2 md:grid-cols-4 gap-3 px-4 pb-8 reveal">
     <div class="bg-gray-100 dark:bg-[#182534] rounded-lg p-4 text-center border border-gray-200 dark:border-[#314b68] card-hover">
       <div class="text-3xl font-black gradient-text-animated mb-2 counter" data-count="50">0</div>
       <p class="text-sm text-gray-600 dark:text-[#90abcb]">Projects Completed</p>
@@ -136,74 +237,69 @@
   </div>
 
   <!-- Testimonials -->
-  <div class="mb-8">
-    <div class="text-center mb-10 reveal">
-      <h2 class="text-3xl md:text-4xl font-black text-black dark:text-white mb-3">What People Say</h2>
-      <p class="text-gray-600 dark:text-[#90abcb]">Don't just take my word for it</p>
-    </div>
-
-    <div class="grid md:grid-cols-2 gap-3">
-      <div class="bg-gray-100 dark:bg-[#182534] rounded-lg p-4 border border-gray-200 dark:border-[#314b68] card-hover reveal">
-        <div class="flex gap-1 mb-4">
-          <i class="fas fa-star text-yellow-400 text-lg"></i>
-          <i class="fas fa-star text-yellow-400 text-lg"></i>
-          <i class="fas fa-star text-yellow-400 text-lg"></i>
-          <i class="fas fa-star text-yellow-400 text-lg"></i>
-          <i class="fas fa-star text-yellow-400 text-lg"></i>
+  <h2 class="text-black dark:text-white text-[22px] font-bold leading-tight tracking-[-0.015em] px-4 pb-3 pt-5 reveal">What People Say</h2>
+  <div class="grid md:grid-cols-2 gap-3 px-4 pb-8">
+    <div class="bg-gray-100 dark:bg-[#182534] rounded-lg p-6 border border-gray-200 dark:border-[#314b68] card-hover reveal">
+      <div class="flex gap-1 mb-4">
+        <i class="fas fa-star text-yellow-400 text-lg"></i>
+        <i class="fas fa-star text-yellow-400 text-lg"></i>
+        <i class="fas fa-star text-yellow-400 text-lg"></i>
+        <i class="fas fa-star text-yellow-400 text-lg"></i>
+        <i class="fas fa-star text-yellow-400 text-lg"></i>
+      </div>
+      <p class="text-gray-600 dark:text-[#90abcb] mb-6 leading-relaxed">
+        "Excellent work! The portfolio is stunning and the attention to detail is remarkable. Highly recommended for any web development project."
+      </p>
+      <div class="flex items-center gap-4">
+        <div class="w-12 h-12 bg-gradient-to-r from-[#9de1f5] to-[#33c46b] rounded-full flex items-center justify-center text-white font-bold">
+          SJ
         </div>
-        <p class="text-gray-600 dark:text-[#90abcb] mb-6 leading-relaxed">
-          "Excellent work! The portfolio is stunning and the attention to detail is remarkable. Highly recommended for any web development project."
-        </p>
-        <div class="flex items-center gap-4">
-          <div class="w-12 h-12 bg-gradient-to-r from-[#9de1f5] to-[#33c46b] rounded-full flex items-center justify-center text-white font-bold">
-            SJ
-          </div>
-          <div>
-            <h4 class="font-bold text-black dark:text-white">Sahil Jha</h4>
-            <p class="text-sm text-gray-500 dark:text-[#90abcb]">Software Engineer</p>
-          </div>
+        <div>
+          <h4 class="font-bold text-black dark:text-white">Sahil Jha</h4>
+          <p class="text-sm text-gray-500 dark:text-[#90abcb]">Software Engineer</p>
         </div>
       </div>
+    </div>
 
-      <div class="bg-gray-100 dark:bg-[#182534] rounded-lg p-4 border border-gray-200 dark:border-[#314b68] card-hover reveal delay-200">
-        <div class="flex gap-1 mb-4">
-          <i class="fas fa-star text-yellow-400 text-lg"></i>
-          <i class="fas fa-star text-yellow-400 text-lg"></i>
-          <i class="fas fa-star text-yellow-400 text-lg"></i>
-          <i class="fas fa-star text-yellow-400 text-lg"></i>
-          <i class="fas fa-star text-yellow-400 text-lg"></i>
+    <div class="bg-gray-100 dark:bg-[#182534] rounded-lg p-6 border border-gray-200 dark:border-[#314b68] card-hover reveal delay-200">
+      <div class="flex gap-1 mb-4">
+        <i class="fas fa-star text-yellow-400 text-lg"></i>
+        <i class="fas fa-star text-yellow-400 text-lg"></i>
+        <i class="fas fa-star text-yellow-400 text-lg"></i>
+        <i class="fas fa-star text-yellow-400 text-lg"></i>
+        <i class="fas fa-star text-yellow-400 text-lg"></i>
+      </div>
+      <p class="text-gray-600 dark:text-[#90abcb] mb-6 leading-relaxed">
+        "Amazing design and smooth animations! The website is very clean, modern, and easy to navigate. Great job on the overall user experience."
+      </p>
+      <div class="flex items-center gap-4">
+        <div class="w-12 h-12 bg-gradient-to-r from-[#9de1f5] to-[#33c46b] rounded-full flex items-center justify-center text-white font-bold">
+          KS
         </div>
-        <p class="text-gray-600 dark:text-[#90abcb] mb-6 leading-relaxed">
-          "Amazing design and smooth animations! The website is very clean, modern, and easy to navigate. Great job on the overall user experience."
-        </p>
-        <div class="flex items-center gap-4">
-          <div class="w-12 h-12 bg-gradient-to-r from-[#9de1f5] to-[#33c46b] rounded-full flex items-center justify-center text-white font-bold">
-            KS
-          </div>
-          <div>
-            <h4 class="font-bold text-black dark:text-white">Khushi Singh</h4>
-            <p class="text-sm text-gray-500 dark:text-[#90abcb]">UI/UX Designer</p>
-          </div>
+        <div>
+          <h4 class="font-bold text-black dark:text-white">Khushi Singh</h4>
+          <p class="text-sm text-gray-500 dark:text-[#90abcb]">UI/UX Designer</p>
         </div>
       </div>
     </div>
   </div>
 
-  <!-- Contact Info Section at Bottom -->
-  <div class="grid md:grid-cols-3 gap-3 mt-8 reveal">
-    <div class="bg-gray-100 dark:bg-[#182534] rounded-lg p-4 border border-gray-200 dark:border-[#314b68] card-hover">
+  <!-- Contact Info Section -->
+  <h2 class="text-black dark:text-white text-[22px] font-bold leading-tight tracking-[-0.015em] px-4 pb-3 pt-5 reveal">Contact Information</h2>
+  <div class="grid md:grid-cols-3 gap-3 px-4 pb-8 reveal">
+    <div class="bg-gray-100 dark:bg-[#182534] rounded-lg p-6 border border-gray-200 dark:border-[#314b68] card-hover">
       <div class="flex items-center gap-3 mb-3">
         <div class="w-10 h-10 bg-gradient-to-r from-[#9de1f5] to-[#33c46b] rounded-lg flex items-center justify-center">
           <i class="fas fa-envelope text-white"></i>
         </div>
         <h3 class="text-lg font-bold text-black dark:text-white">Email</h3>
       </div>
-      <a href="mailto:mrcuriousindia@gmail.com" class="text-gray-600 dark:text-[#90abcb] hover:text-[#33c46b] transition-colors">
+      <a href="mailto:mrcuriousindia@gmail.com" class="text-gray-600 dark:text-[#90abcb] hover:text-[#33c46b] transition-colors break-all">
         mrcuriousindia@gmail.com
       </a>
     </div>
 
-    <div class="bg-gray-100 dark:bg-[#182534] rounded-lg p-4 border border-gray-200 dark:border-[#314b68] card-hover">
+    <div class="bg-gray-100 dark:bg-[#182534] rounded-lg p-6 border border-gray-200 dark:border-[#314b68] card-hover">
       <div class="flex items-center gap-3 mb-3">
         <div class="w-10 h-10 bg-gradient-to-r from-[#9de1f5] to-[#33c46b] rounded-lg flex items-center justify-center">
           <i class="fas fa-map-marker-alt text-white"></i>
@@ -213,12 +309,12 @@
       <p class="text-gray-600 dark:text-[#90abcb]">Bangalore, India</p>
     </div>
 
-    <div class="bg-gray-100 dark:bg-[#182534] rounded-lg p-4 border border-gray-200 dark:border-[#314b68] card-hover">
+    <div class="bg-gray-100 dark:bg-[#182534] rounded-lg p-6 border border-gray-200 dark:border-[#314b68] card-hover">
       <div class="flex items-center gap-3 mb-3">
         <div class="w-3 h-3 bg-green-500 rounded-full animate-pulse"></div>
-        <h3 class="text-lg font-bold text-black dark:text-white">Available for Work</h3>
+        <h3 class="text-lg font-bold text-black dark:text-white">Availability</h3>
       </div>
-      <p class="text-sm text-gray-600 dark:text-[#90abcb]">Response time: Within 24 hours</p>
+      <p class="text-gray-600 dark:text-[#90abcb]">Response time: Within 24 hours</p>
     </div>
   </div>
 
