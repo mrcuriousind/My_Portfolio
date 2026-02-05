@@ -1,0 +1,140 @@
+{% extends 'base.html' %}
+
+{% block title %}Feedback - Admin Panel{% endblock %}
+
+{% block content %}
+<div class="max-w-7xl mx-auto reveal">
+    <!-- Header -->
+    <div class="card card-hover mb-6">
+        <div class="flex items-center justify-between stack-on-mobile">
+            <div>
+                <h1 class="text-3xl font-black gradient-text-animated mb-2">Feedback Submissions</h1>
+                <p class="text-gray-600 dark:text-[#90abcb]">Review and publish testimonials from the contact page</p>
+            </div>
+            <a href="{{ url_for('admin_dashboard') }}" 
+               class="button-fluid flex items-center gap-2 px-4 py-2 bg-gray-200 dark:bg-[#223449] hover:bg-gray-300 dark:hover:bg-[#314b68] text-black dark:text-white rounded-lg transition-all">
+                <i class="fas fa-arrow-left"></i>
+                <span>Back to Dashboard</span>
+            </a>
+        </div>
+    </div>
+
+    <!-- Stats -->
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
+        <div class="card">
+            <div class="flex items-center gap-3">
+                <div class="w-10 h-10 bg-yellow-500 rounded-lg flex items-center justify-center">
+                    <i class="fas fa-star text-white"></i>
+                </div>
+                <div>
+                    <p class="text-2xl font-black gradient-text-animated">{{ feedbacks|length }}</p>
+                    <p class="text-sm text-gray-600 dark:text-[#90abcb]">Total Feedback</p>
+                </div>
+            </div>
+        </div>
+        <div class="card">
+            <div class="flex items-center gap-3">
+                <div class="w-10 h-10 bg-red-500 rounded-lg flex items-center justify-center">
+                    <i class="fas fa-clock text-white"></i>
+                </div>
+                <div>
+                    <p class="text-2xl font-black gradient-text-animated">{{ pending_count }}</p>
+                    <p class="text-sm text-gray-600 dark:text-[#90abcb]">Pending Review</p>
+                </div>
+            </div>
+        </div>
+        <div class="card">
+            <div class="flex items-center gap-3">
+                <div class="w-10 h-10 bg-green-500 rounded-lg flex items-center justify-center">
+                    <i class="fas fa-check text-white"></i>
+                </div>
+                <div>
+                    <p class="text-2xl font-black gradient-text-animated">{{ feedbacks|length - pending_count }}</p>
+                    <p class="text-sm text-gray-600 dark:text-[#90abcb]">Approved</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Feedback List -->
+    <div class="card">
+        <h2 class="text-xl font-bold text-black dark:text-white mb-4">All Feedback</h2>
+        
+        {% if feedbacks %}
+        <div class="space-y-4">
+            {% for feedback in feedbacks %}
+            <div class="card card-strong {% if not feedback.is_approved %}border-l-4 border-l-[#33c46b]{% endif %}">
+                <div class="flex items-start justify-between mb-3">
+                    <div class="flex items-center gap-3">
+                        <div class="w-10 h-10 bg-gradient-to-r from-[#9de1f5] to-[#33c46b] rounded-full flex items-center justify-center text-white font-bold">
+                            {{ feedback.name[0].upper() }}
+                        </div>
+                        <div>
+                            <h3 class="font-bold text-black dark:text-white">{{ feedback.name }}</h3>
+                            <p class="text-sm text-gray-500 dark:text-[#90abcb]">{{ feedback.role }}{% if feedback.company %} at {{ feedback.company }}{% endif %}</p>
+                        </div>
+                    </div>
+                    <div class="flex items-center gap-2">
+                        {% if not feedback.is_approved %}
+                        <span class="px-2 py-1 bg-red-500 text-white text-xs rounded-full font-bold">Pending</span>
+                        {% else %}
+                        <span class="px-2 py-1 bg-green-600 text-white text-xs rounded-full font-bold">Approved</span>
+                        {% endif %}
+                        <span class="text-xs text-gray-500 dark:text-[#90abcb]">{{ feedback.created_at|ist_datetime }}</span>
+                    </div>
+                </div>
+                
+                <div class="mb-3">
+                    <div class="flex gap-1 mb-2">
+                        {% for i in range(feedback.rating) %}
+                        <i class="fas fa-star text-yellow-400"></i>
+                        {% endfor %}
+                        {% for i in range(5 - feedback.rating) %}
+                        <i class="fas fa-star text-gray-300 dark:text-gray-600"></i>
+                        {% endfor %}
+                    </div>
+                    <p class="text-gray-700 dark:text-[#90abcb] whitespace-pre-wrap">{{ feedback.message }}</p>
+                </div>
+                
+                <div class="flex items-center gap-2 stack-on-mobile">
+                    {% if not feedback.is_approved %}
+                    <form method="post" action="{{ url_for('approve_feedback', feedback_id=feedback.id) }}" class="inline-flex">
+                        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
+                        <button type="submit"
+                          class="flex items-center gap-2 px-4 py-2 bg-[#33c46b] hover:opacity-90 text-white rounded-full transition-all text-sm">
+                            <i class="fas fa-check"></i>
+                            <span>Approve</span>
+                        </button>
+                    </form>
+                    {% else %}
+                    <form method="post" action="{{ url_for('hide_feedback', feedback_id=feedback.id) }}" class="inline-flex">
+                        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
+                        <button type="submit"
+                          class="flex items-center gap-2 px-4 py-2 bg-gray-500 hover:opacity-90 text-white rounded-full transition-all text-sm">
+                            <i class="fas fa-eye-slash"></i>
+                            <span>Hide</span>
+                        </button>
+                    </form>
+                    {% endif %}
+                    <form method="post" action="{{ url_for('delete_feedback', feedback_id=feedback.id) }}" class="inline-flex"
+                      onsubmit="return confirm('Are you sure you want to delete this feedback?')">
+                        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
+                        <button type="submit"
+                          class="flex items-center gap-2 px-4 py-2 bg-red-500 hover:opacity-90 text-white rounded-full transition-all text-sm">
+                            <i class="fas fa-trash"></i>
+                            <span>Delete</span>
+                        </button>
+                    </form>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+        {% else %}
+        <div class="text-center py-12">
+            <i class="fas fa-inbox text-6xl text-gray-300 dark:text-[#314b68] mb-4"></i>
+            <p class="text-gray-600 dark:text-[#90abcb] text-lg">No feedback yet</p>
+        </div>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}

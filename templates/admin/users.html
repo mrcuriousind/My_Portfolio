@@ -1,0 +1,108 @@
+{% extends 'base.html' %}
+
+{% block title %}Manage Users - Admin{% endblock %}
+
+{% block content %}
+<div class="max-w-7xl mx-auto reveal">
+    <!-- Header -->
+    <div class="flex items-center justify-between mb-6 stack-on-mobile">
+        <div>
+            <h1 class="text-3xl font-black gradient-text-animated mb-2">User Management</h1>
+            <p class="text-gray-600 dark:text-[#90abcb]">Manage all registered users</p>
+        </div>
+          <a href="{{ url_for('admin_dashboard') }}" 
+              class="button-fluid flex items-center gap-2 rounded-lg h-10 px-6 bg-gray-200 dark:bg-[#223449] hover:bg-gray-300 dark:hover:bg-[#314b68] text-black dark:text-white font-medium transition-all">
+            <i class="fas fa-arrow-left"></i>
+            <span>Back to Dashboard</span>
+        </a>
+    </div>
+
+    <!-- Users Table -->
+    <div class="card overflow-hidden">
+        <div class="overflow-x-auto table-scroll">
+            <table class="w-full">
+                <thead class="bg-gray-200 dark:bg-[#223449]">
+                    <tr>
+                        <th class="px-6 py-4 text-left text-sm font-bold text-black dark:text-white">User</th>
+                        <th class="px-6 py-4 text-left text-sm font-bold text-black dark:text-white">Email</th>
+                        <th class="px-6 py-4 text-left text-sm font-bold text-black dark:text-white">Joined</th>
+                        <th class="px-6 py-4 text-left text-sm font-bold text-black dark:text-white">Role</th>
+                        <th class="px-6 py-4 text-left text-sm font-bold text-black dark:text-white">Status</th>
+                        <th class="px-6 py-4 text-center text-sm font-bold text-black dark:text-white">Actions</th>
+                    </tr>
+                </thead>
+                <tbody class="divide-y divide-gray-200 dark:divide-[#314b68]">
+                    {% for user_item in users %}
+                    <tr class="hover:bg-gray-50 dark:hover:bg-[#223449] transition-colors">
+                        <td class="px-6 py-4">
+                            <div class="flex items-center gap-3">
+                                <div class="w-10 h-10 bg-gradient-to-r from-[#9de1f5] to-[#33c46b] rounded-full flex items-center justify-center text-white font-bold">
+                                    {{ user_item.username[0].upper() }}
+                                </div>
+                                <span class="font-medium text-black dark:text-white">{{ user_item.username }}</span>
+                            </div>
+                        </td>
+                        <td class="px-6 py-4 text-gray-600 dark:text-[#90abcb]">{{ user_item.email }}</td>
+                        <td class="px-6 py-4 text-gray-600 dark:text-[#90abcb]">{{ user_item.created_at|ist_datetime }}</td>
+                        <td class="px-6 py-4">
+                            {% if user_item.is_admin %}
+                            <span class="px-3 py-1 bg-green-100 dark:bg-green-900/20 text-green-600 dark:text-green-400 text-xs font-medium rounded-full">
+                                <i class="fas fa-shield-alt mr-1"></i>Admin
+                            </span>
+                            {% else %}
+                            <span class="px-3 py-1 bg-gray-200 dark:bg-[#314b68] text-gray-600 dark:text-[#90abcb] text-xs font-medium rounded-full">
+                                <i class="fas fa-user mr-1"></i>User
+                            </span>
+                            {% endif %}
+                        </td>
+                        <td class="px-6 py-4">
+                            {% if user_item.is_active %}
+                            <span class="px-3 py-1 bg-blue-100 dark:bg-blue-900/20 text-blue-600 dark:text-blue-400 text-xs font-medium rounded-full">
+                                <i class="fas fa-check-circle mr-1"></i>Active
+                            </span>
+                            {% else %}
+                            <span class="px-3 py-1 bg-red-100 dark:bg-red-900/20 text-red-600 dark:text-red-400 text-xs font-medium rounded-full">
+                                <i class="fas fa-times-circle mr-1"></i>Inactive
+                            </span>
+                            {% endif %}
+                        </td>
+                        <td class="px-6 py-4">
+                                                        <div class="flex items-center gap-3">
+                                                                {% if not user_item.is_admin and user_item.id != user.id %}
+                                                                <form method="post" action="{{ url_for('make_admin', user_id=user_item.id) }}" class="inline-flex"
+                                                                    onsubmit="return confirm('Make {{ user_item.username }} an admin?')">
+                                                                        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
+                                                                        <button type="submit" class="text-[#33c46b] hover:underline text-sm font-medium" title="Make admin">
+                                                                                <i class="fas fa-user-shield"></i>
+                                                                        </button>
+                                                                </form>
+                                                                {% endif %}
+                                
+                                                                {% if user_item.id != user.id %}
+                                                                <form method="post" action="{{ url_for('toggle_user_status', user_id=user_item.id) }}" class="inline-flex"
+                                                                    onsubmit="return confirm('{% if user_item.is_active %}Deactivate{% else %}Activate{% endif %} {{ user_item.username }}?')">
+                                                                        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
+                                                                        <button type="submit" class="text-blue-500 hover:text-blue-600 text-sm font-medium"
+                                                                            title="{% if user_item.is_active %}Deactivate{% else %}Activate{% endif %} user">
+                                                                                <i class="fas fa-{% if user_item.is_active %}ban{% else %}check-circle{% endif %}"></i>
+                                                                        </button>
+                                                                </form>
+                                
+                                                                <form method="post" action="{{ url_for('delete_user', user_id=user_item.id) }}" class="inline-flex"
+                                                                    onsubmit="return confirm('Are you sure you want to delete {{ user_item.username }}? This action cannot be undone!')">
+                                                                        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
+                                                                        <button type="submit" class="text-red-500 hover:text-red-600 text-sm font-medium" title="Delete user">
+                                                                                <i class="fas fa-trash"></i>
+                                                                        </button>
+                                                                </form>
+                                                                {% endif %}
+                                                        </div>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+{% endblock %}

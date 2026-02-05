@@ -1,0 +1,449 @@
+{% extends 'base.html' %}
+
+{% block title %}Connect - Mr. Curious's Portfolio{% endblock %}
+
+{% block content %}
+<div class="page-transition max-w-7xl mx-auto">
+
+  <!-- Hero Section -->
+  <div class="text-center px-4 pb-8 reveal">
+    <h1 class="hero-title gradient-text-animated text-3xl font-black mb-4">Get In Touch</h1>
+    <p class="hero-subtitle text-gray-800 dark:text-[#90abcb] text-base max-w-2xl mx-auto">
+      Building something new or refining an idea? I’m open to thoughtful conversations and long-term collaboration.
+    </p>
+  </div>
+
+  <!-- Availability Banner -->
+  <div class="px-4 pb-8 reveal">
+    <div
+      class="bg-gradient-to-r from-[#9de1f5]/10 to-[#33c46b]/10 dark:from-[#9de1f5]/5 dark:to-[#33c46b]/5 rounded-lg p-6 border border-gray-200 dark:border-[#314b68]">
+      <div class="flex items-center justify-center gap-3 mb-3">
+        <div class="w-3 h-3 bg-green-500 rounded-full animate-pulse"></div>
+        <h2 class="text-lg font-bold text-black dark:text-white">Building & Collaborating</h2>
+      </div>
+      <p class="text-center text-base text-gray-600 dark:text-[#90abcb] max-w-3xl mx-auto">
+        I spend most of my time building and iterating on products. Occasionally, I collaborate with people who are
+        serious about solving real problems, moving fast, and thinking long-term. If you’re working on something
+        meaningful, I’m open to a conversation. </p>
+    </div>
+  </div>
+
+  <!-- Contact Form Section -->
+  <h3 class="section-title px-4 pb-3 pt-5 reveal">Let's Talk</h3>
+  <div class="px-4 pb-8">
+    <form class="space-y-4">
+      <input type="hidden" name="csrf_token" value="{{ csrf_token() }}" />
+      <!-- Name and Email Row -->
+      <div class="grid md:grid-cols-2 gap-3">
+        <div class="form-group">
+          <label for="contact-name" class="form-label">Name</label>
+          <input type="text" name="name" id="contact-name" required placeholder="Your name"
+            class="input-field" />
+        </div>
+
+        <div class="form-group">
+          <label for="contact-email" class="form-label">Email</label>
+          <div class="relative">
+            <input type="email" name="email" id="contact-email" required placeholder="your@email.com"
+              class="input-field"
+              oninput="validateEmail()" />
+            <span id="email-status" class="absolute right-3 top-1/2 -translate-y-1/2 hidden text-sm"></span>
+          </div>
+          <p id="email-message" class="text-xs mt-1 hidden"></p>
+        </div>
+      </div>
+
+      <!-- Subject -->
+      <div class="form-group">
+        <label for="contact-subject" class="form-label">Subject</label>
+        <input type="text" name="subject" id="contact-subject" required placeholder="What are you building or thinking about?"
+          class="input-field" />
+      </div>
+
+      <!-- Message -->
+            <div class="form-group">
+              <label for="contact-message" class="form-label">Message</label>
+              <textarea name="message" id="contact-message" required
+                placeholder="Share a bit about the problem, the context, or what you're exploring. I read every message."
+                rows="5"
+                class="input-textarea"></textarea>
+              <p class="input-help italic text-[10px]">Thoughtful messages get thoughtful replies.</p>
+            </div>
+
+      <!-- Submit Button -->
+      <div class="flex justify-end">
+        <button type="submit" id="submit-btn" class="btn btn-primary">
+          <span>Send Message</span>
+          <i class="fas fa-paper-plane"></i>
+        </button>
+      </div>
+    </form>
+  </div>
+
+  <script>
+    let emailTimeout;
+    let isEmailValid = false;
+
+    function validateEmail() {
+      clearTimeout(emailTimeout);
+
+      const emailInput = document.getElementById('contact-email');
+      const emailStatus = document.getElementById('email-status');
+      const emailMessage = document.getElementById('email-message');
+      const submitButton = document.getElementById('submit-btn');
+      const email = emailInput.value.trim();
+
+      // Reset if empty
+      if (!email) {
+        emailStatus.classList.add('hidden');
+        emailMessage.classList.add('hidden');
+        isEmailValid = false;
+        return;
+      }
+
+      // Show loading
+      emailStatus.classList.remove('hidden');
+      emailStatus.innerHTML = '<i class="fas fa-spinner fa-spin text-gray-400"></i>';
+      emailMessage.classList.add('hidden');
+
+      // Wait for user to stop typing
+      emailTimeout = setTimeout(() => {
+        // Basic email regex validation
+        const emailRegex = /^\S+@\S+\.\S+$/;
+
+        if (!emailRegex.test(email)) {
+          emailStatus.innerHTML = '<i class="fas fa-times-circle text-red-500"></i>';
+          emailMessage.innerHTML = '<i class="fas fa-times-circle"></i> <span class="text-red-500">Please enter a valid email address</span>';
+          emailMessage.classList.remove('hidden');
+          emailInput.classList.remove('border-green-500');
+          emailInput.classList.add('border-red-500');
+          isEmailValid = false;
+          return;
+        }
+
+        // Check for common typos in popular domains
+        const commonDomains = ['gmail.com', 'yahoo.com', 'hotmail.com', 'outlook.com', 'icloud.com'];
+        const domain = email.split('@')[1];
+        let suggestion = '';
+
+        // Check for common typos
+        if (domain === 'gmial.com' || domain === 'gmai.com' || domain === 'gmil.com') {
+          suggestion = 'Did you mean gmail.com?';
+        } else if (domain === 'yahooo.com' || domain === 'yaho.com') {
+          suggestion = 'Did you mean yahoo.com?';
+        } else if (domain === 'hotmial.com' || domain === 'hotmai.com') {
+          suggestion = 'Did you mean hotmail.com?';
+        }
+
+        if (suggestion) {
+          emailStatus.innerHTML = '<i class="fas fa-exclamation-triangle text-yellow-500"></i>';
+          emailMessage.innerHTML = '<i class="fas fa-exclamation-triangle"></i> <span class="text-yellow-500">' + suggestion + '</span>';
+          emailMessage.classList.remove('hidden');
+          emailInput.classList.remove('border-green-500', 'border-red-500');
+          emailInput.classList.add('border-yellow-500');
+          isEmailValid = true; // Still valid, just a warning
+        } else {
+          emailStatus.innerHTML = '<i class="fas fa-check-circle text-green-500"></i>';
+          emailMessage.innerHTML = '<i class="fas fa-check-circle"></i> <span class="text-green-500">Email looks good!</span>';
+          emailMessage.classList.remove('hidden');
+          emailInput.classList.remove('border-red-500', 'border-yellow-500');
+          emailInput.classList.add('border-green-500');
+          isEmailValid = true;
+        }
+      }, 500); // Wait 500ms after user stops typing
+    }
+
+    // Form submission validation
+    document.querySelector('form').addEventListener('submit', function (e) {
+      e.preventDefault();
+
+      const emailInput = document.getElementById('contact-email');
+      const email = emailInput.value.trim();
+      const emailRegex = /^\S+@\S+\.\S+$/;
+
+      if (!emailRegex.test(email)) {
+        alert('Please enter a valid email address before submitting.');
+        emailInput.focus();
+        return false;
+      }
+
+      // Get form data
+      const formData = new FormData(this);
+      const submitBtn = document.getElementById('submit-btn');
+      const originalBtnText = submitBtn.innerHTML;
+
+      // Disable button and show loading
+      submitBtn.disabled = true;
+      submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> <span>Sending...</span>';
+
+      // Submit form
+      const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
+      fetch('/submit-connect', {
+        method: 'POST',
+        headers: {
+          'X-CSRF-Token': csrfToken
+        },
+        body: formData
+      })
+        .then(response => response.json())
+        .then(data => {
+          if (data.success) {
+            // Show success message with custom styling
+            alert('✅ Message Sent Successfully!\n\nThank you for reaching out! Your message has been received.\n\nI typically respond within 24 hours. Looking forward to connecting with you!');
+            this.reset();
+
+            // Reset email validation UI
+            document.getElementById('email-status').classList.add('hidden');
+            document.getElementById('email-message').classList.add('hidden');
+            emailInput.classList.remove('border-green-500', 'border-red-500', 'border-yellow-500');
+          } else {
+            alert('❌ ' + (data.message || 'An error occurred. Please try again.'));
+          }
+        })
+        .catch(error => {
+          console.error('Error:', error);
+          alert('❌ An error occurred. Please try again later.');
+        })
+        .finally(() => {
+          // Re-enable button
+          submitBtn.disabled = false;
+          submitBtn.innerHTML = originalBtnText;
+        });
+    });
+  </script>
+
+  <!-- Stats Section -->
+  <h3 class="section-title px-4 pb-3 pt-5 reveal">Quick Stats</h3>
+  <div class="grid grid-cols-2 md:grid-cols-4 gap-3 px-4 pb-8 reveal">
+    <div class="card card-hover text-center">
+      <div class="text-2xl font-black gradient-text-animated mb-2 counter" data-count="50">0</div>
+      <p class="text-sm text-gray-600 dark:text-[#90abcb]">Iterations Shipped</p>
+    </div>
+    <div class="card card-hover text-center">
+      <div class="text-2xl font-black gradient-text-animated mb-2 counter" data-count="30">0</div>
+      <p class="text-sm text-gray-600 dark:text-[#90abcb]">Problems Explored</p>
+    </div>
+    <div class="card card-hover text-center">
+      <div class="text-2xl font-black gradient-text-animated mb-2 counter" data-count="100">0</div>
+      <p class="text-sm text-gray-600 dark:text-[#90abcb]">Experiments Run</p>
+    </div>
+    <div class="card card-hover text-center">
+      <div class="text-2xl font-black gradient-text-animated mb-2">24h</div>
+      <p class="text-sm text-gray-600 dark:text-[#90abcb]">Avg. Decision Cycle</p>
+    </div>
+  </div>
+
+  <!-- Testimonials -->
+  <h3 class="section-title px-4 pb-3 pt-5 reveal">From People I’ve Worked With</h3>
+  {% if feedbacks %}
+  <div class="grid md:grid-cols-2 gap-3 px-4 pb-8">
+    {% for feedback in feedbacks %}
+    <div class="card card-hover reveal">
+      <div class="flex gap-1 mb-4">
+        {% for i in range(feedback.rating) %}
+        <i class="fas fa-star text-yellow-400 text-lg"></i>
+        {% endfor %}
+      </div>
+      <p class="text-base text-gray-600 dark:text-[#90abcb] mb-6 leading-relaxed">
+        "{{ feedback.message }}"
+      </p>
+      <div class="flex items-center gap-4">
+        <div
+          class="w-12 h-12 bg-gradient-to-r from-[#9de1f5] to-[#33c46b] rounded-full flex items-center justify-center text-white font-bold text-sm">
+          {{ feedback.name[:2].upper() }}
+        </div>
+        <div>
+          <h4 class="text-base font-bold text-black dark:text-white">{{ feedback.name }}</h4>
+          <p class="text-sm text-gray-500 dark:text-[#90abcb]">{{ feedback.role }}{% if feedback.company %} at {{ 
+            feedback.company }}{% endif %}</p>
+        </div>
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+  {% else %}
+  <div class="px-4 pb-8">
+    <div class="bg-gray-100 dark:bg-[#182534] rounded-lg p-8 border border-gray-200 dark:border-[#314b68] text-center">
+      <p class="text-gray-600 dark:text-[#90abcb]">No feedback yet. Be the first to share your experience!</p>
+    </div>
+  </div>
+  {% endif %}
+
+  <!-- Feedback Form -->
+  <h3 class="section-title text-black dark:text-white text-2xl font-bold leading-tight tracking-[-0.015em] px-4 pb-3 pt-5 reveal">Share Your Experience</h3>
+  <p class="text-gray-600 dark:text-[#90abcb] text-base px-4 pb-4 reveal">Worked with me? I'd love to hear your feedback. It will be reviewed before being published.</p>
+
+  <div class="px-4 pb-8">
+    <form id="feedback-form" method="post" action="{{ url_for('submit_feedback') }}" class="space-y-4">
+      <input type="hidden" name="csrf_token" value="{{ csrf_token() }}" />
+
+      <!-- Name and Role Row -->
+      <div class="grid md:grid-cols-2 gap-3">
+        <div class="form-group">
+          <label for="feedback-name" class="block text-black dark:text-white text-base font-medium mb-2">Name</label>
+          <input type="text" name="name" id="feedback-name" required placeholder="Your name"
+            class="w-full px-4 py-3 border border-gray-300 dark:border-[#314b68] rounded-lg focus:outline-none focus:ring-2 focus:ring-[#33c46b] focus:border-transparent bg-white dark:bg-[#182534] text-black dark:text-white placeholder:text-gray-400 dark:placeholder:text-[#90abcb] transition-all duration-300" />
+        </div>
+
+        <div class="form-group">
+          <label for="feedback-role" class="block text-black dark:text-white text-base font-medium mb-2">Role</label>
+          <input type="text" name="role" id="feedback-role" required placeholder="Your role/title"
+            class="w-full px-4 py-3 border border-gray-300 dark:border-[#314b68] rounded-lg focus:outline-none focus:ring-2 focus:ring-[#33c46b] focus:border-transparent bg-white dark:bg-[#182534] text-black dark:text-white placeholder:text-gray-400 dark:placeholder:text-[#90abcb] transition-all duration-300" />
+        </div>
+      </div>
+
+      <!-- Company (Optional) -->
+      <div class="form-group">
+        <label for="feedback-company" class="block text-black dark:text-white text-base font-medium mb-2">Company (Optional)</label>
+        <input type="text" name="company" id="feedback-company" placeholder="Company name"
+          class="w-full px-4 py-3 border border-gray-300 dark:border-[#314b68] rounded-lg focus:outline-none focus:ring-2 focus:ring-[#33c46b] focus:border-transparent bg-white dark:bg-[#182534] text-black dark:text-white placeholder:text-gray-400 dark:placeholder:text-[#90abcb] transition-all duration-300" />
+      </div>
+
+      <!-- Rating -->
+      <div class="form-group">
+        <label class="block text-black dark:text-white text-base font-medium mb-2">Rating</label>
+        <div id="star-rating" class="star-rating" role="radiogroup" aria-label="Rating">
+          <input type="radio" name="rating" value="5" id="rating-5" required>
+          <label for="rating-5" aria-label="5 stars"><i class="fas fa-star"></i></label>
+          <input type="radio" name="rating" value="4" id="rating-4">
+          <label for="rating-4" aria-label="4 stars"><i class="fas fa-star"></i></label>
+          <input type="radio" name="rating" value="3" id="rating-3">
+          <label for="rating-3" aria-label="3 stars"><i class="fas fa-star"></i></label>
+          <input type="radio" name="rating" value="2" id="rating-2">
+          <label for="rating-2" aria-label="2 stars"><i class="fas fa-star"></i></label>
+          <input type="radio" name="rating" value="1" id="rating-1">
+          <label for="rating-1" aria-label="1 star"><i class="fas fa-star"></i></label>
+        </div>
+      </div>
+
+      <!-- Message -->
+      <div class="form-group">
+        <label for="feedback-message" class="block text-black dark:text-white text-base font-medium mb-2">Your Feedback</label>
+        <textarea name="message" id="feedback-message" required placeholder="Share your experience working with me..."
+          rows="5"
+          class="w-full px-4 py-3 border border-gray-300 dark:border-[#314b68] rounded-lg focus:outline-none focus:ring-2 focus:ring-[#33c46b] focus:border-transparent bg-white dark:bg-[#182534] text-black dark:text-white placeholder:text-gray-400 dark:placeholder:text-[#90abcb] resize-none transition-all duration-300"></textarea>
+        <p class="text-gray-600 dark:text-[#90abcb] text-[10px] italic mt-2">Thoughtful feedback helps me grow.</p>
+      </div>
+
+      <!-- Submit Button -->
+      <div class="flex justify-end">
+        <button type="submit" id="feedback-submit-btn" class="flex items-center justify-center gap-2 rounded-full h-12 px-8 bg-gradient-to-r from-[#9de1f5] to-[#33c46b] hover:opacity-90 text-white text-base font-bold leading-normal transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-xl btn-glow">
+          <span>Submit Feedback</span>
+          <i class="fas fa-paper-plane"></i>
+        </button>
+      </div>
+    </form>
+    <p id="feedback-message-status" class="text-sm mt-3 hidden"></p>
+  </div>
+
+  <!-- Contact Info Section -->
+  <h2 class="section-title px-4 pb-3 pt-5 reveal">Contact Information</h2>
+  <div class="grid md:grid-cols-3 gap-3 px-4 pb-8 reveal">
+    <div class="card card-hover">
+      <div class="flex items-center gap-3 mb-3">
+        <div class="w-10 h-10 bg-gradient-to-r from-[#9de1f5] to-[#33c46b] rounded-lg flex items-center justify-center">
+          <i class="fas fa-envelope text-white"></i>
+        </div>
+        <h3 class="text-base font-bold text-black dark:text-white">Email</h3>
+      </div>
+      <a href="mailto:mrcuriousindia@gmail.com"
+        class="text-gray-600 dark:text-[#90abcb] hover:text-[#33c46b] transition-colors break-all">
+        mrcuriousindia@gmail.com
+      </a>
+    </div>
+
+    <div class="card card-hover">
+      <div class="flex items-center gap-3 mb-3">
+        <div class="w-10 h-10 bg-gradient-to-r from-[#9de1f5] to-[#33c46b] rounded-lg flex items-center justify-center">
+          <i class="fas fa-map-marker-alt text-white"></i>
+        </div>
+        <h3 class="text-base font-bold text-black dark:text-white">Location</h3>
+      </div>
+      <p class="text-gray-600 dark:text-[#90abcb]">Bangalore, India</p>
+    </div>
+
+    <div class="card card-hover">
+      <div class="flex items-center gap-3 mb-3">
+        <div class="w-3 h-3 bg-green-500 rounded-full animate-pulse"></div>
+        <h3 class="text-base font-bold text-black dark:text-white">Working Rhythm</h3>
+      </div>
+      <p class="text-gray-600 dark:text-[#90abcb]">I reply when there’s a meaningful reason to continue the
+        conversation.</p>
+    </div>
+  </div>
+
+  <style>
+    .star-rating {
+      display: inline-flex;
+      flex-direction: row-reverse;
+      gap: 0.5rem;
+    }
+    .star-rating input {
+      position: absolute;
+      opacity: 0;
+      pointer-events: none;
+    }
+    .star-rating label {
+      cursor: pointer;
+      color: #d1d5db;
+      font-size: 32px;
+      transition: color 0.2s, transform 0.2s;
+    }
+    .star-rating label:hover,
+    .star-rating label:hover ~ label {
+      color: #facc15;
+      transform: scale(1.08);
+    }
+    .star-rating input:checked ~ label {
+      color: #facc15;
+    }
+    .dark .star-rating label {
+      color: #6b7280;
+    }
+  </style>
+
+  <script>
+    (function() {
+      const feedbackForm = document.getElementById('feedback-form');
+      if (!feedbackForm) return;
+
+      feedbackForm.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const submitBtn = document.getElementById('feedback-submit-btn');
+        const status = document.getElementById('feedback-message-status');
+        const original = submitBtn.innerHTML;
+
+        submitBtn.disabled = true;
+        submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> <span>Submitting...</span>';
+        status.className = 'text-sm mt-3 hidden';
+
+        try {
+          const formData = new FormData(feedbackForm);
+          const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
+          const response = await fetch('{{ url_for("submit_feedback") }}', {
+            method: 'POST',
+            headers: { 'X-CSRF-Token': csrfToken },
+            body: formData
+          });
+          const result = await response.json();
+          if (result.success) {
+            status.textContent = result.message || 'Thanks for your feedback!';
+            status.className = 'text-sm mt-3 text-green-600 dark:text-green-400';
+            feedbackForm.reset();
+          } else {
+            status.textContent = result.message || 'Unable to submit feedback.';
+            status.className = 'text-sm mt-3 text-red-600 dark:text-red-400';
+          }
+        } catch (err) {
+          status.textContent = 'An error occurred. Please try again later.';
+          status.className = 'text-sm mt-3 text-red-600 dark:text-red-400';
+        } finally {
+          submitBtn.disabled = false;
+          submitBtn.innerHTML = original;
+        }
+      });
+    })();
+  </script>
+
+</div>
+{% endblock %}

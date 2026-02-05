@@ -1,0 +1,141 @@
+{% extends 'base.html' %}
+
+{% block title %}Blog & Videos - Mr. Curious's Portfolio{% endblock %}
+
+{% block content %}
+            <h3 class="section-title text-black dark:text-white text-2xl font-bold leading-tight tracking-[-0.015em] px-4 pb-3 pt-5 reveal">Blog Posts</h3>
+            {% if blog_posts %}
+              {% for post in blog_posts %}
+              <div class="p-4">
+                <div class="flex items-stretch justify-between gap-4 rounded-lg bg-gray-100 dark:bg-[#182534] p-4 shadow-[0_0_4px_rgba(0,0,0,0.1)] card-hover">
+                  <div class="flex flex-[2_2_0px] flex-col gap-4">
+                    <div class="flex flex-col gap-1">
+                      <p class="text-black dark:text-white text-base font-bold leading-tight">{{ post.title }}</p>
+                      <p class="text-gray-500 dark:text-[#90abcb] text-base font-normal leading-normal">{{ post.content[:120] }}...</p>
+                    </div>
+                    <a href="{{ url_for('blog') }}"
+                      class="flex min-w-[84px] max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-full h-8 px-4 bg-gradient-to-r from-[#9de1f5] to-[#33c46b] hover:opacity-90 text-white text-sm font-medium leading-normal w-fit transition-all duration-300 transform hover:scale-105 shadow-md hover:shadow-lg btn-glow btn-ripple">
+                      <i class="fas fa-arrow-right mr-2"></i>
+                      <span class="truncate">Read More</span>
+                    </a>
+                  </div>
+                  <div class="w-full bg-center bg-no-repeat aspect-video bg-cover rounded-lg flex-1" {% if post.image_url %}style="background-image: url('{{ post.image_url }}');"{% endif %}>
+                  </div>
+                </div>
+              </div>
+              {% endfor %}
+            {% else %}
+              <div class="p-4">
+                <div class="rounded-lg border border-gray-200 dark:border-[#314b68] bg-gray-100 dark:bg-[#182534] p-4 text-gray-600 dark:text-[#9eadbd]">
+                  No blog posts yet.
+                </div>
+              </div>
+            {% endif %}
+
+            <div class="flex flex-wrap justify-between gap-3 p-4 stack-on-mobile">
+              <p class="page-title min-w-0">Blog &amp; Videos</p>
+            </div>
+
+            <!-- Social Media & Coding Stats Grid -->
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 px-4 pb-6">
+                <!-- Instagram Latest Post -->
+                <div class="card card-hover">
+                    <div class="flex items-center gap-3 mb-3">
+                        <div class="w-10 h-10 bg-gradient-to-br from-purple-500 to-pink-500 rounded-lg flex items-center justify-center">
+                            <i class="fab fa-instagram text-white text-xl"></i>
+                        </div>
+                        <div>
+                            <h3 class="text-sm font-bold text-black dark:text-white">Instagram</h3>
+                            <p class="text-xs text-gray-500 dark:text-[#90abcb]">Latest Post</p>
+                        </div>
+                    </div>
+                    <a href="https://www.instagram.com/mrcuriousind" target="_blank" class="block">
+                        <div class="aspect-video bg-gray-200 dark:bg-[#223449] rounded-lg mb-2 flex items-center justify-center">
+                            <i class="fab fa-instagram text-4xl text-gray-400 dark:text-[#90abcb]"></i>
+                        </div>
+                        <p class="text-xs text-gray-600 dark:text-[#90abcb] text-center">@mrcuriousind</p>
+                    </a>
+                </div>
+
+                <!-- YouTube Latest Video -->
+                <div class="card card-hover">
+                    <div class="flex items-center gap-3 mb-3">
+                        <div class="w-10 h-10 bg-gradient-to-br from-red-500 to-red-600 rounded-lg flex items-center justify-center">
+                            <i class="fab fa-youtube text-white text-xl"></i>
+                        </div>
+                        <div>
+                            <h3 class="text-sm font-bold text-black dark:text-white">YouTube</h3>
+                            <p class="text-xs text-gray-500 dark:text-[#90abcb]">Latest Video</p>
+                        </div>
+                    </div>
+                    <a href="https://www.youtube.com/@mrcuriousind" target="_blank" class="block">
+                        <div class="aspect-video bg-gray-200 dark:bg-[#223449] rounded-lg mb-2 flex items-center justify-center">
+                            <i class="fab fa-youtube text-4xl text-gray-400 dark:text-[#90abcb]"></i>
+                        </div>
+                        <p class="text-xs text-gray-600 dark:text-[#90abcb] text-center">@mrcuriousind</p>
+                    </a>
+                </div>
+
+                <!-- GitHub Activity -->
+                <div class="card card-hover">
+                    <div class="flex items-center gap-3 mb-3">
+                        <div class="w-10 h-10 bg-gradient-to-br from-gray-700 to-gray-900 rounded-lg flex items-center justify-center">
+                            <i class="fab fa-github text-white text-xl"></i>
+                        </div>
+                        <div>
+                            <h3 class="text-sm font-bold text-black dark:text-white">GitHub</h3>
+                            <p class="text-xs text-gray-500 dark:text-[#90abcb]">Activity</p>
+                        </div>
+                    </div>
+                    <div class="space-y-2">
+                        <div class="flex items-center justify-between">
+                            <span class="text-xs text-gray-600 dark:text-[#90abcb]">Repositories</span>
+                            <span class="text-sm font-bold text-black dark:text-white">{{ github_profile.public_repos if github_profile else '--' }}</span>
+                        </div>
+                        <div class="flex items-center justify-between">
+                            <span class="text-xs text-gray-600 dark:text-[#90abcb]">Followers</span>
+                            <span class="text-sm font-bold text-black dark:text-white">{{ github_profile.followers if github_profile else '--' }}</span>
+                        </div>
+                        <div class="flex items-center justify-between">
+                            <span class="text-xs text-gray-600 dark:text-[#90abcb]">Following</span>
+                            <span class="text-sm font-bold text-black dark:text-white">{{ github_profile.following if github_profile else '--' }}</span>
+                        </div>
+                        {% if github_profile %}
+                        <a href="{{ github_profile.html_url }}" target="_blank" rel="noopener" class="block text-center mt-3 text-xs text-[#33c46b] hover:underline">
+                            View Profile →
+                        </a>
+                        {% else %}
+                        <a href="https://github.com/{{ github_username }}" target="_blank" rel="noopener" class="block text-center mt-3 text-xs text-[#33c46b] hover:underline">
+                            View Profile →
+                        </a>
+                        {% endif %}
+                    </div>
+                </div>
+
+                <!-- LinkedIn -->
+                <div class="card card-hover">
+                    <div class="flex items-center gap-3 mb-3">
+                        <div class="w-10 h-10 bg-gradient-to-br from-blue-600 to-sky-600 rounded-lg flex items-center justify-center">
+                            <i class="fab fa-linkedin text-white text-xl"></i>
+                        </div>
+                        <div>
+                            <h3 class="text-sm font-bold text-black dark:text-white">LinkedIn</h3>
+                            <p class="text-xs text-gray-500 dark:text-[#90abcb]">Professional</p>
+                        </div>
+                    </div>
+                    <div class="space-y-2">
+                        <div class="flex items-center justify-between">
+                            <span class="text-xs text-gray-600 dark:text-[#90abcb]">Profile</span>
+                            <span class="text-sm font-bold text-black dark:text-white">@{{ linkedin_label }}</span>
+                        </div>
+                        <div class="flex items-center justify-between">
+                            <span class="text-xs text-gray-600 dark:text-[#90abcb]">Connections</span>
+                            <span class="text-sm font-bold text-black dark:text-white">{{ linkedin_connections }}+</span>
+                        </div>
+                        <a href="{{ linkedin_url }}" target="_blank" rel="noopener" class="block text-center mt-3 text-xs text-[#33c46b] hover:underline">
+                            View Profile →
+                        </a>
+                    </div>
+                </div>
+            </div>
+{% endblock %}

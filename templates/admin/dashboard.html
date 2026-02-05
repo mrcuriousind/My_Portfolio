@@ -1,0 +1,151 @@
+{% extends 'base.html' %}
+
+{% block title %}Admin Dashboard{% endblock %}
+
+{% block content %}
+<div class="max-w-7xl mx-auto reveal">
+    <!-- Admin Header -->
+    <div class="bg-gradient-to-r from-[#9de1f5]/10 to-[#33c46b]/10 dark:from-[#9de1f5]/5 dark:to-[#33c46b]/5 rounded-lg p-6 mb-6 border border-gray-200 dark:border-[#314b68]">
+        <div class="flex items-center justify-between stack-on-mobile">
+            <div>
+                <h1 class="text-3xl font-black gradient-text-animated mb-2">Admin Dashboard</h1>
+                <p class="text-gray-600 dark:text-[#90abcb]">Welcome back, {{ user.username }}! Manage your portfolio content.</p>
+            </div>
+            <div class="flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-[#9de1f5] to-[#33c46b] rounded-full">
+                <i class="fas fa-shield-alt text-white"></i>
+                <span class="text-white font-bold">Admin</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Statistics Cards -->
+    <div class="grid grid-cols-1 md:grid-cols-6 gap-4 mb-6">
+        <div class="card card-hover">
+            <div class="flex items-center justify-between mb-4">
+                <div class="w-12 h-12 bg-blue-500 rounded-lg flex items-center justify-center">
+                    <i class="fas fa-users text-white text-xl"></i>
+                </div>
+                <span class="text-3xl font-black gradient-text-animated">{{ total_users }}</span>
+            </div>
+            <h3 class="text-sm font-medium text-gray-600 dark:text-[#90abcb]">Total Users</h3>
+        </div>
+
+        <div class="card card-hover">
+            <div class="flex items-center justify-between mb-4">
+                <div class="w-12 h-12 bg-green-500 rounded-lg flex items-center justify-center">
+                    <i class="fas fa-project-diagram text-white text-xl"></i>
+                </div>
+                <span class="text-3xl font-black gradient-text-animated">{{ total_projects }}</span>
+            </div>
+            <h3 class="text-sm font-medium text-gray-600 dark:text-[#90abcb]">Projects</h3>
+        </div>
+
+        <div class="card card-hover">
+            <div class="flex items-center justify-between mb-4">
+                <div class="w-12 h-12 bg-purple-500 rounded-lg flex items-center justify-center">
+                    <i class="fas fa-blog text-white text-xl"></i>
+                </div>
+                <span class="text-3xl font-black gradient-text-animated">{{ total_posts }}</span>
+            </div>
+            <h3 class="text-sm font-medium text-gray-600 dark:text-[#90abcb]">Blog Posts</h3>
+        </div>
+
+        <div class="card card-hover">
+            <div class="flex items-center justify-between mb-4">
+                <div class="w-12 h-12 bg-red-500 rounded-lg flex items-center justify-center">
+                    <i class="fas fa-video text-white text-xl"></i>
+                </div>
+                <span class="text-3xl font-black gradient-text-animated">{{ total_videos }}</span>
+            </div>
+            <h3 class="text-sm font-medium text-gray-600 dark:text-[#90abcb]">Videos</h3>
+        </div>
+
+        <div class="card card-hover cursor-pointer" onclick="window.location.href='{{ url_for('admin_messages') }}'">
+            <div class="flex items-center justify-between mb-4">
+                <div class="w-12 h-12 bg-orange-500 rounded-lg flex items-center justify-center relative">
+                    <i class="fas fa-envelope text-white text-xl"></i>
+                    {% if unread_messages > 0 %}
+                    <span class="absolute -top-1 -right-1 w-5 h-5 bg-red-500 rounded-full flex items-center justify-center text-white text-xs font-bold">{{ unread_messages }}</span>
+                    {% endif %}
+                </div>
+                <span class="text-3xl font-black gradient-text-animated">{{ total_messages }}</span>
+            </div>
+            <h3 class="text-sm font-medium text-gray-600 dark:text-[#90abcb]">Messages</h3>
+        </div>
+
+        <div class="card card-hover cursor-pointer" onclick="window.location.href='{{ url_for('admin_feedback') }}'">
+            <div class="flex items-center justify-between mb-4">
+                <div class="w-12 h-12 bg-yellow-500 rounded-lg flex items-center justify-center relative">
+                    <i class="fas fa-star text-white text-xl"></i>
+                    {% if pending_feedback > 0 %}
+                    <span class="absolute -top-1 -right-1 w-5 h-5 bg-red-500 rounded-full flex items-center justify-center text-white text-xs font-bold">{{ pending_feedback }}</span>
+                    {% endif %}
+                </div>
+                <span class="text-3xl font-black gradient-text-animated">{{ total_feedback }}</span>
+            </div>
+            <h3 class="text-sm font-medium text-gray-600 dark:text-[#90abcb]">Feedback</h3>
+        </div>
+    </div>
+
+    <!-- Quick Actions -->
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+        <div class="card">
+            <h2 class="text-xl font-bold text-black dark:text-white mb-4 flex items-center gap-2">
+                <i class="fas fa-bolt text-[#33c46b]"></i>
+                Quick Actions
+            </h2>
+            <div class="space-y-3">
+                <a href="{{ url_for('admin_users') }}" 
+                   class="flex items-center gap-3 p-3 rounded-lg bg-white dark:bg-[#101923] border border-gray-200 dark:border-[#314b68] hover:border-[#33c46b] transition-all group">
+                    <i class="fas fa-users text-gray-600 dark:text-[#90abcb] group-hover:text-[#33c46b]"></i>
+                    <span class="font-medium text-black dark:text-white">Manage Users</span>
+                </a>
+                <a href="{{ url_for('admin_messages') }}" 
+                   class="flex items-center justify-between p-3 rounded-lg bg-white dark:bg-[#101923] border border-gray-200 dark:border-[#314b68] hover:border-[#33c46b] transition-all group">
+                    <div class="flex items-center gap-3">
+                        <i class="fas fa-envelope text-gray-600 dark:text-[#90abcb] group-hover:text-[#33c46b]"></i>
+                        <span class="font-medium text-black dark:text-white">View Messages</span>
+                    </div>
+                    {% if unread_messages > 0 %}
+                    <span class="px-2 py-1 bg-red-500 text-white text-xs rounded-full font-bold">{{ unread_messages }}</span>
+                    {% endif %}
+                </a>
+                <a href="{{ url_for('admin_feedback') }}" 
+                   class="flex items-center justify-between p-3 rounded-lg bg-white dark:bg-[#101923] border border-gray-200 dark:border-[#314b68] hover:border-[#33c46b] transition-all group">
+                    <div class="flex items-center gap-3">
+                        <i class="fas fa-star text-gray-600 dark:text-[#90abcb] group-hover:text-[#33c46b]"></i>
+                        <span class="font-medium text-black dark:text-white">Review Feedback</span>
+                    </div>
+                    {% if pending_feedback > 0 %}
+                    <span class="px-2 py-1 bg-red-500 text-white text-xs rounded-full font-bold">{{ pending_feedback }}</span>
+                    {% endif %}
+                </a>
+            </div>
+        </div>
+
+        <!-- Recent Users -->
+        <div class="card">
+            <h2 class="text-xl font-bold text-black dark:text-white mb-4 flex items-center gap-2">
+                <i class="fas fa-user-plus text-[#33c46b]"></i>
+                Recent Users
+            </h2>
+            <div class="space-y-3">
+                {% for recent_user in recent_users %}
+                <div class="flex items-center gap-3 p-3 rounded-lg bg-white dark:bg-[#101923] border border-gray-200 dark:border-[#314b68]">
+                    <div class="w-10 h-10 bg-gradient-to-r from-[#9de1f5] to-[#33c46b] rounded-full flex items-center justify-center text-white font-bold">
+                        {{ recent_user.username[0].upper() }}
+                    </div>
+                    <div class="flex-1">
+                        <p class="font-medium text-black dark:text-white">{{ recent_user.username }}</p>
+                        <p class="text-xs text-gray-500 dark:text-[#90abcb]">{{ recent_user.email }}</p>
+                    </div>
+                    {% if recent_user.is_admin %}
+                    <span class="px-2 py-1 bg-green-100 dark:bg-green-900/20 text-green-600 dark:text-green-400 text-xs rounded">Admin</span>
+                    {% endif %}
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

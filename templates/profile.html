@@ -1,0 +1,160 @@
+{% extends 'base.html' %}
+
+{% block title %}Profile - {{ user.username }}{% endblock %}
+
+{% block content %}
+    <div class="max-w-5xl mx-auto reveal">
+        <!-- Profile Header Card -->
+        <div class="card card-hover mb-6">
+            <div class="flex items-center justify-between stack-on-mobile">
+                <div class="flex items-center gap-4 stack-on-mobile">
+                    <div class="profile-avatar w-20 h-20 bg-gradient-to-r from-[#9de1f5] to-[#33c46b] rounded-full flex items-center justify-center text-white text-3xl font-bold">
+                        {% if user.first_name %}
+                            {{ user.first_name[0].upper() }}
+                        {% else %}
+                            {{ user.username[0].upper() }}
+                        {% endif %}
+                    </div>
+                    <div>
+                        <h1 class="text-3xl font-black gradient-text-animated">
+                            {% if user.first_name or user.last_name %}
+                                {{ user.first_name or '' }} {{ user.last_name or '' }}
+                            {% else %}
+                                {{ user.username }}
+                            {% endif %}
+                        </h1>
+                        <p class="text-gray-600 dark:text-[#90abcb]">@{{ user.username.lower() }}</p>
+                    </div>
+                </div>
+                     <a href="{{ url_for('edit_profile') }}" 
+                         class="btn btn-primary btn-sm">
+                    <i class="fas fa-edit"></i>
+                    <span>Edit Profile</span>
+                </a>
+            </div>
+        </div>
+
+        <!-- Profile Content -->
+        <div class="grid md:grid-cols-2 gap-6 card-grid-2">
+            <!-- Left Column - Basic Info -->
+            <div class="card card-hover">
+                <h2 class="page-title mb-6 flex items-center gap-2">
+                    <i class="fas fa-user text-[#33c46b]"></i>
+                    Basic Information
+                </h2>
+                
+                <div class="space-y-4">
+                    {% if user.first_name or user.last_name %}
+                    <div class="pb-4 border-b border-gray-200 dark:border-[#314b68]">
+                        <label class="block text-sm font-medium text-muted mb-1">Full Name</label>
+                        <p class="text-lg font-medium text-black dark:text-white">{{ user.first_name or '' }} {{ user.last_name or '' }}</p>
+                    </div>
+                    {% endif %}
+                    
+                    {% if user.location %}
+                    <div class="pb-4 border-b border-gray-200 dark:border-[#314b68]">
+                        <label class="block text-sm font-medium text-muted mb-1 flex items-center gap-2">
+                            <i class="fas fa-map-marker-alt text-[#33c46b]"></i>
+                            Location
+                        </label>
+                        <p class="text-lg font-medium text-black dark:text-white">{{ user.location }}</p>
+                    </div>
+                    {% endif %}
+                    
+                    {% if user.website %}
+                    <div class="pb-4 border-b border-gray-200 dark:border-[#314b68]">
+                        <label class="block text-sm font-medium text-muted mb-1 flex items-center gap-2">
+                            <i class="fas fa-globe text-[#33c46b]"></i>
+                            Website
+                        </label>
+                        <a href="{{ user.website }}" target="_blank" 
+                           class="text-[#33c46b] hover:underline flex items-center gap-2">
+                            {{ user.website }}
+                            <i class="fas fa-external-link-alt text-sm"></i>
+                        </a>
+                    </div>
+                    {% endif %}
+                    
+                    <div>
+                        <label class="block text-sm font-medium text-muted mb-1 flex items-center gap-2">
+                            <i class="fas fa-calendar text-[#33c46b]"></i>
+                            Member Since
+                        </label>
+                        <p class="text-lg font-medium text-black dark:text-white">{{ user.created_at|ist_datetime }}</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Right Column - Bio and Social -->
+            <div class="space-y-6">
+                {% if user.bio %}
+                <div class="card card-hover">
+                    <h3 class="section-title mb-4 flex items-center gap-2">
+                        <i class="fas fa-info-circle text-[#33c46b]"></i>
+                        Bio
+                    </h3>
+                    <p class="text-muted leading-relaxed whitespace-pre-wrap">{{ user.bio }}</p>
+                </div>
+                {% endif %}
+                
+                <!-- Social Links -->
+                <div class="card card-hover">
+                    <h3 class="section-title mb-4 flex items-center gap-2">
+                        <i class="fas fa-share-alt text-[#33c46b]"></i>
+                        Social Profiles
+                    </h3>
+                    <div class="space-y-3">
+                        {% if user.github_username %}
+                        <a href="https://github.com/{{ user.github_username }}" target="_blank" 
+                           class="flex items-center gap-3 p-3 rounded-lg bg-white dark:bg-[#101923] border border-gray-200 dark:border-[#314b68] hover:border-[#33c46b] transition-all group">
+                            <i class="fab fa-github text-2xl text-gray-600 dark:text-[#90abcb] group-hover:text-[#33c46b] transition-colors"></i>
+                            <div>
+                                <p class="text-sm text-gray-500 dark:text-[#90abcb]">GitHub</p>
+                                <p class="font-medium text-black dark:text-white">@{{ user.github_username }}</p>
+                            </div>
+                        </a>
+                        {% endif %}
+                        
+                        {% if user.linkedin_username %}
+                        <a href="https://linkedin.com/in/{{ user.linkedin_username }}" target="_blank" 
+                           class="flex items-center gap-3 p-3 rounded-lg bg-white dark:bg-[#101923] border border-gray-200 dark:border-[#314b68] hover:border-[#33c46b] transition-all group">
+                            <i class="fab fa-linkedin text-2xl text-gray-600 dark:text-[#90abcb] group-hover:text-[#33c46b] transition-colors"></i>
+                            <div>
+                                <p class="text-sm text-gray-500 dark:text-[#90abcb]">LinkedIn</p>
+                                <p class="font-medium text-black dark:text-white">@{{ user.linkedin_username }}</p>
+                            </div>
+                        </a>
+                        {% endif %}
+                        
+                        {% if user.twitter_username %}
+                        <a href="https://twitter.com/{{ user.twitter_username }}" target="_blank" 
+                           class="flex items-center gap-3 p-3 rounded-lg bg-white dark:bg-[#101923] border border-gray-200 dark:border-[#314b68] hover:border-[#33c46b] transition-all group">
+                            <i class="fab fa-twitter text-2xl text-gray-600 dark:text-[#90abcb] group-hover:text-[#33c46b] transition-colors"></i>
+                            <div>
+                                <p class="text-sm text-gray-500 dark:text-[#90abcb]">Twitter</p>
+                                <p class="font-medium text-black dark:text-white">@{{ user.twitter_username }}</p>
+                            </div>
+                        </a>
+                        {% endif %}
+                        
+                        {% if not user.github_username and not user.linkedin_username and not user.twitter_username %}
+                        <p class="text-muted text-center py-4">No social profiles added yet.</p>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Logout Section at Bottom -->
+        <div class="mt-8 card text-center">
+            <h3 class="section-title mb-3">Account Actions</h3>
+            <p class="text-gray-600 dark:text-[#90abcb] text-base mb-4">Need to sign out of your account?</p>
+            <a href="{{ url_for('logout') }}" 
+               class="inline-flex items-center justify-center gap-2 rounded-full h-10 px-6 bg-gradient-to-r from-red-500 to-red-600 hover:opacity-90 text-white text-sm font-bold leading-normal transition-all duration-300 transform hover:scale-105 shadow-md hover:shadow-lg"
+               onclick="return confirm('Are you sure you want to logout?')">
+                <i class="fas fa-sign-out-alt"></i>
+                <span>Logout</span>
+            </a>
+        </div>
+    </div>
+{% endblock %}

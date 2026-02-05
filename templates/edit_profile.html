@@ -1,0 +1,210 @@
+{% extends 'base.html' %}
+
+{% block title %}Edit Profile{% endblock %}
+
+{% block content %}
+    <div class="max-w-4xl mx-auto reveal">
+        <div class="card">
+            <div class="flex items-center justify-between mb-8 stack-on-mobile">
+                <h1 class="page-title gradient-text-animated">Edit Profile</h1>
+                <a href="{{ url_for('profile') }}" 
+                   class="text-gray-600 dark:text-[#90abcb] hover:text-[#33c46b] transition-colors flex items-center gap-2">
+                    <i class="fas fa-arrow-left"></i>
+                    <span>Back to Profile</span>
+                </a>
+            </div>
+
+            <form method="post" class="space-y-8">
+                <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
+                <!-- Basic Information Section -->
+                <div>
+                    <h2 class="section-title mb-6 flex items-center gap-2 pb-3 border-b border-gray-200 dark:border-[#314b68]">
+                        <i class="fas fa-user text-[#33c46b]"></i>
+                        Basic Information
+                    </h2>
+                    <div class="grid md:grid-cols-2 gap-6">
+                        <div class="form-group md:col-span-2">
+                            <label for="username" class="form-label">
+                                <i class="fas fa-at text-[#33c46b] mr-2"></i>Username
+                            </label>
+                            <div class="relative">
+                                <input type="text" name="username" id="username" value="{{ user.username }}"
+                                       class="input-field lowercase pr-14"
+                                       placeholder="Your unique username" required
+                                       oninput="this.value = this.value.toLowerCase(); checkUsername()">
+                                <div id="username-status" class="absolute right-4 top-1/2 -translate-y-1/2 hidden">
+                                    <i class="fas fa-spinner fa-spin text-gray-400"></i>
+                                </div>
+                            </div>
+                            <p id="username-message" class="text-xs mt-1 transition-all">
+                                <i class="fas fa-info-circle"></i> 
+                                <span class="text-gray-500 dark:text-[#90abcb]">This is your unique identifier on the platform</span>
+                            </p>
+                        </div>
+                        <div class="form-group">
+                            <label for="first_name" class="form-label">
+                                <i class="fas fa-user-circle text-[#33c46b] mr-2"></i>First Name
+                            </label>
+                            <input type="text" name="first_name" id="first_name" value="{{ user.first_name or '' }}"
+                                   class="input-field"
+                                   placeholder="Enter your first name">
+                        </div>
+                        <div class="form-group">
+                            <label for="last_name" class="form-label">
+                                <i class="fas fa-user-circle text-[#33c46b] mr-2"></i>Last Name
+                            </label>
+                            <input type="text" name="last_name" id="last_name" value="{{ user.last_name or '' }}"
+                                   class="input-field"
+                                   placeholder="Enter your last name">
+                        </div>
+                        <div class="form-group">
+                            <label for="location" class="form-label">
+                                <i class="fas fa-map-marker-alt text-[#33c46b] mr-2"></i>Location
+                            </label>
+                            <input type="text" name="location" id="location" value="{{ user.location or '' }}"
+                                   class="input-field"
+                                   placeholder="City, Country">
+                        </div>
+                        <div class="form-group">
+                            <label for="website" class="form-label">
+                                <i class="fas fa-globe text-[#33c46b] mr-2"></i>Website
+                            </label>
+                            <input type="url" name="website" id="website" value="{{ user.website or '' }}"
+                                   class="input-field"
+                                   placeholder="https://yourwebsite.com">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Bio Section -->
+                <div>
+                    <h2 class="section-title mb-6 flex items-center gap-2 pb-3 border-b border-gray-200 dark:border-[#314b68]">
+                        <i class="fas fa-info-circle text-[#33c46b]"></i>
+                        About You
+                    </h2>
+                    <div class="form-group">
+                        <label for="bio" class="form-label">Bio</label>
+                        <textarea name="bio" id="bio" rows="5"
+                                  class="input-textarea"
+                                  placeholder="Tell us about yourself...">{{ user.bio or '' }}</textarea>
+                    </div>
+                </div>
+
+                <!-- Social Profiles Section -->
+                <div>
+                    <h2 class="section-title mb-6 flex items-center gap-2 pb-3 border-b border-gray-200 dark:border-[#314b68]">
+                        <i class="fas fa-share-alt text-[#33c46b]"></i>
+                        Social Profiles
+                    </h2>
+                    <div class="space-y-4">
+                        <div class="form-group">
+                            <label for="github_username" class="form-label">
+                                <i class="fab fa-github text-[#33c46b] mr-2"></i>GitHub Username
+                            </label>
+                            <input type="text" name="github_username" id="github_username" value="{{ user.github_username or '' }}"
+                                   class="input-field"
+                                   placeholder="yourusername">
+                        </div>
+                        <div class="form-group">
+                            <label for="linkedin_username" class="form-label">
+                                <i class="fab fa-linkedin text-[#33c46b] mr-2"></i>LinkedIn Username
+                            </label>
+                            <input type="text" name="linkedin_username" id="linkedin_username" value="{{ user.linkedin_username or '' }}"
+                                   class="input-field"
+                                   placeholder="yourusername">
+                        </div>
+                        <div class="form-group">
+                            <label for="twitter_username" class="form-label">
+                                <i class="fab fa-twitter text-[#33c46b] mr-2"></i>Twitter Username
+                            </label>
+                            <input type="text" name="twitter_username" id="twitter_username" value="{{ user.twitter_username or '' }}"
+                                   class="input-field"
+                                   placeholder="yourusername">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Form Actions -->
+                <div class="flex justify-end gap-4 pt-6 border-t border-gray-200 dark:border-[#314b68] stack-on-mobile">
+                    <a href="{{ url_for('profile') }}" 
+                       class="btn btn-secondary btn-lg">
+                        <i class="fas fa-times"></i>
+                        <span>Cancel</span>
+                    </a>
+                    <button type="submit" 
+                            class="btn btn-primary btn-lg btn-glow">
+                        <i class="fas fa-save"></i>
+                        <span>Save Changes</span>
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        let usernameTimeout;
+        const originalUsername = "{{ user.username }}";
+        
+        function checkUsername() {
+            clearTimeout(usernameTimeout);
+            
+            const usernameInput = document.getElementById('username');
+            const usernameStatus = document.getElementById('username-status');
+            const usernameMessage = document.getElementById('username-message');
+            const submitButton = document.querySelector('button[type="submit"]');
+            const username = usernameInput.value.trim();
+            
+            // Reset if empty
+            if (!username) {
+                usernameStatus.classList.add('hidden');
+                usernameMessage.innerHTML = '<i class="fas fa-info-circle"></i> <span class="text-gray-500 dark:text-[#90abcb]">This is your unique identifier on the platform</span>';
+                submitButton.disabled = true;
+                return;
+            }
+            
+            // Show loading
+            usernameStatus.classList.remove('hidden');
+            usernameStatus.innerHTML = '<i class="fas fa-spinner fa-spin text-gray-400"></i>';
+            
+            // Wait for user to stop typing
+            usernameTimeout = setTimeout(() => {
+                const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
+                fetch('/check-username', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded',
+                        'X-CSRF-Token': csrfToken
+                    },
+                    body: 'username=' + encodeURIComponent(username)
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.available) {
+                        usernameStatus.innerHTML = '<i class="fas fa-check-circle text-green-500"></i>';
+                        usernameMessage.innerHTML = '<i class="fas fa-check-circle"></i> <span class="text-green-500">' + data.message + '</span>';
+                        usernameInput.classList.remove('border-red-500');
+                        usernameInput.classList.add('border-green-500');
+                        submitButton.disabled = false;
+                    } else {
+                        usernameStatus.innerHTML = '<i class="fas fa-times-circle text-red-500"></i>';
+                        usernameMessage.innerHTML = '<i class="fas fa-times-circle"></i> <span class="text-red-500">' + data.message + '</span>';
+                        usernameInput.classList.remove('border-green-500');
+                        usernameInput.classList.add('border-red-500');
+                        submitButton.disabled = true;
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    usernameStatus.classList.add('hidden');
+                    submitButton.disabled = false;
+                });
+            }, 500); // Wait 500ms after user stops typing
+        }
+        
+        // Enable submit button on page load if username hasn't changed
+        document.addEventListener('DOMContentLoaded', function() {
+            const submitButton = document.querySelector('button[type="submit"]');
+            submitButton.disabled = false;
+        });
+    </script>
+{% endblock %}

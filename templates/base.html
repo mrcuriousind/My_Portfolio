@@ -1,0 +1,1294 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
+    <title>{% block title %}Mr. Curious's Portfolio{% endblock %}</title>
+    <link rel="icon" type="image/x-icon" href="data:image/x-icon;base64," />
+    <link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin />
+    <link rel="stylesheet" as="style" onload="this.rel='stylesheet'"
+        href="https://fonts.googleapis.com/css2?display=swap&amp;family=Noto+Sans%3Awght%40400%3B500%3B700%3B900&amp;family=Space+Grotesk%3Awght%40400%3B500%3B700" />
+    <link href="{{ url_for('static', filename='css/output.css', v=static_version('css/output.css')) }}" rel="stylesheet">
+    <script defer src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/js/all.min.js"></script>
+    
+    <style>
+        /* Modern custom scrollbar */
+        * {
+            scrollbar-width: thin;
+            scrollbar-color: #33c46b #1a1a1a;
+        }
+        
+        /* Webkit browsers (Chrome, Safari, Edge) */
+        *::-webkit-scrollbar {
+            width: 8px;
+        }
+        
+        *::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        
+        *::-webkit-scrollbar-thumb {
+            background: linear-gradient(180deg, #9de1f5 0%, #33c46b 100%);
+            border-radius: 10px;
+            border: 2px solid transparent;
+            background-clip: padding-box;
+        }
+        
+        *::-webkit-scrollbar-thumb:hover {
+            background: linear-gradient(180deg, #33c46b 0%, #9de1f5 100%);
+            border-radius: 10px;
+            border: 2px solid transparent;
+            background-clip: padding-box;
+        }
+        
+        /* Dark mode scrollbar */
+        .dark *::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        
+        .dark *::-webkit-scrollbar-thumb {
+            background: linear-gradient(180deg, #9de1f5 0%, #33c46b 100%);
+        }
+        
+        .dark *::-webkit-scrollbar-thumb:hover {
+            background: linear-gradient(180deg, #33c46b 0%, #9de1f5 100%);
+        }
+        
+        /* Header scroll effect */
+        header {
+            transition: transform 0.3s ease, box-shadow 0.3s ease, background-color 0.3s ease;
+        }
+        
+        header.scrolled {
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+            background-color: rgba(255, 255, 255, 0.95);
+        }
+        
+        .dark header.scrolled {
+            background-color: rgba(16, 25, 35, 0.95);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+        }
+        
+        /* Ripple effect styles */
+        .ripple-effect {
+            position: absolute;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.6);
+            transform: scale(0);
+            animation: ripple-animation 0.6s ease-out;
+            pointer-events: none;
+        }
+        
+        @keyframes ripple-animation {
+            to {
+                transform: scale(4);
+                opacity: 0;
+            }
+        }
+        
+        /* Social icon hover effects */
+        .social-icon-wrapper {
+            transition: all 0.3s ease;
+        }
+        
+        .social-icon-wrapper:hover {
+            transform: scale(1.1);
+            box-shadow: 0 10px 25px rgba(51, 196, 107, 0.3);
+            background: linear-gradient(135deg, #9de1f5 0%, #33c46b 100%) !important;
+        }
+        
+        .social-icon-wrapper:hover svg {
+            fill: white !important;
+        }
+        
+        .social-icon-label {
+            transition: color 0.3s ease;
+        }
+        
+        .social-icon-wrapper:hover + .social-icon-label {
+            color: #33c46b !important;
+        }
+
+        .nav-logo-wrap {
+            height: 44px;
+            width: 44px;
+            min-height: 44px;
+            min-width: 44px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+        }
+
+        .nav-logo-img {
+            height: 100% !important;
+            width: auto !important;
+            max-height: 100% !important;
+            max-width: 100% !important;
+            object-fit: contain !important;
+            display: block;
+        }
+
+        @media (max-width: 768px) {
+            .nav-logo-wrap {
+                height: 40px;
+                width: 40px;
+                min-height: 40px;
+                min-width: 40px;
+            }
+        }
+
+        /* Modern Navbar Styles (inline to guarantee effect) */
+        .nav-glass {
+            padding: 6px;
+            border-radius: 999px;
+            background: rgba(255, 255, 255, 0.6);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid rgba(255, 255, 255, 0.4);
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.08);
+        }
+
+        .dark .nav-glass {
+            background: rgba(16, 25, 35, 0.6);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.25);
+        }
+
+        /* Mobile Navigation Side Menu */
+        #mobile-nav {
+            right: -200px;
+            left: auto;
+            opacity: 0;
+            transition: right 0.4s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.4s ease;
+            box-shadow: -10px 0 40px rgba(0, 0, 0, 0.2);
+            width: 200px;
+            height: 100vh;
+            position: fixed;
+            top: 0;
+            z-index: 50;
+        }
+
+        #mobile-nav.block {
+            right: 0 !important;
+            opacity: 1 !important;
+        }
+
+        #mobile-nav-overlay {
+            opacity: 0;
+            transition: opacity 0.4s ease;
+            pointer-events: none;
+        }
+
+        #mobile-nav-overlay.block {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        .mobile-nav-link {
+            display: flex;
+            align-items: center;
+            text-decoration: none;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            margin-bottom: 8px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .mobile-nav-link:hover {
+            transform: translateX(4px);
+        }
+
+        .mobile-nav-container {
+            background: rgba(255, 255, 255, 0.92);
+            border-left: 1px solid rgba(0, 0, 0, 0.08);
+        }
+
+        .dark .mobile-nav-container {
+            background: rgba(24, 37, 52, 0.92) !important;
+            border-left-color: rgba(255, 255, 255, 0.08) !important;
+        }
+
+        .nav-pill {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            height: 36px;
+            padding: 0 14px;
+            border-radius: 999px;
+            font-size: 0.875rem;
+            font-weight: 600;
+            transition: all 0.2s ease;
+        }
+
+        .nav-pill:hover {
+            color: #33c46b;
+            background: rgba(51, 196, 107, 0.12);
+        }
+
+        .nav-pill.active {
+            color: #0b5f36;
+            background: linear-gradient(135deg, rgba(157, 225, 245, 0.35), rgba(51, 196, 107, 0.35));
+            border: 1px solid rgba(51, 196, 107, 0.35);
+        }
+
+        .dark .nav-pill.active {
+            color: #9de1f5;
+            background: linear-gradient(135deg, rgba(34, 52, 73, 0.6), rgba(49, 75, 104, 0.6));
+            border: 1px solid rgba(51, 196, 107, 0.35);
+        }
+
+        /* Profile Avatar Styles */
+        .profile-avatar {
+            width: 32px;
+            height: 32px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #9de1f5 0%, #33c46b 100%);
+            color: white;
+            font-weight: bold;
+            font-size: 0.875rem;
+            border: 2px solid white;
+            box-shadow: 0 2px 8px rgba(51, 196, 107, 0.2);
+            transition: all 0.3s ease;
+        }
+
+        .dark .profile-avatar {
+            border-color: #182534;
+        }
+
+        .profile-avatar:hover {
+            transform: scale(1.1);
+            box-shadow: 0 4px 12px rgba(51, 196, 107, 0.35);
+        }
+
+        @media (min-width: 768px) {
+            .profile-avatar {
+                width: 40px;
+                height: 40px;
+                font-size: 1rem;
+            }
+        }
+
+        /* Admin Button Styles */
+        .admin-button {
+            display: flex;
+            align-items: center;
+            gap: 0.25rem;
+            padding: 0.25rem 0.5rem;
+            font-size: 0.65rem;
+            font-weight: 600;
+            line-height: 1;
+            color: white;
+            background: linear-gradient(135deg, #33c46b 0%, #1db854 100%);
+            border-radius: 999px;
+            text-decoration: none;
+            transition: all 0.2s ease;
+            position: relative;
+            height: 32px;
+            width: 32px;
+            justify-content: center;
+        }
+
+        .admin-button:hover {
+            transform: scale(1.1);
+            box-shadow: 0 4px 12px rgba(51, 196, 107, 0.35);
+        }
+
+        @media (min-width: 768px) {
+            .admin-button {
+                height: 40px;
+                width: 40px;
+                gap: 0.375rem;
+                padding: 0.375rem 0.75rem;
+                font-size: 0.875rem;
+                justify-content: flex-start;
+            }
+        }
+
+        /* Skill cards - consistent height */
+        .skill-card {
+            min-height: 56px;
+            align-items: center;
+        }
+
+        @media (min-width: 768px) {
+            .skill-card {
+                min-height: 64px;
+            }
+        }
+    </style>
+
+    <script>
+        // Theme switching script
+        const applyTheme = (theme) => {
+            if (theme === 'dark') {
+                document.documentElement.classList.add('dark');
+            } else {
+                document.documentElement.classList.remove('dark');
+            }
+        };
+
+        // Get saved theme, default to 'dark' for first-time users
+        let savedTheme = localStorage.getItem('theme');
+        if (!savedTheme) {
+            // First time user - set dark theme as default
+            savedTheme = 'dark';
+            localStorage.setItem('theme', 'dark');
+        }
+        // Apply the saved (or defaulted) theme
+        applyTheme(savedTheme);
+    </script>
+</head>
+
+<body class="bg-white dark:bg-[#101923] text-black dark:text-white">
+    <div class="relative flex size-full min-h-screen flex-col group/design-root overflow-x-hidden"
+        style='font-family: "Space Grotesk", "Noto Sans", sans-serif;'>
+        <div class="layout-container flex h-full grow flex-col">
+            <header class="site-header sticky top-0 z-50">
+                <div class="px-5 md:px-10 py-3 flex items-center justify-between gap-4">
+                    <a href="{{ url_for('home') }}" class="flex items-center gap-2">
+                        <span class="nav-logo-wrap rounded-full bg-white/60 dark:bg-[#182534]">
+                            <img src="{{ url_for('static', filename='Curious_Logo.png') }}"
+                            alt="Curious Logo"
+                            class="nav-logo-img" loading="lazy" decoding="async" width="44" height="44" />
+                        </span>
+                        <span class="text-base md:text-lg font-bold tracking-[-0.015em]">Mr. Curious</span>
+                    </a>
+
+                    <nav class="nav-links-desktop nav-glass items-center gap-2 lg:gap-4">
+                        <a class="nav-pill {% if request.endpoint == 'home' %}active{% endif %}" href="{{ url_for('home') }}">Home</a>
+                        <a class="nav-pill {% if request.endpoint == 'projects' %}active{% endif %}" href="{{ url_for('projects') }}">Products &amp; Experiments</a>
+                        <a class="nav-pill {% if request.endpoint == 'blog' %}active{% endif %}" href="{{ url_for('blog') }}">Blog</a>
+                        <a class="nav-pill {% if request.endpoint == 'connect' %}active{% endif %}" href="{{ url_for('connect') }}">Connect</a>
+                    </nav>
+
+                    <div class="flex items-center gap-2 md:gap-4">
+                        <button id="theme-toggle" class="theme-toggle-btn" title="Toggle theme">
+                            <div class="theme-toggle-track scale-90 md:scale-100">
+                                <svg class="theme-icon-left sun-icon-track" xmlns="http://www.w3.org/2000/svg" width="12" height="12" fill="currentColor" viewBox="0 0 256 256">
+                                    <path d="M120,40V16a8,8,0,0,1,16,0V40a8,8,0,0,1-16,0Zm72,88a64,64,0,1,1-64-64A64.07,64.07,0,0,1,192,128Zm-16,0a48,48,0,1,0-48,48A48.05,48.05,0,0,0,176,128ZM58.34,69.66A8,8,0,0,0,69.66,58.34l-16-16A8,8,0,0,0,42.34,53.66Zm0,116.68-16,16a8,8,0,0,0,11.32,11.32l16-16a8,8,0,0,0-11.32-11.32ZM192,72a8,8,0,0,0,5.66-2.34l16-16a8,8,0,0,0-11.32-11.32l-16,16A8,8,0,0,0,192,72Zm5.66,114.34a8,8,0,0,0-11.32,11.32l16,16a8,8,0,0,0,11.32-11.32ZM48,128a8,8,0,0,0-8-8H16a8,8,0,0,0,0,16H40A8,8,0,0,0,48,128Zm80,80a8,8,0,0,0-8,8v24a8,8,0,0,0,16,0V216A8,8,0,0,0,128,208Zm112-88H216a8,8,0,0,0,0,16h24a8,8,0,0,0,0-16Z"></path>
+                                </svg>
+                                <svg class="theme-icon-right moon-icon-track" xmlns="http://www.w3.org/2000/svg" width="12" height="12" fill="currentColor" viewBox="0 0 256 256">
+                                    <path d="M216.49,155.23a8,8,0,0,0-9.15-1.25,72,72,0,0,1-79.83-79.83,8,8,0,0,0-1.25-9.15,88.08,88.08,0,0,0-120.7,120.7,8,8,0,0,0,9.15,1.25,72,72,0,0,1,79.83,79.83,8,8,0,0,0,1.25,9.15,88.08,88.08,0,0,0,120.7-120.7Z"></path>
+                                </svg>
+                                <div class="theme-toggle-thumb"></div>
+                            </div>
+                        </button>
+
+                        {% if session.get('user_id') %}
+                        {% if session.get('is_admin') %}
+                        <a href="{{ url_for('admin_dashboard') }}" class="admin-button" title="Admin Panel - View unread messages">
+                            <i class="fas fa-shield-alt"></i>
+                            <span class="hidden md:inline">Admin</span>
+                            {% if unread_messages_count > 0 %}
+                            <span class="absolute -top-2 -right-2 w-4 h-4 md:w-5 md:h-5 bg-red-500 rounded-full text-white text-xs flex items-center justify-center font-bold animate-pulse">{{ unread_messages_count }}</span>
+                            {% endif %}
+                        </a>
+                        {% endif %}
+                        <a href="{{ url_for('profile') }}" class="profile-avatar" title="View Profile">
+                            {{ session.get('user_initial', 'U') }}
+                        </a>
+                        {% else %}
+                        <a id="login-button" class="nav-pill">Login</a>
+                        {% endif %}
+
+                        <button id="hamburger-btn" class="hamburger-btn md:hidden text-black dark:text-white p-2" aria-controls="mobile-nav" aria-expanded="false" aria-label="Toggle navigation">
+                            <span class="block w-6 h-0.5 bg-current"></span>
+                            <span class="block w-6 h-0.5 bg-current"></span>
+                            <span class="block w-6 h-0.5 bg-current"></span>
+                        </button>
+                    </div>
+                </div>
+
+                <nav id="mobile-nav" class="nav-links-mobile mobile-nav mobile-nav-container hidden md:hidden flex flex-col px-2 overflow-y-auto" style="backdrop-filter: blur(20px); right: -200px; position: fixed; top: 0; width: 200px; height: 100vh; z-index: 50; padding-top: 12px;">
+                    <div class="flex-1 space-y-1">
+                        <a class="mobile-nav-link py-2 px-2 rounded-lg text-sm font-medium text-gray-800 dark:text-gray-200 {% if request.endpoint == 'home' %}bg-gradient-to-r from-[#9de1f5] to-[#33c46b] text-white shadow-md{% else %}hover:bg-gradient-to-r hover:from-[#9de1f5]/10 hover:to-[#33c46b]/10{% endif %}" href="{{ url_for('home') }}">
+                            <i class="fas fa-home mr-2"></i>Home
+                        </a>
+                        <a class="mobile-nav-link py-2 px-2 rounded-lg text-sm font-medium text-gray-800 dark:text-gray-200 {% if request.endpoint == 'projects' %}bg-gradient-to-r from-[#9de1f5] to-[#33c46b] text-white shadow-md{% else %}hover:bg-gradient-to-r hover:from-[#9de1f5]/10 hover:to-[#33c46b]/10{% endif %}" href="{{ url_for('projects') }}">
+                            <i class="fas fa-cube mr-2"></i>Projects
+                        </a>
+                        <a class="mobile-nav-link py-2 px-2 rounded-lg text-sm font-medium text-gray-800 dark:text-gray-200 {% if request.endpoint == 'blog' %}bg-gradient-to-r from-[#9de1f5] to-[#33c46b] text-white shadow-md{% else %}hover:bg-gradient-to-r hover:from-[#9de1f5]/10 hover:to-[#33c46b]/10{% endif %}" href="{{ url_for('blog') }}">
+                            <i class="fas fa-pen mr-2"></i>Blog
+                        </a>
+                        <a class="mobile-nav-link py-2 px-2 rounded-lg text-sm font-medium text-gray-800 dark:text-gray-200 {% if request.endpoint == 'connect' %}bg-gradient-to-r from-[#9de1f5] to-[#33c46b] text-white shadow-md{% else %}hover:bg-gradient-to-r hover:from-[#9de1f5]/10 hover:to-[#33c46b]/10{% endif %}" href="{{ url_for('connect') }}">
+                            <i class="fas fa-envelope mr-2"></i>Connect
+                        </a>
+                    </div>
+                </nav>
+
+                <!-- Mobile overlay backdrop -->
+                <div id="mobile-nav-overlay" class="hidden fixed bg-black/20 z-30 md:hidden backdrop-blur-sm transition-opacity duration-400" style="left: 0; right: 200px; top: 0; bottom: 0;"></div>
+            </header>
+
+            <div class="w-full flex-1 py-3 md:py-5 px-2 md:px-4 lg:px-40 page-padding">
+                <div class="layout-content-container flex flex-col max-w-[960px] mx-auto w-full">
+                    <!-- Flash messages -->
+                    {% with messages = get_flashed_messages() %}
+                    {% if messages %}
+                    <div class="mb-4">
+                        {% for message in messages %}
+                        <div
+                            class="bg-blue-100 dark:bg-blue-900 border border-blue-400 text-blue-700 dark:text-blue-300 px-4 py-3 rounded mb-2">
+                            {{ message }}
+                        </div>
+                        {% endfor %}
+                    </div>
+                    {% endif %}
+                    {% endwith %}
+                    {% block content %}{% endblock %}
+                </div>
+            </div>
+            <div class="w-full h-px bg-gradient-to-r from-transparent via-gray-200 dark:via-[#314b68] to-transparent my-6 md:my-8"></div>
+            <footer class="flex justify-center w-full bg-gray-50 dark:bg-[#0f1419]">
+                <div class="w-full flex flex-col gap-3 sm:gap-4 md:gap-6 px-3 sm:px-4 md:px-5 py-4 sm:py-6 md:py-10 text-center">
+                    <p class="text-gray-500 dark:text-[#90abcb] text-xs sm:text-xs md:text-sm font-normal leading-normal pb-2 sm:pb-3 pt-1 text-center">
+                        Connect with me on</p>
+                    <div class="flex flex-row gap-4 justify-center flex-nowrap">
+                        <a href="https://github.com/mrcuriousind" target="_blank"
+                            class="flex flex-col items-center gap-1 sm:gap-1.5 md:gap-2 py-1 sm:py-1.5 md:py-2 text-center hover:transform hover:scale-110 transition-transform duration-300">
+                        <div class="social-icon-wrapper rounded-full bg-gray-200 dark:bg-[#223449] p-1.5 sm:p-2 md:p-3 w-9 h-9 sm:w-10 sm:h-10 md:w-12 md:h-12 flex items-center justify-center">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="18px" height="18px" fill="currentColor"
+                                viewBox="0 0 256 256" class="sm:w-5 sm:h-5 md:w-5 md:h-5">
+                                <path
+                                    d="M208.31,75.68A59.78,59.78,0,0,0,202.93,28,8,8,0,0,0,196,24a59.75,59.75,0,0,0-48,24H124A59.75,59.75,0,0,0,76,24a8,8,0,0,0-6.93,4,59.78,59.78,0,0,0-5.38,47.68A58.14,58.14,0,0,0,56,104v8a56.06,56.06,0,0,0,48.44,55.47A39.8,39.8,0,0,0,96,192v8H72a24,24,0,0,1-24-24A40,40,0,0,0,8,136a8,8,0,0,0,0,16,24,24,0,0,1,24,24,40,40,0,0,0,40,40H96v16a8,8,0,0,0,16,0V192a24,24,0,0,1,48,0v40a8,8,0,0,0,16,0V192a39.8,39.8,0,0,0-8.44-24.53A56.06,56.06,0,0,0,216,112v-8A58.14,58.14,0,0,0,208.31,75.68ZM200,112a40,40,0,0,1-40,40H112a40,40,0,0,1-40-40v-8a41.74,41.74,0,0,1,6.9-22.48A8,8,0,0,0,80,73.83a43.81,43.81,0,0,1,.79-33.58,43.88,43.88,0,0,1,32.32,20.06A8,8,0,0,0,119.82,64h32.35a8,8,0,0,0,6.74-3.69,43.87,43.87,0,0,1,32.32-20.06A43.81,43.81,0,0,1,192,73.83a8.09,8.09,0,0,0,1,7.65A41.72,41.72,0,0,1,200,104Z">
+                                </path>
+                            </svg>
+                        </div>
+                        <p class="social-icon-label text-xs sm:text-xs md:text-sm font-medium leading-normal text-gray-600 dark:text-[#90abcb]">GitHub</p>
+                        </a>
+                        <a href="https://www.linkedin.com/in/mrcuriousind" target="_blank"
+                            class="flex flex-col items-center gap-1 sm:gap-1.5 md:gap-2 py-1 sm:py-1.5 md:py-2 text-center hover:transform hover:scale-110 transition-transform duration-300">
+                        <div class="social-icon-wrapper rounded-full bg-gray-200 dark:bg-[#223449] p-1.5 sm:p-2 md:p-3 w-9 h-9 sm:w-10 sm:h-10 md:w-12 md:h-12 flex items-center justify-center">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="18px" height="18px" fill="currentColor"
+                                viewBox="0 0 256 256" class="sm:w-5 sm:h-5 md:w-5 md:h-5">
+                                <path
+                                    d="M216,24H40A16,16,0,0,0,24,40V216a16,16,0,0,0,16,16H216a16,16,0,0,0,16-16V40A16,16,0,0,0,216,24Zm0,192H40V40H216V216ZM96,112v64a8,8,0,0,1-16,0V112a8,8,0,0,1,16,0Zm88,28v36a8,8,0,0,1-16,0V140a20,20,0,0,0-40,0v36a8,8,0,0,1-16,0V112a8,8,0,0,1,15.79-1.78A36,36,0,0,1,184,140ZM100,84A12,12,0,1,1,88,72,12,12,0,0,1,100,84Z">
+                                </path>
+                            </svg>
+                        </div>
+                        <p class="social-icon-label text-xs sm:text-xs md:text-sm font-medium leading-normal text-gray-600 dark:text-[#90abcb]">LinkedIn</p>
+                        </a>
+                        <a href="https://www.youtube.com/@mrcuriousind" target="_blank"
+                            class="flex flex-col items-center gap-1 sm:gap-1.5 md:gap-2 py-1 sm:py-1.5 md:py-2 text-center hover:transform hover:scale-110 transition-transform duration-300">
+                        <div class="social-icon-wrapper rounded-full bg-gray-200 dark:bg-[#223449] p-1.5 sm:p-2 md:p-3 w-9 h-9 sm:w-10 sm:h-10 md:w-12 md:h-12 flex items-center justify-center">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="18px" height="18px" fill="currentColor"
+                                viewBox="0 0 256 256" class="sm:w-5 sm:h-5 md:w-5 md:h-5">
+                                <path
+                                    d="M164.44,121.34l-48-32A8,8,0,0,0,104,96v64a8,8,0,0,0,12.44,6.66l48-32a8,8,0,0,0,0-13.32ZM120,145.05V111l25.58,17ZM234.33,69.52a24,24,0,0,0-14.49-16.4C185.56,39.88,131,40,128,40s-57.56-.12-91.84,13.12a24,24,0,0,0-14.49,16.4C19.08,79.5,16,97.74,16,128s3.08,48.5,5.67,58.48a24,24,0,0,0,14.49,16.41C69,215.56,120.4,216,127.34,216h1.32c6.94,0,58.37-.44,91.18-13.11a24,24,0,0,0,14.49-16.41c2.59-10,5.67-28.22,5.67-58.48S236.92,79.5,234.33,69.52Zm-15.49,113a8,8,0,0,1-4.77,5.49c-31.65,12.22-85.48,12-86,12H128c-.54,0-54.33.2-86-12a8,8,0,0,1-4.77-5.49C34.8,173.39,32,156.57,32,128s2.8-45.39,5.16-54.47A8,8,0,0,1,41.93,68c30.52-11.79,81.66-12,85.85-12h.27c.54,0,54.38-.18,86,12a8,8,0,0,1,4.77,5.49C221.2,82.61,224,99.43,224,128S221.2,173.39,218.84,182.47Z">
+                                </path>
+                            </svg>
+                        </div>
+                        <p class="social-icon-label text-xs sm:text-xs md:text-sm font-medium leading-normal text-gray-600 dark:text-[#90abcb]">YouTube</p>
+                        </a>
+                        <a href="https://x.com/mrcuriousind" target="_blank"
+                            class="flex flex-col items-center gap-1 sm:gap-1.5 md:gap-2 py-1 sm:py-1.5 md:py-2 text-center hover:transform hover:scale-110 transition-transform duration-300">
+                            <div class="social-icon-wrapper rounded-full bg-gray-200 dark:bg-[#223449] p-1.5 sm:p-2 md:p-3 w-9 h-9 sm:w-10 sm:h-10 md:w-12 md:h-12 flex items-center justify-center">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="18px" height="18px" fill="currentColor"
+                                viewBox="0 0 256 256" class="sm:w-5 sm:h-5 md:w-5 md:h-5">
+                                <path
+                                    d="M214.75,211.71l-62.6-98.38,61.77-67.95a8,8,0,0,0-11.84-10.76L143.24,99.34,102.75,35.71A8,8,0,0,0,96,32H48a8,8,0,0,0-6.75,12.3l62.6,98.37-61.77,68a8,8,0,1,0,11.84,10.76l58.84-64.72,40.49,63.63A8,8,0,0,0,160,224h48a8,8,0,0,0,6.75-12.29ZM164.39,208,62.57,48h29L193.43,208Z">
+                                </path>
+                            </svg>
+                        </div>
+                            <p class="social-icon-label text-xs sm:text-xs md:text-sm font-medium leading-normal text-gray-600 dark:text-[#90abcb]">X</p>
+                        </a>
+                        <a href="https://www.instagram.com/mrcuriousind" target="_blank"
+                            class="flex flex-col items-center gap-1 sm:gap-1.5 md:gap-2 py-1 sm:py-1.5 md:py-2 text-center hover:transform hover:scale-110 transition-transform duration-300">
+                            <div class="social-icon-wrapper rounded-full bg-gray-200 dark:bg-[#223449] p-1.5 sm:p-2 md:p-3 w-9 h-9 sm:w-10 sm:h-10 md:w-12 md:h-12 flex items-center justify-center">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="18px" height="18px" fill="currentColor"
+                                viewBox="0 0 256 256" class="sm:w-5 sm:h-5 md:w-5 md:h-5">
+                                <path
+                                    d="M128,80a48,48,0,1,0,48,48A48.05,48.05,0,0,0,128,80Zm0,80a32,32,0,1,1,32-32A32,32,0,0,1,128,160ZM176,24H80A56.06,56.06,0,0,0,24,80v96a56.06,56.06,0,0,0,56,56h96a56.06,56.06,0,0,0,56-56V80A56.06,56.06,0,0,0,176,24Zm40,152a40,40,0,0,1-40,40H80a40,40,0,0,1-40-40V80A40,40,0,0,1,80,40h96a40,40,0,0,1,40,40ZM192,76a12,12,0,1,1-12-12A12,12,0,0,1,192,76Z">
+                                </path>
+                            </svg>
+                        </div>
+                            <p class="social-icon-label text-xs sm:text-xs md:text-sm font-medium leading-normal text-gray-600 dark:text-[#90abcb]">Instagram</p>
+                        </a>
+                    </div>
+                    <p class="text-gray-500 dark:text-[#90abcb] text-xs sm:text-sm md:text-base font-normal leading-normal">© 2025-2026 Mr. Curious. All rights reserved.</p>
+                </div>
+            </footer>
+        </div>
+    </div>
+
+    <!-- Beautiful Login Modal -->
+    <div id="login-modal" class="hidden popup-overlay">
+        <div class="login-container modal-container rounded-lg">
+            <!-- Close Button -->
+            <button id="close-login-modal" class="close-btn" title="Close">
+                <i class="fas fa-times"></i>
+            </button>
+
+            <!-- Login Header -->
+            <div class="login-header">
+                <h2><i class="fas fa-user-circle"></i> Welcome Back</h2>
+                <p>Sign in to access your portfolio</p>
+            </div>
+
+            <!-- Login Form -->
+            <form id="login-form" class="login-form">
+                <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
+                <div class="form-group">
+                    <label for="login-username">Username or Email</label>
+                    <div class="input-wrapper">
+                        <input
+                            type="text"
+                            name="username"
+                            id="login-username"
+                            required
+                            placeholder="Enter your username or email"
+                        />
+                        <i class="fas fa-user-circle input-icon"></i>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="flex items-center justify-between mb-2">
+                        <label for="login-password">Password</label>
+                        <a id="forgot-password-link" class="text-xs text-[#33c46b] hover:underline cursor-pointer">
+                            Forgot Password?
+                        </a>
+                    </div>
+                    <div class="input-wrapper">
+                        <input
+                            type="password"
+                            name="password"
+                            id="login-password"
+                            required
+                            placeholder="Enter your password"
+                        />
+                        <i class="fas fa-lock input-icon"></i>
+                        <i class="fas fa-eye password-toggle" id="login-password-toggle" title="Show/Hide Password"></i>
+                    </div>
+                </div>
+
+                <button type="submit" class="submit-btn">
+                    <i class="fas fa-sign-in-alt"></i> Sign In
+                </button>
+            </form>
+
+            <div id="login-error" class="text-red-500 text-sm mt-2 p-2 rounded bg-red-50 dark:bg-red-900/20" style="display: none;"></div>
+
+            <!-- Footer -->
+            <div class="login-footer">
+                <p>Don't have an account?</p>
+                <a id="show-signup-modal">Create Account</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Beautiful Signup Modal -->
+    <div id="signup-modal" class="hidden popup-overlay">
+        <div class="login-container modal-container rounded-lg">
+            <!-- Close Button -->
+            <button id="close-signup-modal" class="close-btn" title="Close">
+                <i class="fas fa-times"></i>
+            </button>
+
+            <!-- Signup Header -->
+            <div class="login-header">
+                <h2><i class="fas fa-user-plus"></i> Join Us</h2>
+                <p>Create your account to get started</p>
+            </div>
+
+            <!-- Signup Form -->
+            <form id="signup-form" class="login-form">
+                <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
+                <div class="form-group">
+                    <label for="signup-email">Email Address</label>
+                    <div class="input-wrapper">
+                        <input
+                            type="email"
+                            name="email"
+                            id="signup-email"
+                            required
+                            placeholder="Enter your email address"
+                            pattern="[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}"
+                        />
+                        <i class="fas fa-envelope input-icon"></i>
+                        <i class="fas fa-check-circle email-valid-icon" id="email-valid-icon" style="display: none;"></i>
+                    </div>
+                    <p class="email-validation-text" id="email-validation-text"></p>
+                </div>
+
+                <div class="form-group">
+                    <label for="signup-password">Password</label>
+                    <div class="input-wrapper">
+                        <input
+                            type="password"
+                            name="password"
+                            id="signup-password"
+                            required
+                            placeholder="Create a strong password"
+                            minlength="8"
+                        />
+                        <i class="fas fa-lock input-icon"></i>
+                        <i class="fas fa-eye password-toggle" id="signup-password-toggle" title="Show/Hide Password"></i>
+                    </div>
+                    <!-- Password Strength Indicator -->
+                    <div class="password-strength-bar" id="password-strength-bar" style="display: none;">
+                        <div class="password-strength-fill" id="password-strength-fill"></div>
+                    </div>
+                    <p class="password-strength-text" id="password-strength-text"></p>
+                    <div class="password-requirements" id="password-requirements" style="display: none;">
+                        <p class="requirement" id="req-length"><i class="fas fa-circle"></i> At least 8 characters</p>
+                        <p class="requirement" id="req-uppercase"><i class="fas fa-circle"></i> One uppercase letter</p>
+                        <p class="requirement" id="req-lowercase"><i class="fas fa-circle"></i> One lowercase letter</p>
+                        <p class="requirement" id="req-number"><i class="fas fa-circle"></i> One number</p>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="signup-confirm-password">Confirm Password</label>
+                    <div class="input-wrapper">
+                        <input
+                            type="password"
+                            name="confirm_password"
+                            id="signup-confirm-password"
+                            required
+                            placeholder="Re-enter your password"
+                        />
+                        <i class="fas fa-lock input-icon"></i>
+                        <i class="fas fa-eye password-toggle" id="signup-confirm-password-toggle" title="Show/Hide Password"></i>
+                    </div>
+                    <p class="password-match-text" id="password-match-text"></p>
+                </div>
+
+                <button type="submit" class="submit-btn" id="signup-submit-btn" disabled>
+                    <i class="fas fa-user-plus"></i> Create Account
+                </button>
+            </form>
+
+            <div id="signup-error" class="text-red-500 text-sm mt-2 p-2 rounded bg-red-50 dark:bg-red-900/20" style="display: none;"></div>
+
+            <!-- Footer -->
+            <div class="login-footer">
+                <p>Already have an account?</p>
+                <a id="show-login-modal">Sign In</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Forgot Password Modal -->
+    <div id="forgot-password-modal" class="hidden popup-overlay">
+        <div class="login-container modal-container rounded-lg">
+            <!-- Close Button -->
+            <button id="close-forgot-password-modal" class="close-btn" title="Close">
+                <i class="fas fa-times"></i>
+            </button>
+
+            <!-- Header -->
+            <div class="login-header">
+                <h2><i class="fas fa-key"></i> Reset Password</h2>
+                <p>Enter your email to receive reset instructions</p>
+            </div>
+
+            <!-- Forgot Password Form -->
+            <form id="forgot-password-form" class="login-form">
+                <div class="form-group">
+                    <label for="forgot-email">Email Address</label>
+                    <div class="input-wrapper">
+                        <input
+                            type="email"
+                            name="email"
+                            id="forgot-email"
+                            required
+                            placeholder="Enter your email address"
+                        />
+                        <i class="fas fa-envelope input-icon"></i>
+                    </div>
+                </div>
+
+                <button type="submit" class="submit-btn">
+                    <i class="fas fa-paper-plane"></i> Send Reset Link
+                </button>
+            </form>
+
+            <div id="forgot-password-message" class="text-sm mt-2 p-2 rounded" style="display: none;"></div>
+
+            <!-- Footer -->
+            <div class="login-footer">
+                <p>Remember your password?</p>
+                <a id="back-to-login">Sign In</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Theme Toggle Script -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const themeToggle = document.getElementById('theme-toggle');
+
+            if (!themeToggle) {
+                console.error('Theme toggle element not found');
+                return;
+            }
+
+            const toggleTheme = () => {
+                const currentTheme = document.documentElement.classList.contains('dark') ? 'dark' : 'light';
+                const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+
+                localStorage.setItem('theme', newTheme);
+                applyTheme(newTheme);
+            };
+
+            // Set up click event listener
+            themeToggle.addEventListener('click', toggleTheme);
+        });
+    </script>
+
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const loginButton = document.getElementById('login-button');
+            const loginModal = document.getElementById('login-modal');
+            const closeLoginModal = document.getElementById('close-login-modal');
+            const showSignupModal = document.getElementById('show-signup-modal');
+
+            const signupModal = document.getElementById('signup-modal');
+            const closeSignupModal = document.getElementById('close-signup-modal');
+            const showLoginModal = document.getElementById('show-login-modal');
+            
+            const forgotPasswordModal = document.getElementById('forgot-password-modal');
+            const closeForgotPasswordModal = document.getElementById('close-forgot-password-modal');
+            const forgotPasswordLink = document.getElementById('forgot-password-link');
+            const backToLogin = document.getElementById('back-to-login');
+
+            const loginPasswordToggle = document.getElementById('login-password-toggle');
+            const signupPasswordToggle = document.getElementById('signup-password-toggle');
+            const signupConfirmPasswordToggle = document.getElementById('signup-confirm-password-toggle');
+            
+            // Email validation
+            const signupEmail = document.getElementById('signup-email');
+            const emailValidIcon = document.getElementById('email-valid-icon');
+            const emailValidationText = document.getElementById('email-validation-text');
+            
+            // Password strength validation
+            const signupPassword = document.getElementById('signup-password');
+            const signupConfirmPassword = document.getElementById('signup-confirm-password');
+            const passwordStrengthFill = document.getElementById('password-strength-fill');
+            const passwordStrengthText = document.getElementById('password-strength-text');
+            const passwordMatchText = document.getElementById('password-match-text');
+            const signupSubmitBtn = document.getElementById('signup-submit-btn');
+            
+            const requirements = {
+                length: document.getElementById('req-length'),
+                uppercase: document.getElementById('req-uppercase'),
+                lowercase: document.getElementById('req-lowercase'),
+                number: document.getElementById('req-number')
+            };
+            
+            function checkPasswordStrength(password) {
+                // Show requirements when user starts typing
+                const passwordStrengthBar = document.getElementById('password-strength-bar');
+                const passwordRequirements = document.getElementById('password-requirements');
+                
+                if (password.length > 0) {
+                    passwordStrengthBar.style.display = 'block';
+                    passwordRequirements.style.display = 'block';
+                } else {
+                    passwordStrengthBar.style.display = 'none';
+                    passwordRequirements.style.display = 'none';
+                    passwordStrengthText.textContent = '';
+                    return false;
+                }
+                
+                let strength = 0;
+                const checks = {
+                    length: password.length >= 8,
+                    uppercase: /[A-Z]/.test(password),
+                    lowercase: /[a-z]/.test(password),
+                    number: /[0-9]/.test(password)
+                };
+                
+                // Update requirement indicators
+                Object.keys(checks).forEach(key => {
+                    if (checks[key]) {
+                        requirements[key].classList.add('met');
+                        strength++;
+                    } else {
+                        requirements[key].classList.remove('met');
+                    }
+                });
+                
+                // Update strength bar and text
+                passwordStrengthFill.className = 'password-strength-fill';
+                passwordStrengthText.className = 'password-strength-text';
+                
+                if (strength === 1) {
+                    passwordStrengthFill.classList.add('weak');
+                    passwordStrengthText.classList.add('weak');
+                    passwordStrengthText.textContent = 'Weak';
+                } else if (strength === 2) {
+                    passwordStrengthFill.classList.add('fair');
+                    passwordStrengthText.classList.add('fair');
+                    passwordStrengthText.textContent = 'Fair';
+                } else if (strength === 3) {
+                    passwordStrengthFill.classList.add('good');
+                    passwordStrengthText.classList.add('good');
+                    passwordStrengthText.textContent = 'Good';
+                } else if (strength === 4) {
+                    passwordStrengthFill.classList.add('strong');
+                    passwordStrengthText.classList.add('strong');
+                    passwordStrengthText.textContent = 'Strong!';
+                }
+                
+                return strength === 4;
+            }
+            
+            function checkPasswordMatch() {
+                const password = signupPassword.value;
+                const confirmPassword = signupConfirmPassword.value;
+                
+                if (confirmPassword === '') {
+                    passwordMatchText.textContent = '';
+                    passwordMatchText.className = 'password-match-text';
+                    return false;
+                } else if (password === confirmPassword) {
+                    passwordMatchText.textContent = '✓ Passwords match';
+                    passwordMatchText.className = 'password-match-text match';
+                    return true;
+                } else {
+                    passwordMatchText.textContent = '✗ Passwords do not match';
+                    passwordMatchText.className = 'password-match-text no-match';
+                    return false;
+                }
+            }
+            
+            function validateEmail(email, showError = false) {
+                // Comprehensive email validation
+                const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+                
+                // Don't show anything if empty
+                if (email === '') {
+                    emailValidIcon.style.display = 'none';
+                    emailValidationText.textContent = '';
+                    emailValidationText.className = 'email-validation-text';
+                    return false;
+                }
+                
+                // Full regex validation
+                if (emailRegex.test(email)) {
+                    // Valid email - show green checkmark icon
+                    emailValidIcon.style.display = 'block';
+                    emailValidationText.textContent = '';
+                    emailValidationText.className = 'email-validation-text';
+                    return true;
+                } else {
+                    // Invalid email
+                    emailValidIcon.style.display = 'none';
+                    
+                    // Only show error message if showError is true (on blur)
+                    if (showError && email.length > 0) {
+                        if (!email.includes('@')) {
+                            emailValidationText.textContent = '✗ Email must contain @';
+                            emailValidationText.className = 'email-validation-text invalid';
+                        } else if (!email.split('@')[1] || !email.split('@')[1].includes('.')) {
+                            emailValidationText.textContent = '✗ Invalid email format';
+                            emailValidationText.className = 'email-validation-text invalid';
+                        } else {
+                            emailValidationText.textContent = '✗ Invalid email format';
+                            emailValidationText.className = 'email-validation-text invalid';
+                        }
+                    } else {
+                        // While typing, don't show error
+                        emailValidationText.textContent = '';
+                        emailValidationText.className = 'email-validation-text';
+                    }
+                    return false;
+                }
+            }
+            
+            function updateSignupButton() {
+                const isValidEmail = validateEmail(signupEmail.value);
+                const isStrongPassword = checkPasswordStrength(signupPassword.value);
+                const passwordsMatch = checkPasswordMatch();
+                
+                if (isValidEmail && isStrongPassword && passwordsMatch && signupPassword.value.length >= 8) {
+                    signupSubmitBtn.disabled = false;
+                    signupSubmitBtn.style.opacity = '1';
+                    signupSubmitBtn.style.cursor = 'pointer';
+                } else {
+                    signupSubmitBtn.disabled = true;
+                    signupSubmitBtn.style.opacity = '0.5';
+                    signupSubmitBtn.style.cursor = 'not-allowed';
+                }
+            }
+            
+            if (signupEmail) {
+                // While typing - validate but don't show errors
+                signupEmail.addEventListener('input', () => {
+                    validateEmail(signupEmail.value, false);
+                    updateSignupButton();
+                });
+                
+                // When user leaves field - show errors if invalid
+                signupEmail.addEventListener('blur', () => {
+                    validateEmail(signupEmail.value, true);
+                });
+                
+                // When user focuses back - hide errors
+                signupEmail.addEventListener('focus', () => {
+                    if (!validateEmail(signupEmail.value, false)) {
+                        emailValidationText.textContent = '';
+                    }
+                });
+            }
+            
+            if (signupPassword) {
+                signupPassword.addEventListener('input', updateSignupButton);
+            }
+            
+            if (signupConfirmPassword) {
+                signupConfirmPassword.addEventListener('input', updateSignupButton);
+            }
+
+            // Beautiful modal open/close functions
+            const openModal = (modal) => {
+                modal.classList.remove('hidden');
+                setTimeout(() => {
+                    modal.classList.add('active');
+                }, 10);
+                document.body.style.overflow = 'hidden';
+            };
+
+            const closeModal = (modal) => {
+                modal.classList.remove('active');
+                setTimeout(() => {
+                    modal.classList.add('hidden');
+                    document.body.style.overflow = 'auto';
+                }, 300);
+            };
+
+            // Password visibility toggle function
+            const togglePassword = (passwordInput, toggleIcon) => {
+                if (passwordInput.type === 'password') {
+                    passwordInput.type = 'text';
+                    toggleIcon.className = 'fas fa-eye-slash password-toggle';
+                } else {
+                    passwordInput.type = 'password';
+                    toggleIcon.className = 'fas fa-eye password-toggle';
+                }
+            };
+
+            // Event listeners
+            if (loginButton) {
+                loginButton.addEventListener('click', () => openModal(loginModal));
+            }
+
+            if (closeLoginModal) {
+                closeLoginModal.addEventListener('click', () => closeModal(loginModal));
+            }
+
+            if (closeSignupModal) {
+                closeSignupModal.addEventListener('click', () => closeModal(signupModal));
+            }
+
+            if (showSignupModal) {
+                showSignupModal.addEventListener('click', () => {
+                    closeModal(loginModal);
+                    setTimeout(() => openModal(signupModal), 300);
+                });
+            }
+
+            if (showLoginModal) {
+                showLoginModal.addEventListener('click', () => {
+                    closeModal(signupModal);
+                    setTimeout(() => openModal(loginModal), 300);
+                });
+            }
+            
+            if (forgotPasswordLink) {
+                forgotPasswordLink.addEventListener('click', () => {
+                    closeModal(loginModal);
+                    setTimeout(() => openModal(forgotPasswordModal), 300);
+                });
+            }
+            
+            if (closeForgotPasswordModal) {
+                closeForgotPasswordModal.addEventListener('click', () => closeModal(forgotPasswordModal));
+            }
+            
+            if (backToLogin) {
+                backToLogin.addEventListener('click', () => {
+                    closeModal(forgotPasswordModal);
+                    setTimeout(() => openModal(loginModal), 300);
+                });
+            }
+
+            // Password toggle event listeners
+            if (loginPasswordToggle) {
+                loginPasswordToggle.addEventListener('click', () => {
+                    const passwordInput = document.getElementById('login-password');
+                    togglePassword(passwordInput, loginPasswordToggle);
+                });
+            }
+
+            if (signupPasswordToggle) {
+                signupPasswordToggle.addEventListener('click', () => {
+                    const passwordInput = document.getElementById('signup-password');
+                    togglePassword(passwordInput, signupPasswordToggle);
+                });
+            }
+            
+            if (signupConfirmPasswordToggle) {
+                signupConfirmPasswordToggle.addEventListener('click', () => {
+                    const passwordInput = document.getElementById('signup-confirm-password');
+                    togglePassword(passwordInput, signupConfirmPasswordToggle);
+                });
+            }
+
+            // Close modal when clicking outside
+            loginModal && loginModal.addEventListener('click', function(e) {
+                if (e.target === this) {
+                    closeModal(loginModal);
+                }
+            });
+
+            signupModal && signupModal.addEventListener('click', function(e) {
+                if (e.target === this) {
+                    closeModal(signupModal);
+                }
+            });
+            
+            forgotPasswordModal && forgotPasswordModal.addEventListener('click', function(e) {
+                if (e.target === this) {
+                    closeModal(forgotPasswordModal);
+                }
+            });
+
+            // Close modal with Escape key
+            document.addEventListener('keydown', function(e) {
+                if (e.key === 'Escape') {
+                    if (loginModal && !loginModal.classList.contains('hidden')) {
+                        closeModal(loginModal);
+                    }
+                    if (signupModal && !signupModal.classList.contains('hidden')) {
+                        closeModal(signupModal);
+                    }
+                    if (forgotPasswordModal && !forgotPasswordModal.classList.contains('hidden')) {
+                        closeModal(forgotPasswordModal);
+                    }
+                }
+            });
+
+            // Enhanced form submission with loading states
+            const loginForm = document.getElementById('login-form');
+            if (loginForm) {
+                loginForm.addEventListener('submit', async (e) => {
+                    e.preventDefault();
+                    const submitBtn = loginForm.querySelector('.submit-btn');
+                    const originalText = submitBtn.innerHTML;
+                    
+                    // Add loading state
+                    submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Signing In...';
+                    submitBtn.disabled = true;
+                    
+                    try {
+                        const formData = new FormData(loginForm);
+                        const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
+                        const response = await fetch('{{ url_for("login") }}', {
+                            method: 'POST',
+                            headers: {
+                                'X-CSRF-Token': csrfToken
+                            },
+                            body: formData
+                        });
+                        const result = await response.json();
+                        
+                        if (result.success) {
+                            submitBtn.innerHTML = '<i class="fas fa-check"></i> Success!';
+                            setTimeout(() => {
+                                window.location.reload();
+                            }, 500);
+                        } else {
+                            const errorDiv = document.getElementById('login-error');
+                            errorDiv.textContent = result.message;
+                            errorDiv.style.display = 'block';
+                            submitBtn.innerHTML = originalText;
+                            submitBtn.disabled = false;
+                        }
+                    } catch (error) {
+                        const errorDiv = document.getElementById('login-error');
+                        errorDiv.textContent = 'An error occurred. Please try again.';
+                        errorDiv.style.display = 'block';
+                        submitBtn.innerHTML = originalText;
+                        submitBtn.disabled = false;
+                    }
+                });
+            }
+
+            const signupForm = document.getElementById('signup-form');
+            if (signupForm) {
+                signupForm.addEventListener('submit', async (e) => {
+                    e.preventDefault();
+                    const submitBtn = signupForm.querySelector('.submit-btn');
+                    const originalText = submitBtn.innerHTML;
+                    
+                    // Add loading state
+                    submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Creating Account...';
+                    submitBtn.disabled = true;
+                    
+                    try {
+                        const formData = new FormData(signupForm);
+                        const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
+                        const response = await fetch('{{ url_for("signup") }}', {
+                            method: 'POST',
+                            headers: {
+                                'X-CSRF-Token': csrfToken
+                            },
+                            body: formData
+                        });
+                        const result = await response.json();
+                        
+                        if (result.success) {
+                            submitBtn.innerHTML = '<i class="fas fa-check"></i> Account Created!';
+                            setTimeout(() => {
+                                closeModal(signupModal);
+                                setTimeout(() => {
+                                    openModal(loginModal);
+                                    // Show success message in login modal with username
+                                    const loginHeader = loginModal.querySelector('.login-header p');
+                                    const originalLoginText = loginHeader.textContent;
+                                    loginHeader.innerHTML = `✓ Account created! Your username is: <strong>${result.username}</strong>`;
+                                    loginHeader.style.color = '#33c46b';
+                                    setTimeout(() => {
+                                        loginHeader.textContent = originalLoginText;
+                                        loginHeader.style.color = '';
+                                    }, 5000);
+                                }, 300);
+                            }, 1000);
+                        } else {
+                            const errorDiv = document.getElementById('signup-error');
+                            errorDiv.textContent = result.message;
+                            errorDiv.style.display = 'block';
+                            submitBtn.innerHTML = originalText;
+                            submitBtn.disabled = false;
+                        }
+                    } catch (error) {
+                        const errorDiv = document.getElementById('signup-error');
+                        errorDiv.textContent = 'An error occurred. Please try again.';
+                        errorDiv.style.display = 'block';
+                        submitBtn.innerHTML = originalText;
+                        submitBtn.disabled = false;
+                    }
+                });
+            }
+            
+            // Forgot Password Form Handler
+            const forgotPasswordForm = document.getElementById('forgot-password-form');
+            if (forgotPasswordForm) {
+                forgotPasswordForm.addEventListener('submit', async (e) => {
+                    e.preventDefault();
+                    const submitBtn = forgotPasswordForm.querySelector('.submit-btn');
+                    const originalText = submitBtn.innerHTML;
+                    const messageDiv = document.getElementById('forgot-password-message');
+                    
+                    // Add loading state
+                    submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Sending...';
+                    submitBtn.disabled = true;
+                    messageDiv.style.display = 'none';
+                    
+                    // Simulate sending email (you'll need to implement backend)
+                    setTimeout(() => {
+                        submitBtn.innerHTML = '<i class="fas fa-check"></i> Email Sent!';
+                        messageDiv.textContent = '✓ Password reset instructions have been sent to your email.';
+                        messageDiv.className = 'text-sm mt-2 p-2 rounded bg-green-50 dark:bg-green-900/20 text-green-600 dark:text-green-400';
+                        messageDiv.style.display = 'block';
+                        
+                        setTimeout(() => {
+                            closeModal(forgotPasswordModal);
+                            forgotPasswordForm.reset();
+                            submitBtn.innerHTML = originalText;
+                            submitBtn.disabled = false;
+                            messageDiv.style.display = 'none';
+                        }, 3000);
+                    }, 1500);
+                });
+            }
+        });
+
+            // Mobile menu hamburger toggle
+            const hamburgerBtn = document.getElementById('hamburger-btn');
+            const navLinksMobile = document.getElementById('mobile-nav');
+            const overlay = document.getElementById('mobile-nav-overlay');
+        
+            const closeMenu = () => {
+                if (navLinksMobile) {
+                    navLinksMobile.classList.remove('block');
+                    navLinksMobile.classList.add('hidden');
+                }
+                if (overlay) {
+                    overlay.classList.remove('block');
+                    overlay.classList.add('hidden');
+                }
+                if (hamburgerBtn) {
+                    hamburgerBtn.classList.remove('active');
+                    hamburgerBtn.setAttribute('aria-expanded', 'false');
+                }
+            };
+
+            const openMenu = () => {
+                if (navLinksMobile) {
+                    navLinksMobile.classList.add('block');
+                    navLinksMobile.classList.remove('hidden');
+                }
+                if (overlay) {
+                    overlay.classList.add('block');
+                    overlay.classList.remove('hidden');
+                }
+                if (hamburgerBtn) {
+                    hamburgerBtn.classList.add('active');
+                    hamburgerBtn.setAttribute('aria-expanded', 'true');
+                }
+            };
+        
+            if (hamburgerBtn) {
+                hamburgerBtn.addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    if (navLinksMobile && navLinksMobile.classList.contains('hidden')) {
+                        openMenu();
+                    } else {
+                        closeMenu();
+                    }
+                });
+            }
+
+            // Close menu when clicking overlay
+            if (overlay) {
+                overlay.addEventListener('click', closeMenu);
+            }
+
+            // Close mobile menu when clicking on a link
+            if (navLinksMobile) {
+                const mobileLinks = navLinksMobile.querySelectorAll('a');
+                mobileLinks.forEach(link => {
+                    link.addEventListener('click', closeMenu);
+                });
+            }
+
+            // Close menu when clicking anywhere outside the menu/hamburger
+            document.addEventListener('click', (event) => {
+                if (!navLinksMobile || navLinksMobile.classList.contains('hidden')) {
+                    return;
+                }
+                const clickedInsideMenu = navLinksMobile.contains(event.target);
+                const clickedHamburger = hamburgerBtn && hamburgerBtn.contains(event.target);
+                if (!clickedInsideMenu && !clickedHamburger) {
+                    closeMenu();
+                }
+            });
+    </script>
+
+    <!-- Animations Script -->
+    <script defer src="{{ url_for('static', filename='js/animations.js') }}"></script>
+
+</body>
+
+</html>
