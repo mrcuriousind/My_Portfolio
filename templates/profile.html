@@ -149,8 +149,8 @@
         <div class="mt-8 card text-center">
             <h3 class="section-title mb-3">Account Actions</h3>
             <p class="text-gray-600 dark:text-[#90abcb] text-base mb-4">Need to sign out of your account?</p>
-            <a href="{{ url_for('logout') }}" 
-               class="inline-flex items-center justify-center gap-2 rounded-full h-10 px-6 bg-gradient-to-r from-red-500 to-red-600 hover:opacity-90 text-white text-sm font-bold leading-normal transition-all duration-300 transform hover:scale-105 shadow-md hover:shadow-lg"
+                <a href="{{ url_for('logout') }}" 
+                    class="logout-button inline-flex items-center justify-center gap-2 rounded-full h-10 px-6 bg-red-600 hover:bg-red-700 text-gray-900 dark:text-white hover:text-gray-900 dark:hover:text-white focus:text-gray-900 dark:focus:text-white text-sm font-bold leading-normal transform hover:scale-105 shadow-md hover:shadow-lg"
                onclick="return confirm('Are you sure you want to logout?')">
                 <i class="fas fa-sign-out-alt"></i>
                 <span>Logout</span>

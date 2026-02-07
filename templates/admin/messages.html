@@ -3,16 +3,16 @@
 {% block title %}Messages - Admin Panel{% endblock %}
 
 {% block content %}
-<div class="max-w-7xl mx-auto reveal">
+<div class="page-transition max-w-7xl mx-auto">
     <!-- Header -->
-    <div class="card card-hover mb-6">
+    <div class="card card-hover mb-6 reveal fade-in-up">
         <div class="flex items-center justify-between stack-on-mobile">
             <div>
                 <h1 class="text-3xl font-black gradient-text-animated mb-2">Contact Messages</h1>
                 <p class="text-gray-600 dark:text-[#90abcb]">View and manage all contact form submissions</p>
             </div>
                 <a href="{{ url_for('admin_dashboard') }}" 
-                    class="button-fluid flex items-center gap-2 px-4 py-2 bg-gray-200 dark:bg-[#223449] hover:bg-gray-300 dark:hover:bg-[#314b68] text-black dark:text-white rounded-lg transition-all">
+                    class="button-fluid flex items-center gap-2 px-4 py-2 bg-gray-200 dark:bg-[#223449] hover:bg-gray-300 dark:hover:bg-[#314b68] text-black dark:text-white rounded-lg transition-all btn-ripple">
                 <i class="fas fa-arrow-left"></i>
                 <span>Back to Dashboard</span>
             </a>
@@ -21,13 +21,13 @@
 
     <!-- Messages Stats -->
     <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
-        <div class="card">
+        <div class="card reveal delay-100">
             <div class="flex items-center gap-3">
                 <div class="w-10 h-10 bg-blue-500 rounded-lg flex items-center justify-center">
                     <i class="fas fa-envelope text-white"></i>
                 </div>
                 <div>
-                    <p class="text-2xl font-black gradient-text-animated">{{ messages|length }}</p>
+                    <p class="text-2xl font-black gradient-text-animated counter" data-count="{{ messages|length }}">{{ messages|length }}</p>
                     <p class="text-sm text-gray-600 dark:text-[#90abcb]">Total Messages</p>
                 </div>
             </div>

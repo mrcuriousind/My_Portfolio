@@ -3,9 +3,9 @@
 {% block title %}Admin Dashboard{% endblock %}
 
 {% block content %}
-<div class="max-w-7xl mx-auto reveal">
+<div class="page-transition max-w-7xl mx-auto">
     <!-- Admin Header -->
-    <div class="bg-gradient-to-r from-[#9de1f5]/10 to-[#33c46b]/10 dark:from-[#9de1f5]/5 dark:to-[#33c46b]/5 rounded-lg p-6 mb-6 border border-gray-200 dark:border-[#314b68]">
+    <div class="bg-gradient-to-r from-[#9de1f5]/10 to-[#33c46b]/10 dark:from-[#9de1f5]/5 dark:to-[#33c46b]/5 rounded-lg p-6 mb-6 border border-gray-200 dark:border-[#314b68] card-hover reveal fade-in-up">
         <div class="flex items-center justify-between stack-on-mobile">
             <div>
                 <h1 class="text-3xl font-black gradient-text-animated mb-2">Admin Dashboard</h1>
@@ -20,32 +20,32 @@
 
     <!-- Statistics Cards -->
     <div class="grid grid-cols-1 md:grid-cols-6 gap-4 mb-6">
-        <div class="card card-hover">
+        <div class="card card-hover reveal delay-100">
             <div class="flex items-center justify-between mb-4">
                 <div class="w-12 h-12 bg-blue-500 rounded-lg flex items-center justify-center">
                     <i class="fas fa-users text-white text-xl"></i>
                 </div>
-                <span class="text-3xl font-black gradient-text-animated">{{ total_users }}</span>
+                <span class="text-3xl font-black gradient-text-animated counter" data-count="{{ total_users }}">{{ total_users }}</span>
             </div>
             <h3 class="text-sm font-medium text-gray-600 dark:text-[#90abcb]">Total Users</h3>
         </div>
 
-        <div class="card card-hover">
+        <div class="card card-hover reveal delay-200">
             <div class="flex items-center justify-between mb-4">
                 <div class="w-12 h-12 bg-green-500 rounded-lg flex items-center justify-center">
                     <i class="fas fa-project-diagram text-white text-xl"></i>
                 </div>
-                <span class="text-3xl font-black gradient-text-animated">{{ total_projects }}</span>
+                <span class="text-3xl font-black gradient-text-animated counter" data-count="{{ total_projects }}">{{ total_projects }}</span>
             </div>
             <h3 class="text-sm font-medium text-gray-600 dark:text-[#90abcb]">Projects</h3>
         </div>
 
-        <div class="card card-hover">
+        <div class="card card-hover reveal delay-300">
             <div class="flex items-center justify-between mb-4">
                 <div class="w-12 h-12 bg-purple-500 rounded-lg flex items-center justify-center">
                     <i class="fas fa-blog text-white text-xl"></i>
                 </div>
-                <span class="text-3xl font-black gradient-text-animated">{{ total_posts }}</span>
+                <span class="text-3xl font-black gradient-text-animated counter" data-count="{{ total_posts }}">{{ total_posts }}</span>
             </div>
             <h3 class="text-sm font-medium text-gray-600 dark:text-[#90abcb]">Blog Posts</h3>
         </div>

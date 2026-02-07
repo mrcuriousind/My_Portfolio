@@ -3,12 +3,13 @@
 {% block title %}Edit Profile{% endblock %}
 
 {% block content %}
-    <div class="max-w-4xl mx-auto reveal">
-        <div class="card">
+<div class="page-transition">
+    <div class="max-w-4xl mx-auto reveal fade-in-up">
+        <div class="card card-hover">
             <div class="flex items-center justify-between mb-8 stack-on-mobile">
                 <h1 class="page-title gradient-text-animated">Edit Profile</h1>
                 <a href="{{ url_for('profile') }}" 
-                   class="text-gray-600 dark:text-[#90abcb] hover:text-[#33c46b] transition-colors flex items-center gap-2">
+                   class="text-gray-600 dark:text-[#90abcb] hover:text-[#33c46b] transition-colors flex items-center gap-2 btn-ripple">
                     <i class="fas fa-arrow-left"></i>
                     <span>Back to Profile</span>
                 </a>
@@ -17,7 +18,7 @@
             <form method="post" class="space-y-8">
                 <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
                 <!-- Basic Information Section -->
-                <div>
+                <div class="reveal delay-200">
                     <h2 class="section-title mb-6 flex items-center gap-2 pb-3 border-b border-gray-200 dark:border-[#314b68]">
                         <i class="fas fa-user text-[#33c46b]"></i>
                         Basic Information
