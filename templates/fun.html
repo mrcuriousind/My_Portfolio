@@ -1,0 +1,1119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="A fun Valentine's Day prank app - Find your Valentine match for entertainment purposes only!" />
+    <meta name="keywords" content="valentine, fun, prank, entertainment, dating game" />
+    <meta name="author" content="Valentine Fun App" />
+    <meta name="robots" content="index, follow" />
+    <title>Find Your Valentine 💘 - Fun Prank App</title>
+    <link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin />
+    <link rel="stylesheet" as="style" onload="this.rel='stylesheet'"
+        href="https://fonts.googleapis.com/css2?display=swap&amp;family=Pacifico&amp;family=Inter:wght@300;400;600;700" />
+    <link href="{{ url_for('static', filename='css/output.css', v=static_version('css/output.css')) }}" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+      <script>
+        // Apply saved theme so dark mode styles activate on this standalone page.
+        const applyTheme = (theme) => {
+          if (theme === 'dark') {
+            document.documentElement.classList.add('dark');
+          } else {
+            document.documentElement.classList.remove('dark');
+          }
+        };
+
+        let savedTheme = localStorage.getItem('theme');
+        if (!savedTheme) {
+          savedTheme = 'dark';
+          localStorage.setItem('theme', 'dark');
+        }
+        applyTheme(savedTheme);
+      </script>
+    <style>
+        /* Ensure full height and hide scrollbar */
+        html, body {
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            min-height: 100vh;
+            position: relative;
+            scrollbar-width: none; /* Firefox */
+            -ms-overflow-style: none; /* Internet Explorer and Edge */
+        }
+        
+        /* Chrome, Safari and Opera */
+        html::-webkit-scrollbar,
+        body::-webkit-scrollbar {
+            display: none;
+        }
+        
+        /* Framer Motion-like animations */
+        @keyframes heart-beat {
+          0%, 100% { transform: scale(1); }
+          50% { transform: scale(1.15); }
+        }
+        .animated-heart {
+          animation: heart-beat 1.8s infinite ease-in-out;
+          filter: drop-shadow(0 4px 6px rgba(239, 68, 68, 0.3));
+        }
+
+        @keyframes float-emoji {
+          0%, 100% { transform: translateY(0) rotate(-5deg); }
+          50% { transform: translateY(-12px) rotate(5deg); }
+        }
+        .floating-emoji {
+          animation: float-emoji 2s infinite ease-in-out;
+          display: inline-block;
+        }
+
+        /* Custom radio button appearance to hide default radio */
+        input[type="radio"].gender-radio,
+        input[type="radio"].relationship-radio {
+            appearance: none;
+            -webkit-appearance: none;
+            -moz-appearance: none;
+            width: 0;
+            height: 0;
+            position: absolute;
+            opacity: 0;
+        }
+
+        /* Body background for light and dark modes */
+        body {
+            background: linear-gradient(135deg, #fce7f3 0%, #fbcfe8 50%, #fce7f3 100%); /* Light pink background */
+            min-height: 100vh;
+        }
+        .dark body {
+             background: linear-gradient(135deg, #370d2f 0%, #20042d 100%); /* Dark purple background */
+        }
+        
+        /* Card styling with better shadow */
+        #fun-app {
+            background: rgba(255, 255, 255, 0.98);
+            backdrop-filter: blur(10px);
+            box-shadow: 
+                0 25px 50px -12px rgba(236, 72, 153, 0.25),
+                0 10px 25px -10px rgba(236, 72, 153, 0.15),
+                0 0 0 1px rgba(236, 72, 153, 0.05);
+            border-radius: 32px;
+        }
+        
+        /* Dark Mode for the main card */
+        .dark #fun-app {
+            background-color: rgb(42 47 56 / 80%); /* User specified color */
+            border-color: #be185d; /* rose-700 */
+        }
+        /* Generic text colors */
+        .dark .text-gray-500 { color: #cbd5e1; /* slate-300 */ }
+        .dark .text-gray-600 { color: #d1d5db; /* gray-300 */ }
+        .dark .text-gray-700 { color: #e5e7eb; /* gray-200 */ }
+        .dark .text-gray-800 { color: #f9fafb; /* gray-50 */ }
+
+        /* Match card dark theme consistency */
+        .match-card {
+          background: linear-gradient(135deg, #fff5fb 0%, #f7e9ff 100%);
+        }
+        .dark .match-card {
+          background: linear-gradient(135deg, #111827 0%, #1f2937 100%);
+          border-color: #374151;
+        }
+        .match-card-panel {
+          background: #ffffff;
+          border-color: #e5e7eb;
+        }
+        .dark .match-card-panel {
+          background: #111827;
+          border-color: #374151;
+        }
+        .match-card-label {
+          color: #6b7280;
+        }
+        .dark .match-card-label {
+          color: #d1d5db;
+        }
+
+        /* Social icon gradient hover effect */
+        .social-icon-hover {
+          transition: all 0.3s ease;
+        }
+        .social-icon-hover:hover {
+          filter: drop-shadow(0 0 8px rgba(236, 72, 153, 0.6)) drop-shadow(0 0 12px rgba(168, 85, 247, 0.4));
+          color: url(#gradientPink);
+        }
+        
+        /* Specific dark mode styles for radio labels */
+        .dark .gender-label, .dark .relationship-label {
+            background-color: #374151; /* gray-700 */
+            border-color: #4b5563; /* gray-600 */
+        }
+        .dark .gender-label:hover, .dark .relationship-label:hover {
+            background-color: #4b5563; /* gray-600 */
+            border-color: #6b7280; /* gray-500 */
+        }
+        
+        /* Dark mode input field */
+        .dark input[type="text"] {
+            background-color: #1f2937 !important; /* gray-800 */
+            border-color: #374151 !important; /* gray-700 */
+            color: #f3f4f6 !important; /* gray-100 */
+        }
+        .dark input[type="text"]:focus {
+            border-color: #ec4899 !important; /* pink-500 */
+            background-color: #111827 !important; /* gray-900 */
+        }
+        .dark input[type="text"]::placeholder {
+            color: #6b7280 !important; /* gray-500 */
+        }
+        
+        /* Dark mode checked states */
+        .dark .gender-label.checked-male {
+            background-color: #1e3a8a !important; /* blue-800 */
+            border-color: #3b82f6 !important; /* blue-500 */
+        }
+        .dark .gender-label.checked-female,
+        .dark .relationship-label.checked {
+            background-color: #7c2d4a !important; /* rose-900 */
+            border-color: #ec4899 !important; /* pink-500 */
+        }
+
+        
+        /* Heart SVG styling */
+        .heart-icon {
+            width: 80px;
+            height: 80px;
+            filter: drop-shadow(0 4px 12px rgba(239, 68, 68, 0.4));
+        }
+        
+        /* Smooth transitions */
+        * {
+            transition: background-color 0.3s ease, border-color 0.3s ease;
+        }
+        
+        /* Footer styling */
+        footer {
+            position: fixed !important;
+            bottom: 0 !important;
+            left: 0 !important;
+            right: 0 !important;
+            z-index: 9999 !important;
+            background: linear-gradient(to top, rgba(252, 231, 243, 0.95), transparent);
+            pointer-events: none;
+        }
+        footer p {
+            pointer-events: auto;
+        }
+        .dark footer {
+            background: linear-gradient(to top, rgba(55, 13, 47, 0.95), transparent);
+        }
+
+        @keyframes gradient-shimmer {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+        .animate-gradient-shimmer {
+            background-size: 200% auto;
+            animation: gradient-shimmer 3s ease infinite;
+        }
+    </style>
+</head>
+    <body class="min-h-dvh flex flex-col items-center justify-center p-4 py-8 pb-20 text-gray-800 dark:text-gray-100" style="font-family: 'Inter', sans-serif;">
+    <div id="fun-app" class="bg-white p-8 w-full text-center" style="max-width: 420px; border-radius: 32px;">
+
+          <!-- Step 0: Initial Screen -->
+          <div id="step-0">
+            <!-- Heart centered at top -->
+            <div class="animated-heart mb-6 flex justify-center">
+              <svg class="w-20 h-20 text-red-500" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M3.172 5.172a4 4 0 015.656 0L10 6.343l1.172-1.171a4 4 0 115.656 5.656L10 17.657l-6.828-6.829a4 4 0 010-5.656z" clip-rule="evenodd"></path></svg>
+            </div>
+
+            <h1 class="text-6xl font-bold mb-4 bg-gradient-to-r from-purple-500 to-pink-500 bg-clip-text text-transparent leading-tight animate-gradient-shimmer" style="font-family: 'Pacifico', cursive;">
+              Find Your<br>Valentine 💘
+            </h1>
+
+            <p class="text-gray-600 dark:text-gray-300 text-sm mb-6" style="font-family: 'Inter', sans-serif;">
+              Just for fun. Don't take the results seriously 😅
+            </p>
+
+            <button id="start-btn" class="bg-gradient-to-r from-pink-500 to-pink-600 text-white px-10 py-3 rounded-full text-base font-semibold shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105 active:scale-95 mb-6">
+              Start ✨
+            </button>
+
+            <div class="flex justify-center gap-2">
+              <span class="floating-emoji text-2xl">💕</span>
+              <span class="floating-emoji text-2xl" style="animation-delay: 0.3s;">💖</span>
+              <span class="floating-emoji text-2xl" style="animation-delay: 0.6s;">💗</span>
+              <span class="floating-emoji text-2xl" style="animation-delay: 0.9s;">💘</span>
+              <span class="floating-emoji text-2xl" style="animation-delay: 1.2s;">💝</span>
+            </div>
+          </div>
+
+          <!-- Step 1: User Input Form -->
+          <div id="step-1" style="display: none;">
+            <div class="text-center mb-10">
+              <h2 class="text-4xl font-bold mb-3 bg-gradient-to-r from-purple-500 to-pink-500 bg-clip-text text-transparent animate-gradient-shimmer" style="font-family: 'Pacifico', cursive;">
+                Let's Find Your Match! 💝
+              </h2>
+              <p class="text-gray-500 text-base dark:text-gray-300">Fill in the details below</p>
+            </div>
+
+            <div class="space-y-6">
+              <!-- LinkedIn URL Input -->
+              <div>
+                <label class="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-3 flex items-center gap-2">
+                  <svg class="text-blue-600 w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/></svg>
+                  LinkedIn Profile URL <span class="text-gray-400 dark:text-gray-500 text-xs font-normal">(optional)</span>
+                </label>
+                <input
+                  type="text"
+                  id="linkedin-url"
+                  placeholder="https://linkedin.com/in/yourprofile"
+                  class="w-full px-4 py-3 border-2 border-gray-200 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-100 rounded-xl focus:border-pink-400 dark:focus:border-pink-500 focus:outline-none transition-all hover:border-gray-300 dark:hover:border-gray-600 dark:placeholder-gray-500"
+                />
+              </div>
+
+              <!-- Gender Selection -->
+              <div>
+                <label class="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-4">
+                  Select Your Gender <span class="text-red-500">*</span>
+                </label>
+                <div class="space-y-3">
+                  <label class="gender-label flex items-center p-4 border-2 border-gray-200 dark:border-gray-600 dark:bg-gray-700 rounded-xl cursor-pointer transition-all hover:border-blue-300 hover:bg-blue-50 dark:hover:bg-gray-600 dark:hover:border-gray-500">
+                    <input
+                      type="radio"
+                      name="gender"
+                      value="Male"
+                      class="gender-radio w-5 h-5 text-blue-500"
+                    />
+                    <span class="ml-3 text-lg font-medium text-gray-800 dark:text-gray-200">👨 Male</span>
+                  </label>
+                  <label class="gender-label flex items-center p-4 border-2 border-gray-200 dark:border-gray-600 dark:bg-gray-700 rounded-xl cursor-pointer transition-all hover:border-pink-300 hover:bg-pink-50 dark:hover:bg-gray-600 dark:hover:border-gray-500">
+                    <input
+                      type="radio"
+                      name="gender"
+                      value="Female"
+                      class="gender-radio w-5 h-5 text-pink-500"
+                    />
+                    <span class="ml-3 text-lg font-medium text-gray-800 dark:text-gray-200">👩 Female</span>
+                  </label>
+                </div>
+              </div>
+
+              <!-- Submit Button -->
+              <button
+                id="find-partner-btn-1"
+                disabled
+                class="w-full py-4 rounded-xl text-lg font-semibold shadow-lg transition-all bg-gray-300 dark:bg-gray-600 text-gray-500 dark:text-gray-400 cursor-not-allowed mt-2"
+              >
+                Find My Partner 💘
+              </button>
+            </div>
+          </div>
+          
+          <!-- Step 2: Female relationship status -->
+          <div id="step-2" style="display: none;">
+            <div class="text-center mb-10">
+              <h2 class="text-4xl font-bold mb-3 bg-gradient-to-r from-purple-500 to-pink-500 bg-clip-text text-transparent animate-gradient-shimmer" style="font-family: 'Pacifico', cursive;">
+                One More Thing! 💕
+              </h2>
+              <p class="text-gray-500 text-base dark:text-gray-300">What's your current relationship status?</p>
+            </div>
+
+            <div class="space-y-3 mb-4">
+              <label class="relationship-label flex items-center p-4 border-2 border-gray-200 dark:border-gray-600 dark:bg-gray-700 rounded-xl cursor-pointer transition-all hover:border-pink-300 hover:bg-pink-50 dark:hover:bg-gray-600 dark:hover:border-gray-500">
+                <input type="radio" name="relationship" value="Single" class="relationship-radio w-5 h-5 text-pink-500" />
+                <span class="ml-3 text-base font-medium text-gray-800 dark:text-gray-200">🙋‍♀️ Single</span>
+              </label>
+              <label class="relationship-label flex items-center p-4 border-2 border-gray-200 dark:border-gray-600 dark:bg-gray-700 rounded-xl cursor-pointer transition-all hover:border-pink-300 hover:bg-pink-50 dark:hover:bg-gray-600 dark:hover:border-gray-500">
+                <input type="radio" name="relationship" value="Committed" class="relationship-radio w-5 h-5 text-pink-500" />
+                <span class="ml-3 text-base font-medium text-gray-800 dark:text-gray-200">💑 Committed</span>
+              </label>
+              <label class="relationship-label flex items-center p-4 border-2 border-gray-200 dark:border-gray-600 dark:bg-gray-700 rounded-xl cursor-pointer transition-all hover:border-pink-300 hover:bg-pink-50 dark:hover:bg-gray-600 dark:hover:border-gray-500">
+                <input type="radio" name="relationship" value="Married" class="relationship-radio w-5 h-5 text-pink-500" />
+                <span class="ml-3 text-base font-medium text-gray-800 dark:text-gray-200">💍 Married</span>
+              </label>
+              <label class="relationship-label flex items-center p-4 border-2 border-gray-200 dark:border-gray-600 dark:bg-gray-700 rounded-xl cursor-pointer transition-all hover:border-pink-300 hover:bg-pink-50 dark:hover:bg-gray-600 dark:hover:border-gray-500">
+                <input type="radio" name="relationship" value="Has a male best friend" class="relationship-radio w-5 h-5 text-pink-500" />
+                <span class="ml-3 text-base font-medium text-gray-800 dark:text-gray-200">👫 Has a male best friend</span>
+              </label>
+              <label class="relationship-label flex items-center p-4 border-2 border-gray-200 dark:border-gray-600 dark:bg-gray-700 rounded-xl cursor-pointer transition-all hover:border-pink-300 hover:bg-pink-50 dark:hover:bg-gray-600 dark:hover:border-gray-500">
+                <input type="radio" name="relationship" value="Has an ex" class="relationship-radio w-5 h-5 text-pink-500" />
+                <span class="ml-3 text-base font-medium text-gray-800 dark:text-gray-200">💔 Has an ex</span>
+              </label>
+            </div>
+
+            <button
+              id="find-partner-btn-2"
+              disabled
+              class="w-full py-4 rounded-xl text-lg font-semibold shadow-lg transition-all mt-8 bg-gray-300 dark:bg-gray-600 text-gray-500 dark:text-gray-400 cursor-not-allowed"
+            >
+              Find My Partner 💘
+            </button>
+          </div>
+
+
+          <!-- Result Screens -->
+          <div id="result" style="display: none;">
+            <div id="result-content">
+              <!-- This will be populated by JavaScript -->
+            </div>
+            
+            <button
+              id="try-again-btn"
+              class="w-full bg-gradient-to-r from-purple-500 to-pink-500 text-white py-4 rounded-xl text-lg font-semibold shadow-lg hover:shadow-xl transition-all flex items-center justify-center gap-2 hover:scale-105 active:scale-95"
+            >
+              <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M15.312 11.232l-2.22-2.22c.24-.58.398-1.21.438-1.87L15.3 5.373a1.5 1.5 0 00-2.122-2.122l-1.768 1.768c-.66.04-1.29.198-1.87.438l-2.22-2.22a.75.75 0 00-1.06 0L5.373 4.22a.75.75 0 000 1.06l2.22 2.22c-.24.58-.398 1.21-.438 1.87L5.373 11.14a1.5 1.5 0 002.122 2.122l1.768-1.768c.66-.04 1.29-.198 1.87-.438l2.22 2.22a.75.75 0 001.06 0l1.768-1.768a.75.75 0 000-1.06zM10 12.5a2.5 2.5 0 100-5 2.5 2.5 0 000 5z" clip-rule="evenodd" /></svg>
+              Try Again
+            </button>
+
+            <div class="mt-6 text-center">
+              <p class="text-xs text-gray-500">
+                🎭 Remember: This is just for laughs! Real love doesn't work like this 💕
+              </p>
+            </div>
+          </div>
+
+        </div>
+
+    </div>
+
+    <!-- Theme Toggle Button -->
+    <button id="theme-toggle" class="fixed bottom-6 right-6 bg-gradient-to-r from-pink-500 to-rose-500 text-white p-4 rounded-full shadow-xl hover:shadow-2xl transition-all duration-300 border-4 border-white hover:scale-110 active:scale-95" style="z-index: 10000;">
+        <!-- Sun icon -->
+        <svg id="sun-icon" class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h1M3 12h1m15.354 5.354l-.707.707M6.343 6.343l-.707-.707m12.728 0l-.707-.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"></path>
+        </svg>
+        <!-- Moon icon -->
+        <svg id="moon-icon" class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"></path>
+        </svg>
+    </button>
+    
+    <script>
+      document.addEventListener('DOMContentLoaded', () => {
+        // --- THEME TOGGLE LOGIC ---
+        const themeToggleBtn = document.getElementById('theme-toggle');
+        const moonIcon = document.getElementById('moon-icon');
+        const sunIcon = document.getElementById('sun-icon');
+
+        const applyTheme = (theme) => {
+            if (theme === 'dark') {
+                document.documentElement.classList.add('dark');
+                if(moonIcon) moonIcon.classList.add('hidden');
+                if(sunIcon) sunIcon.classList.remove('hidden');
+            } else {
+                document.documentElement.classList.remove('dark');
+                if(moonIcon) moonIcon.classList.remove('hidden');
+                if(sunIcon) sunIcon.classList.add('hidden');
+            }
+        };
+
+        const toggleTheme = () => {
+            const currentTheme = document.documentElement.classList.contains('dark') ? 'dark' : 'light';
+            const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+            localStorage.setItem('theme', newTheme);
+            applyTheme(newTheme);
+        };
+
+        // Default to dark theme if nothing is saved
+        let savedTheme = localStorage.getItem('theme') || 'dark';
+        applyTheme(savedTheme);
+        if(themeToggleBtn) {
+            themeToggleBtn.addEventListener('click', toggleTheme);
+        }
+
+        // --- APP LOGIC ---
+        const step0 = document.getElementById('step-0');
+        const step1 = document.getElementById('step-1');
+        const step2 = document.getElementById('step-2');
+        const result = document.getElementById('result');
+        const resultContent = document.getElementById('result-content');
+
+        const startBtn = document.getElementById('start-btn');
+        const findPartnerBtn1 = document.getElementById('find-partner-btn-1');
+        const findPartnerBtn2 = document.getElementById('find-partner-btn-2');
+        const tryAgainBtn = document.getElementById('try-again-btn');
+        
+        const genderLabels = document.querySelectorAll('.gender-label');
+        const genderRadios = document.querySelectorAll('.gender-radio');
+        const relationshipLabels = document.querySelectorAll('.relationship-label');
+        const relationshipRadios = document.querySelectorAll('.relationship-radio');
+
+        let userData = {
+            linkedinUrl: '',
+            gender: '',
+            relationshipStatus: ''
+        };
+
+        const transitionSteps = (hideElement, showElement) => {
+          if (hideElement) hideElement.style.display = 'none';
+          if (showElement) showElement.style.display = 'block';
+        };
+
+        startBtn.addEventListener('click', () => transitionSteps(step0, step1));
+
+        genderRadios.forEach(radio => {
+          radio.addEventListener('change', () => {
+            findPartnerBtn1.disabled = false;
+            findPartnerBtn1.className = "w-full py-4 rounded-xl text-lg font-semibold shadow-lg transition-all bg-gradient-to-r from-pink-500 to-rose-500 text-white hover:shadow-xl hover:scale-105 active:scale-95 duration-300";
+            
+            genderLabels.forEach(label => {
+              label.classList.remove('checked-male', 'checked-female', 'border-blue-500', 'bg-blue-50', 'border-pink-500', 'bg-pink-50');
+            });
+            
+            if (radio.checked) {
+              const parentLabel = radio.closest('label');
+              if (radio.value === 'Male') {
+                parentLabel.classList.add('checked-male', 'border-blue-500', 'bg-blue-50');
+              } else {
+                parentLabel.classList.add('checked-female', 'border-pink-500', 'bg-pink-50');
+              }
+            }
+          });
+        });
+
+        relationshipRadios.forEach(radio => {
+          radio.addEventListener('change', () => {
+            findPartnerBtn2.disabled = false;
+            findPartnerBtn2.className = "w-full py-4 rounded-xl text-lg font-semibold shadow-lg transition-all mt-8 bg-gradient-to-r from-pink-500 to-rose-500 text-white hover:shadow-xl hover:scale-105 active:scale-95 duration-300";
+
+            relationshipLabels.forEach(label => label.classList.remove('checked', 'border-pink-500', 'bg-pink-50'));
+
+            if (radio.checked) {
+                radio.closest('label').classList.add('checked', 'border-pink-500', 'bg-pink-50');
+            }
+          });
+        });
+
+        findPartnerBtn1.addEventListener('click', () => {
+          const gender = document.querySelector('input[name="gender"]:checked');
+          if (!gender) return;
+          userData.gender = gender.value;
+          userData.linkedinUrl = document.getElementById('linkedin-url').value;
+          if (gender.value === 'Male') {
+            transitionSteps(step1, result);
+            showResult();
+          } else {
+            transitionSteps(step1, step2);
+          }
+        });
+        
+        findPartnerBtn2.addEventListener('click', () => {
+            const relationship = document.querySelector('input[name="relationship"]:checked');
+            if (!relationship) return;
+            userData.relationshipStatus = relationship.value;
+            transitionSteps(step2, result);
+            showResult();
+        });
+
+        const getMaleResult = () => {
+          const maleResults = [
+            { text: "We scanned LinkedIn, GitHub, and the multiverse 🌌 — still single.", emoji: '😎' },
+            { text: "Your Valentine is currently busy ignoring red flags 🚩", emoji: '😭' },
+            { text: "AI verdict: too early for love, too late for situationships 😭", emoji: '💔' },
+            { text: "Your partner exists… but in another timeline ⏳", emoji: '⏳' },
+            { text: "404 Error: Valentine not found 💔", emoji: '🔍' },
+            { text: "Our AI gave up. It needs therapy after checking your profile 🫠", emoji: '😅' },
+            { text: "Good news: you're independent. Bad news: very independent 😌", emoji: '😎' },
+            { text: "Valentine status: self-love mode activated 💪", emoji: '💪' }
+          ];
+          return maleResults[Math.floor(Math.random() * maleResults.length)];
+        };
+
+        const getFemaleResult = () => {
+          const getRandomResult = (arr) => arr[Math.floor(Math.random() * arr.length)];
+          
+          const marriedResults = [
+            "You already won the Valentine game 🏆 Stop testing the system 😄",
+            "AI refuses to interfere with a happy marriage ❤️",
+            "System locked 🔒 Husband detected.",
+            "Your Valentine is sitting right next to you 👀"
+          ];
+          
+          const committedResults = [
+            "You already have a Valentine — don't risk unnecessary drama 😄",
+            "AI says: protect what you have ❤️",
+            "Match found earlier. Please don't downgrade 😌",
+            "Committed detected. Loyalty level: high 🫡"
+          ];
+          
+          const bestFriendResults = [
+            "AI is confused 🤯 That sounds like a Valentine already.",
+            "Warning ⚠️: Best friend zone detected.",
+            "Our AI suspects emotional damage incoming 👀",
+            "Plot twist: your Valentine is already in your contacts 📱"
+          ];
+          
+          const exResults = [
+            "Best match archived 📦 Lessons delivered.",
+            "Ex detected. Growth unlocked 📈",
+            "AI recommends: no recycling ♻️",
+            "That chapter built character, not Valentine 😌"
+          ];
+          
+          const singleResults = [
+            { text: "🎉 Match found with 100% accuracy! Result verified by: vibes only 😎", emoji: '✨', showProfile: true },
+            { text: "Congratulations 🎊 Your Valentine has been found! Match confidence: dangerously high 🔥", emoji: '✨', showProfile: true },
+            { text: "AI worked overtime and found the perfect match 💘 Accuracy: trust me buddy🤝", emoji: '✨', showProfile: true }
+          ];
+          
+          switch (userData.relationshipStatus) {
+            case 'Married':
+              return { text: getRandomResult(marriedResults), emoji: '💍' };
+            case 'Committed':
+              return { text: getRandomResult(committedResults), emoji: '💑' };
+            case 'Has a male best friend':
+              return { text: getRandomResult(bestFriendResults), emoji: '👫' };
+            case 'Has an ex':
+              return { text: getRandomResult(exResults), emoji: '💔' };
+            case 'Single':
+              return getRandomResult(singleResults);
+            default:
+              return { text: "Something went wrong! Try again.", emoji: '❌' };
+          }
+        };
+        
+        const showResult = () => {
+            const resultData = userData.gender === 'Male' ? getMaleResult() : getFemaleResult();
+            let resultHTML = '';
+
+            if (resultData.showProfile) {
+                resultHTML = `
+                    <div class="text-center mb-8">
+                        <div class="text-8xl mb-4">${resultData.emoji || '✨'}</div>
+                        <h2 class="text-3xl md:text-4xl font-bold mb-4" style="font-family: 'Pacifico', cursive;">
+                            <span class="bg-gradient-to-r from-green-500 to-emerald-500 bg-clip-text text-transparent">${resultData.text}</span>
+                        </h2>
+                    </div>
+                    <div class="match-card rounded-2xl p-6 mb-6 border-2 border-pink-200 dark:border-gray-600">
+                        <div class="flex items-center gap-4 mb-4">
+                            <div class="w-20 h-20 rounded-full flex items-center justify-center overflow-hidden bg-gray-900 border-2 border-pink-300 dark:border-purple-500">
+                              <img src="{{ url_for('static', filename='Curious_Logo.png') }}" alt="Mr. Curious Logo" class="w-full h-full object-contain bg-gray-900 p-2" />
+                            </div>
+                            <div>
+                                <h3 class="text-2xl font-bold text-gray-800 dark:text-gray-200">Mr. Curious</h3>
+                          <p class="match-card-label">is ur match 💕</p>
+                            </div>
+                        </div>
+                      <div class="match-card-panel rounded-xl p-4 mb-3 border">
+                            <div class="flex items-center justify-between">
+                          <span class="match-card-label">Match Score:</span>
+                                <span class="text-2xl font-bold text-green-500">100%</span>
+                            </div>
+                        </div>
+                      <div class="match-card-panel rounded-xl p-4 mb-3 border">
+                        <p class="text-sm match-card-label mb-3 text-center font-medium">Connect with Mr. Curious.</p>
+                            <div class="flex justify-center gap-4">
+                                <a href="https://www.linkedin.com/in/mrcuriousind" target="_blank" class="group" title="LinkedIn">
+                                  <div class="w-10 h-10 rounded-full bg-white/80 dark:bg-gray-900 border border-gray-200 dark:border-gray-700 flex items-center justify-center transition-all duration-300 group-hover:scale-110 group-hover:-translate-y-0.5 group-hover:shadow-lg group-hover:border-pink-400 group-hover:bg-pink-50 dark:group-hover:bg-[#1b2230]">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" fill="currentColor" viewBox="0 0 256 256" class="text-gray-700 dark:text-gray-200 transition-all duration-300 group-hover:drop-shadow-[0_0_8px_rgba(236,72,153,0.8)] group-hover:drop-shadow-[0_0_12px_rgba(168,85,247,0.6)]" style="filter: drop-shadow(0 0 0 transparent); transition: filter 0.3s ease;" onmouseover="this.style.filter='drop-shadow(0 0 8px rgba(236, 72, 153, 0.8)) drop-shadow(0 0 12px rgba(168, 85, 247, 0.6))'; this.style.color='rgba(236, 72, 153, 1)';" onmouseout="this.style.filter=''; this.style.color='';">
+                                            <path d="M216,24H40A16,16,0,0,0,24,40V216a16,16,0,0,0,16,16H216a16,16,0,0,0,16-16V40A16,16,0,0,0,216,24Zm0,192H40V40H216V216ZM96,112v64a8,8,0,0,1-16,0V112a8,8,0,0,1,16,0Zm88,28v36a8,8,0,0,1-16,0V140a20,20,0,0,0-40,0v36a8,8,0,0,1-16,0V112a8,8,0,0,1,15.79-1.78A36,36,0,0,1,184,140ZM100,84A12,12,0,1,1,88,72,12,12,0,0,1,100,84Z"></path>
+                                        </svg>
+                                    </div>
+                                </a>
+                                <a href="https://www.instagram.com/mrcuriousind" target="_blank" class="group" title="Instagram">
+                                  <div class="w-10 h-10 rounded-full bg-white/80 dark:bg-gray-900 border border-gray-200 dark:border-gray-700 flex items-center justify-center transition-all duration-300 group-hover:scale-110 group-hover:-translate-y-0.5 group-hover:shadow-lg group-hover:border-pink-400 group-hover:bg-pink-50 dark:group-hover:bg-[#1b2230]">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" fill="currentColor" viewBox="0 0 256 256" class="text-gray-700 dark:text-gray-200 transition-all duration-300 group-hover:drop-shadow-[0_0_8px_rgba(236,72,153,0.8)] group-hover:drop-shadow-[0_0_12px_rgba(168,85,247,0.6)]" style="filter: drop-shadow(0 0 0 transparent); transition: filter 0.3s ease;" onmouseover="this.style.filter='drop-shadow(0 0 8px rgba(236, 72, 153, 0.8)) drop-shadow(0 0 12px rgba(168, 85, 247, 0.6))'; this.style.color='rgba(236, 72, 153, 1)';" onmouseout="this.style.filter=''; this.style.color='';">
+                                            <path d="M128,80a48,48,0,1,0,48,48A48.05,48.05,0,0,0,128,80Zm0,80a32,32,0,1,1,32-32A32,32,0,0,1,128,160ZM176,24H80A56.06,56.06,0,0,0,24,80v96a56.06,56.06,0,0,0,56,56h96a56.06,56.06,0,0,0,56-56V80A56.06,56.06,0,0,0,176,24Zm40,152a40,40,0,0,1-40,40H80a40,40,0,0,1-40-40V80A40,40,0,0,1,80,40h96a40,40,0,0,1,40,40ZM192,76a12,12,0,1,1-12-12A12,12,0,0,1,192,76Z"></path>
+                                        </svg>
+                                    </div>
+                                </a>
+                                <a href="https://www.reddit.com/user/mrcuriousind/" target="_blank" class="group" title="Reddit">
+                                  <div class="w-10 h-10 rounded-full bg-white/80 dark:bg-gray-900 border border-gray-200 dark:border-gray-700 flex items-center justify-center transition-all duration-300 group-hover:scale-110 group-hover:-translate-y-0.5 group-hover:shadow-lg group-hover:border-pink-400 group-hover:bg-pink-50 dark:group-hover:bg-[#1b2230]">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" fill="currentColor" viewBox="0 0 256 256" class="text-gray-700 dark:text-gray-200 transition-all duration-300 group-hover:drop-shadow-[0_0_8px_rgba(236,72,153,0.8)] group-hover:drop-shadow-[0_0_12px_rgba(168,85,247,0.6)]" style="filter: drop-shadow(0 0 0 transparent); transition: filter 0.3s ease;" onmouseover="this.style.filter='drop-shadow(0 0 8px rgba(236, 72, 153, 0.8)) drop-shadow(0 0 12px rgba(168, 85, 247, 0.6))'; this.style.color='rgba(236, 72, 153, 1)';" onmouseout="this.style.filter=''; this.style.color='';">
+                                            <path d="M248,104a32,32,0,0,0-52.94-24.19c-16.75-8.9-36.76-14.28-57.66-15.53l5.19-31.17,17.72,2.72a24,24,0,1,0,2.87-15.74l-26-4a8,8,0,0,0-9.11,6.59L121.2,64.16c-21.84.94-42.82,6.38-60.26,15.65a32,32,0,0,0-42.59,47.74A59,59,0,0,0,16,144c0,21.93,12,42.35,33.91,57.49C70.88,216,98.61,224,128,224s57.12-8,78.09-22.51C228,186.35,240,165.93,240,144a59,59,0,0,0-2.35-16.45A32.16,32.16,0,0,0,248,104Zm-16,0a16,16,0,0,1-6.39,12.88c-.11-1-.19-1.94-.31-2.89a139.06,139.06,0,0,0-4.11-20A16,16,0,0,1,232,104ZM184,40a8,8,0,1,1-8,8A8,8,0,0,1,184,40ZM34.91,93.82A16,16,0,0,1,45.82,94a139.06,139.06,0,0,0-4.11,20c-.12,1-.2,1.92-.31,2.89a16,16,0,1,1-6.49-23.1ZM128,208c-51.51,0-96-25.05-96-56,0-14.69,7.44-28.67,20.95-39.37a8,8,0,0,0-8.6-13.43C28.88,111,24,127.08,24,144c0,38.76,45.27,72,104,72s104-33.24,104-72c0-16.92-4.88-33-20.35-44.8a8,8,0,0,0-8.6,13.43C216.56,115.33,224,129.31,224,144,224,182.95,179.51,208,128,208ZM88,144a16,16,0,1,1,16-16A16,16,0,0,1,88,144Zm80,0a16,16,0,1,1,16-16A16,16,0,0,1,168,144Zm-6.88,32.62a8,8,0,1,1-12.24,10.26,48,48,0,0,1-73.76,0,8,8,0,1,1,12.24-10.26,32,32,0,0,0,49.11,0A8,8,0,0,1,161.12,176.62Z"></path>
+                                        </svg>
+                                    </div>
+                                </a>
+                            </div>
+                        </div>
+                        <div class="match-card-panel rounded-xl p-4 border">
+                          <p class="text-sm match-card-label italic">
+                                💡 Result accuracy: self-claimed 😎
+                            </p>
+                        </div>
+                        <div class="mt-4 flex justify-center animated-heart">
+                            <svg class="w-20 h-20 text-red-500" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M3.172 5.172a4 4 0 015.656 0L10 6.343l1.172-1.171a4 4 0 115.656 5.656L10 17.657l-6.828-6.829a4 4 0 010-5.656z" clip-rule="evenodd"></path></svg>
+                        </div>
+                        <!-- Share Section -->
+                        <div class="mt-6 mb-4">
+                            <p class="text-gray-600 dark:text-gray-400 text-xs sm:text-xs md:text-sm font-normal leading-normal pb-2 sm:pb-3 pt-1 text-center">Share it on</p>
+                            <div class="flex flex-row gap-3 justify-center flex-wrap">
+                                <!-- X -->
+                                <button onclick="shareOnX()" class="flex flex-col items-center gap-1 py-1 text-center transition-all duration-300 group">
+                                    <div class="social-icon-wrapper rounded-full bg-gray-200 dark:bg-[#223449] p-2 md:p-3 w-10 h-10 md:w-12 md:h-12 flex items-center justify-center group-hover:bg-black dark:group-hover:bg-black group-hover:shadow-lg group-hover:shadow-gray-400/50 transition-all duration-300 transform group-hover:scale-110">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="18px" height="18px" fill="currentColor" viewBox="0 0 256 256" class="md:w-5 md:h-5 text-gray-700 dark:text-gray-200 group-hover:text-white transition-colors duration-300">
+                                            <path d="M214.75,211.71l-62.6-98.38,61.77-67.95a8,8,0,0,0-11.84-10.76L143.24,99.34,102.75,35.71A8,8,0,0,0,96,32H48a8,8,0,0,0-6.75,12.3l62.6,98.37-61.77,68a8,8,0,1,0,11.84,10.76l58.84-64.72,40.49,63.63A8,8,0,0,0,160,224h48a8,8,0,0,0,6.75-12.29ZM164.39,208,62.57,48h29L193.43,208Z"></path>
+                                        </svg>
+                                    </div>
+                                    <p class="text-xs font-medium text-gray-600 dark:text-gray-400 group-hover:text-black dark:group-hover:text-white transition-colors duration-300">X</p>
+                                </button>
+
+                                <!-- WhatsApp -->
+                                <button onclick="shareOnWhatsApp()" class="flex flex-col items-center gap-1 py-1 text-center transition-all duration-300 group">
+                                    <div class="social-icon-wrapper rounded-full bg-gray-200 dark:bg-[#223449] p-2 md:p-3 w-10 h-10 md:w-12 md:h-12 flex items-center justify-center group-hover:bg-green-500 dark:group-hover:bg-green-500 group-hover:shadow-lg group-hover:shadow-green-300/50 transition-all duration-300 transform group-hover:scale-110">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="18px" height="18px" fill="currentColor" viewBox="0 0 256 256" class="md:w-5 md:h-5 text-gray-700 dark:text-gray-200 group-hover:text-white transition-colors duration-300">
+                                            <path d="M176,16H80A56.06,56.06,0,0,0,24,72v88a56.06,56.06,0,0,0,56,56h96a56.06,56.06,0,0,0,56-56V72A56.06,56.06,0,0,0,176,16Zm40,144a40,40,0,0,1-40,40H80a40,40,0,0,1-40-40V72a40,40,0,0,1,40-40h96a40,40,0,0,1,40,40Zm-60-92a12,12,0,1,1-12-12A12,12,0,0,1,156,68Zm-44,0a12,12,0,1,1-12-12A12,12,0,0,1,112,68Zm-44,0a12,12,0,1,1-12-12A12,12,0,0,1,68,68Zm44,60a12,12,0,1,1-12-12A12,12,0,0,1,112,128Zm44,0a12,12,0,1,1-12-12A12,12,0,0,1,156,128ZM68,128a12,12,0,1,1-12-12A12,12,0,0,1,68,128Z"></path>
+                                        </svg>
+                                    </div>
+                                    <p class="text-xs font-medium text-gray-600 dark:text-gray-400 group-hover:text-green-500 transition-colors duration-300">WhatsApp</p>
+                                </button>
+
+                                <!-- LinkedIn -->
+                                <button onclick="shareOnLinkedIn()" class="flex flex-col items-center gap-1 py-1 text-center transition-all duration-300 group">
+                                    <div class="social-icon-wrapper rounded-full bg-gray-200 dark:bg-[#223449] p-2 md:p-3 w-10 h-10 md:w-12 md:h-12 flex items-center justify-center group-hover:bg-blue-700 dark:group-hover:bg-blue-700 group-hover:shadow-lg group-hover:shadow-blue-400/50 transition-all duration-300 transform group-hover:scale-110">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="18px" height="18px" fill="currentColor" viewBox="0 0 256 256" class="md:w-5 md:h-5 text-gray-700 dark:text-gray-200 group-hover:text-white transition-colors duration-300">
+                                            <path d="M216,24H40A16,16,0,0,0,24,40V216a16,16,0,0,0,16,16H216a16,16,0,0,0,16-16V40A16,16,0,0,0,216,24Zm0,192H40V40H216V216ZM96,112v64a8,8,0,0,1-16,0V112a8,8,0,0,1,16,0Zm88,28v36a8,8,0,0,1-16,0V140a20,20,0,0,0-40,0v36a8,8,0,0,1-16,0V112a8,8,0,0,1,15.79-1.78A36,36,0,0,1,184,140ZM100,84A12,12,0,1,1,88,72,12,12,0,0,1,100,84Z"></path>
+                                        </svg>
+                                    </div>
+                                    <p class="text-xs font-medium text-gray-600 dark:text-gray-400 group-hover:text-blue-700 transition-colors duration-300">LinkedIn</p>
+                                </button>
+
+                                <!-- Instagram Story -->
+                                <button onclick="shareOnInstagramStory()" class="flex flex-col items-center gap-1 py-1 text-center transition-all duration-300 group">
+                                    <div class="social-icon-wrapper rounded-full bg-gray-200 dark:bg-[#223449] p-2 md:p-3 w-10 h-10 md:w-12 md:h-12 flex items-center justify-center group-hover:bg-gradient-to-r group-hover:from-purple-500 group-hover:to-pink-500 group-hover:shadow-lg group-hover:shadow-pink-300/50 transition-all duration-300 transform group-hover:scale-110">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="18px" height="18px" fill="currentColor" viewBox="0 0 256 256" class="md:w-5 md:h-5 text-gray-700 dark:text-gray-200 group-hover:text-white transition-colors duration-300">
+                                            <path d="M128,80a48,48,0,1,0,48,48A48.05,48.05,0,0,0,128,80Zm0,80a32,32,0,1,1,32-32A32,32,0,0,1,128,160ZM176,24H80A56.06,56.06,0,0,0,24,80v96a56.06,56.06,0,0,0,56,56h96a56.06,56.06,0,0,0,56-56V80A56.06,56.06,0,0,0,176,24Zm40,152a40,40,0,0,1-40,40H80a40,40,0,0,1-40-40V80A40,40,0,0,1,80,40h96a40,40,0,0,1,40,40ZM192,76a12,12,0,1,1-12-12A12,12,0,0,1,192,76Z"></path>
+                                        </svg>
+                                    </div>
+                                    <p class="text-xs font-medium text-gray-600 dark:text-gray-400 group-hover:text-pink-500 transition-colors duration-300">Story</p>
+                                </button>
+
+                                <!-- Instagram Post -->
+                                <button onclick="shareOnInstagramPost()" class="flex flex-col items-center gap-1 py-1 text-center transition-all duration-300 group">
+                                    <div class="social-icon-wrapper rounded-full bg-gray-200 dark:bg-[#223449] p-2 md:p-3 w-10 h-10 md:w-12 md:h-12 flex items-center justify-center group-hover:bg-gradient-to-r group-hover:from-purple-500 group-hover:to-pink-500 group-hover:shadow-lg group-hover:shadow-pink-300/50 transition-all duration-300 transform group-hover:scale-110">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="18px" height="18px" fill="currentColor" viewBox="0 0 256 256" class="md:w-5 md:h-5 text-gray-700 dark:text-gray-200 group-hover:text-white transition-colors duration-300">
+                                            <path d="M128,80a48,48,0,1,0,48,48A48.05,48.05,0,0,0,128,80Zm0,80a32,32,0,1,1,32-32A32,32,0,0,1,128,160ZM176,24H80A56.06,56.06,0,0,0,24,80v96a56.06,56.06,0,0,0,56,56h96a56.06,56.06,0,0,0,56-56V80A56.06,56.06,0,0,0,176,24Zm40,152a40,40,0,0,1-40,40H80a40,40,0,0,1-40-40V80A40,40,0,0,1,80,40h96a40,40,0,0,1,40,40ZM192,76a12,12,0,1,1-12-12A12,12,0,0,1,192,76Z"></path>
+                                        </svg>
+                                    </div>
+                                    <p class="text-xs font-medium text-gray-600 dark:text-gray-400 group-hover:text-pink-500 transition-colors duration-300">Instagram</p>
+                                </button>
+
+                                <!-- Reddit -->
+                                <button onclick="shareOnReddit()" class="flex flex-col items-center gap-1 py-1 text-center transition-all duration-300 group">
+                                    <div class="social-icon-wrapper rounded-full bg-gray-200 dark:bg-[#223449] p-2 md:p-3 w-10 h-10 md:w-12 md:h-12 flex items-center justify-center group-hover:bg-orange-600 dark:group-hover:bg-orange-600 group-hover:shadow-lg group-hover:shadow-orange-300/50 transition-all duration-300 transform group-hover:scale-110">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="18px" height="18px" fill="currentColor" viewBox="0 0 256 256" class="md:w-5 md:h-5 text-gray-700 dark:text-gray-200 group-hover:text-white transition-colors duration-300">
+                                            <path d="M248,104a32,32,0,0,0-52.94-24.19c-16.75-8.9-36.76-14.28-57.66-15.53l5.19-31.17,17.72,2.72a24,24,0,1,0,2.87-15.74l-26-4a8,8,0,0,0-9.11,6.59L121.2,64.16c-21.84.94-42.82,6.38-60.26,15.65a32,32,0,0,0-42.59,47.74A59,59,0,0,0,16,144c0,21.93,12,42.35,33.91,57.49C70.88,216,98.61,224,128,224s57.12-8,78.09-22.51C228,186.35,240,165.93,240,144a59,59,0,0,0-2.35-16.45A32.16,32.16,0,0,0,248,104Zm-16,0a16,16,0,0,1-6.39,12.88c-.11-1-.19-1.94-.31-2.89a139.06,139.06,0,0,0-4.11-20A16,16,0,0,1,232,104ZM34.91,93.82A16,16,0,0,1,45.82,94a139.06,139.06,0,0,0-4.11,20c-.12,1-.2,1.92-.31,2.89a16,16,0,1,1-6.49-23.1ZM128,208c-51.51,0-96-25.05-96-56,0-14.69,7.44-28.67,20.95-39.37a8,8,0,0,0-8.6-13.43C28.88,111,24,127.08,24,144c0,38.76,45.27,72,104,72s104-33.24,104-72c0-16.92-4.88-33-20.35-44.8a8,8,0,0,0-8.6,13.43C216.56,115.33,224,129.31,224,144,224,182.95,179.51,208,128,208ZM88,144a16,16,0,1,1,16-16A16,16,0,0,1,88,144Zm80,0a16,16,0,1,1,16-16A16,16,0,0,1,168,144Zm-6.88,32.62a8,8,0,1,1-12.24,10.26,48,48,0,0,1-73.76,0,8,8,0,1,1,12.24-10.26,32,32,0,0,0,49.11,0A8,8,0,0,1,161.12,176.62Z"></path>
+                                        </svg>
+                                    </div>
+                                    <p class="text-xs font-medium text-gray-600 dark:text-gray-400 group-hover:text-orange-600 transition-colors duration-300">Reddit</p>
+                                </button>
+
+                                <!-- Download -->
+                                <button onclick="downloadScreenshot()" class="flex flex-col items-center gap-1 py-1 text-center transition-all duration-300 group">
+                                    <div class="social-icon-wrapper rounded-full bg-gray-200 dark:bg-[#223449] p-2 md:p-3 w-10 h-10 md:w-12 md:h-12 flex items-center justify-center group-hover:bg-indigo-600 dark:group-hover:bg-indigo-600 group-hover:shadow-lg group-hover:shadow-indigo-300/50 transition-all duration-300 transform group-hover:scale-110">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="18px" height="18px" fill="currentColor" viewBox="0 0 256 256" class="md:w-5 md:h-5 text-gray-700 dark:text-gray-200 group-hover:text-white transition-colors duration-300">
+                                            <path d="M224,144v64a16,16,0,0,1-16,16H48a16,16,0,0,1-16-16V144a8,8,0,0,1,16,0v64H208V144a8,8,0,0,1,16,0Zm-101.66-35.06a8,8,0,0,1,0,11.31l-32,32a8,8,0,0,1-11.31-11.31L99.69,130H24a8,8,0,0,1,0-16h75.69L78.34,97.37a8,8,0,0,1,11.31-11.31l32,32A8,8,0,0,1,122.34,108.94Z"></path>
+                                        </svg>
+                                    </div>
+                                    <p class="text-xs font-medium text-gray-600 dark:text-gray-400 group-hover:text-indigo-600 transition-colors duration-300">Download</p>
+                                </button>
+
+                                <!-- Copy Link -->
+                                <button onclick="copyShareLink()" class="flex flex-col items-center gap-1 py-1 text-center transition-all duration-300 group">
+                                    <div class="social-icon-wrapper rounded-full bg-gray-200 dark:bg-[#223449] p-2 md:p-3 w-10 h-10 md:w-12 md:h-12 flex items-center justify-center group-hover:bg-slate-400 dark:group-hover:bg-slate-400 group-hover:shadow-lg group-hover:shadow-slate-300/50 transition-all duration-300 transform group-hover:scale-110">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="18px" height="18px" fill="currentColor" viewBox="0 0 256 256" class="md:w-5 md:h-5 text-gray-700 dark:text-gray-200 group-hover:text-white transition-colors duration-300">
+                                            <path d="M200.77,58.75A56.48,56.48,0,0,0,87.47,72.12a8,8,0,1,0,11.05,11.6A40.65,40.65,0,0,1,181.12,81.27a40,40,0,0,1,0,56.57l-30.6,30.6a40,40,0,0,1-56.57,0,8,8,0,1,0-11.31,11.31,56,56,0,0,0,79.21,0l30.6-30.6A56.48,56.48,0,0,0,200.77,58.75ZM168.23,197.25a40.65,40.65,0,0,1-82.6-9.4,8,8,0,0,0-11.05,11.6,56.5,56.5,0,0,0,113.3,13.19l30.6-30.6a56,56,0,0,0,0-79.21,8,8,0,1,0-11.31,11.31Z"></path>
+                                        </svg>
+                                    </div>
+                                    <p class="text-xs font-medium text-gray-600 dark:text-gray-400 group-hover:text-slate-600 transition-colors duration-300">Copy Link</p>
+                                </button>
+                            </div>
+                        </div>
+                        <!-- App Footer -->
+                        <div class="mt-6 pt-4 border-t border-gray-200 dark:border-gray-700 flex flex-col items-center gap-2">
+                            <p class="text-xs text-gray-500 dark:text-gray-400">Find Your Valentine Match 💕</p>
+                        </div>
+                    </div>
+                `;
+
+            } else {
+                 resultHTML = `
+                    <div class="match-card">
+                    <div class="text-center mb-8">
+                        <div class="text-8xl mb-4">${resultData.emoji}</div>
+                        <h2 class="text-3xl md:text-4xl font-bold mb-4 text-gray-800 dark:text-gray-200" style="font-family: 'Pacifico', cursive;">
+                            ${resultData.text}
+                        </h2>
+                    </div>
+                 `;
+                 if (userData.gender === 'Male') {
+                     resultHTML += `
+                        <div class="match-card-panel rounded-2xl p-6 mb-6 text-center border-2">
+                          <p class="text-lg font-bold text-gray-800 dark:text-gray-200 font-medium mb-2">Better luck next time! 😅</p>
+                          <p class="text-sm match-card-label">Maybe try updating your LinkedIn profile? 🤷‍♂️</p>
+                        </div>
+                     `;
+                 }
+                 resultHTML += `
+                        <div class="mt-6 mb-4">
+                            <p class="text-gray-600 dark:text-gray-400 text-xs sm:text-xs md:text-sm font-normal leading-normal pb-2 sm:pb-3 pt-1 text-center">Share it on</p>
+                            <div class="flex flex-row gap-3 justify-center flex-wrap">
+                                <!-- X -->
+                                <button onclick="shareOnX()" class="flex flex-col items-center gap-1 py-1 text-center transition-all duration-300 group">
+                                    <div class="social-icon-wrapper rounded-full bg-gray-200 dark:bg-[#223449] p-2 md:p-3 w-10 h-10 md:w-12 md:h-12 flex items-center justify-center group-hover:bg-black dark:group-hover:bg-black group-hover:shadow-lg group-hover:shadow-gray-400/50 transition-all duration-300 transform group-hover:scale-110">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="18px" height="18px" fill="currentColor" viewBox="0 0 256 256" class="md:w-5 md:h-5 text-gray-700 dark:text-gray-200 group-hover:text-white transition-colors duration-300">
+                                            <path d="M214.75,211.71l-62.6-98.38,61.77-67.95a8,8,0,0,0-11.84-10.76L143.24,99.34,102.75,35.71A8,8,0,0,0,96,32H48a8,8,0,0,0-6.75,12.3l62.6,98.37-61.77,68a8,8,0,1,0,11.84,10.76l58.84-64.72,40.49,63.63A8,8,0,0,0,160,224h48a8,8,0,0,0,6.75-12.29ZM164.39,208,62.57,48h29L193.43,208Z"></path>
+                                        </svg>
+                                    </div>
+                                    <p class="text-xs font-medium text-gray-600 dark:text-gray-400 group-hover:text-black dark:group-hover:text-white transition-colors duration-300">X</p>
+                                </button>
+
+                                <!-- WhatsApp -->
+                                <button onclick="shareOnWhatsApp()" class="flex flex-col items-center gap-1 py-1 text-center transition-all duration-300 group">
+                                    <div class="social-icon-wrapper rounded-full bg-gray-200 dark:bg-[#223449] p-2 md:p-3 w-10 h-10 md:w-12 md:h-12 flex items-center justify-center group-hover:bg-green-500 dark:group-hover:bg-green-500 group-hover:shadow-lg group-hover:shadow-green-300/50 transition-all duration-300 transform group-hover:scale-110">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="18px" height="18px" fill="currentColor" viewBox="0 0 256 256" class="md:w-5 md:h-5 text-gray-700 dark:text-gray-200 group-hover:text-white transition-colors duration-300">
+                                            <path d="M176,16H80A56.06,56.06,0,0,0,24,72v88a56.06,56.06,0,0,0,56,56h96a56.06,56.06,0,0,0,56-56V72A56.06,56.06,0,0,0,176,16Zm40,144a40,40,0,0,1-40,40H80a40,40,0,0,1-40-40V72a40,40,0,0,1,40-40h96a40,40,0,0,1,40,40Zm-60-92a12,12,0,1,1-12-12A12,12,0,0,1,156,68Zm-44,0a12,12,0,1,1-12-12A12,12,0,0,1,112,68Zm-44,0a12,12,0,1,1-12-12A12,12,0,0,1,68,68Zm44,60a12,12,0,1,1-12-12A12,12,0,0,1,112,128Zm44,0a12,12,0,1,1-12-12A12,12,0,0,1,156,128ZM68,128a12,12,0,1,1-12-12A12,12,0,0,1,68,128Z"></path>
+                                        </svg>
+                                    </div>
+                                    <p class="text-xs font-medium text-gray-600 dark:text-gray-400 group-hover:text-green-500 transition-colors duration-300">WhatsApp</p>
+                                </button>
+
+                                <!-- LinkedIn -->
+                                <button onclick="shareOnLinkedIn()" class="flex flex-col items-center gap-1 py-1 text-center transition-all duration-300 group">
+                                    <div class="social-icon-wrapper rounded-full bg-gray-200 dark:bg-[#223449] p-2 md:p-3 w-10 h-10 md:w-12 md:h-12 flex items-center justify-center group-hover:bg-blue-700 dark:group-hover:bg-blue-700 group-hover:shadow-lg group-hover:shadow-blue-400/50 transition-all duration-300 transform group-hover:scale-110">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="18px" height="18px" fill="currentColor" viewBox="0 0 256 256" class="md:w-5 md:h-5 text-gray-700 dark:text-gray-200 group-hover:text-white transition-colors duration-300">
+                                            <path d="M216,24H40A16,16,0,0,0,24,40V216a16,16,0,0,0,16,16H216a16,16,0,0,0,16-16V40A16,16,0,0,0,216,24Zm0,192H40V40H216V216ZM96,112v64a8,8,0,0,1-16,0V112a8,8,0,0,1,16,0Zm88,28v36a8,8,0,0,1-16,0V140a20,20,0,0,0-40,0v36a8,8,0,0,1-16,0V112a8,8,0,0,1,15.79-1.78A36,36,0,0,1,184,140ZM100,84A12,12,0,1,1,88,72,12,12,0,0,1,100,84Z"></path>
+                                        </svg>
+                                    </div>
+                                    <p class="text-xs font-medium text-gray-600 dark:text-gray-400 group-hover:text-blue-700 transition-colors duration-300">LinkedIn</p>
+                                </button>
+
+                                <!-- Instagram Story -->
+                                <button onclick="shareOnInstagramStory()" class="flex flex-col items-center gap-1 py-1 text-center transition-all duration-300 group">
+                                    <div class="social-icon-wrapper rounded-full bg-gray-200 dark:bg-[#223449] p-2 md:p-3 w-10 h-10 md:w-12 md:h-12 flex items-center justify-center group-hover:bg-gradient-to-r group-hover:from-purple-500 group-hover:to-pink-500 group-hover:shadow-lg group-hover:shadow-pink-300/50 transition-all duration-300 transform group-hover:scale-110">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="18px" height="18px" fill="currentColor" viewBox="0 0 256 256" class="md:w-5 md:h-5 text-gray-700 dark:text-gray-200 group-hover:text-white transition-colors duration-300">
+                                            <path d="M128,80a48,48,0,1,0,48,48A48.05,48.05,0,0,0,128,80Zm0,80a32,32,0,1,1,32-32A32,32,0,0,1,128,160ZM176,24H80A56.06,56.06,0,0,0,24,80v96a56.06,56.06,0,0,0,56,56h96a56.06,56.06,0,0,0,56-56V80A56.06,56.06,0,0,0,176,24Zm40,152a40,40,0,0,1-40,40H80a40,40,0,0,1-40-40V80A40,40,0,0,1,80,40h96a40,40,0,0,1,40,40ZM192,76a12,12,0,1,1-12-12A12,12,0,0,1,192,76Z"></path>
+                                        </svg>
+                                    </div>
+                                    <p class="text-xs font-medium text-gray-600 dark:text-gray-400 group-hover:text-pink-500 transition-colors duration-300">Story</p>
+                                </button>
+
+                                <!-- Instagram Post -->
+                                <button onclick="shareOnInstagramPost()" class="flex flex-col items-center gap-1 py-1 text-center transition-all duration-300 group">
+                                    <div class="social-icon-wrapper rounded-full bg-gray-200 dark:bg-[#223449] p-2 md:p-3 w-10 h-10 md:w-12 md:h-12 flex items-center justify-center group-hover:bg-gradient-to-r group-hover:from-purple-500 group-hover:to-pink-500 group-hover:shadow-lg group-hover:shadow-pink-300/50 transition-all duration-300 transform group-hover:scale-110">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="18px" height="18px" fill="currentColor" viewBox="0 0 256 256" class="md:w-5 md:h-5 text-gray-700 dark:text-gray-200 group-hover:text-white transition-colors duration-300">
+                                            <path d="M128,80a48,48,0,1,0,48,48A48.05,48.05,0,0,0,128,80Zm0,80a32,32,0,1,1,32-32A32,32,0,0,1,128,160ZM176,24H80A56.06,56.06,0,0,0,24,80v96a56.06,56.06,0,0,0,56,56h96a56.06,56.06,0,0,0,56-56V80A56.06,56.06,0,0,0,176,24Zm40,152a40,40,0,0,1-40,40H80a40,40,0,0,1-40-40V80A40,40,0,0,1,80,40h96a40,40,0,0,1,40,40ZM192,76a12,12,0,1,1-12-12A12,12,0,0,1,192,76Z"></path>
+                                        </svg>
+                                    </div>
+                                    <p class="text-xs font-medium text-gray-600 dark:text-gray-400 group-hover:text-pink-500 transition-colors duration-300">Instagram</p>
+                                </button>
+
+                                <!-- Reddit -->
+                                <button onclick="shareOnReddit()" class="flex flex-col items-center gap-1 py-1 text-center transition-all duration-300 group">
+                                    <div class="social-icon-wrapper rounded-full bg-gray-200 dark:bg-[#223449] p-2 md:p-3 w-10 h-10 md:w-12 md:h-12 flex items-center justify-center group-hover:bg-orange-600 dark:group-hover:bg-orange-600 group-hover:shadow-lg group-hover:shadow-orange-300/50 transition-all duration-300 transform group-hover:scale-110">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="18px" height="18px" fill="currentColor" viewBox="0 0 256 256" class="md:w-5 md:h-5 text-gray-700 dark:text-gray-200 group-hover:text-white transition-colors duration-300">
+                                            <path d="M248,104a32,32,0,0,0-52.94-24.19c-16.75-8.9-36.76-14.28-57.66-15.53l5.19-31.17,17.72,2.72a24,24,0,1,0,2.87-15.74l-26-4a8,8,0,0,0-9.11,6.59L121.2,64.16c-21.84.94-42.82,6.38-60.26,15.65a32,32,0,0,0-42.59,47.74A59,59,0,0,0,16,144c0,21.93,12,42.35,33.91,57.49C70.88,216,98.61,224,128,224s57.12-8,78.09-22.51C228,186.35,240,165.93,240,144a59,59,0,0,0-2.35-16.45A32.16,32.16,0,0,0,248,104Zm-16,0a16,16,0,0,1-6.39,12.88c-.11-1-.19-1.94-.31-2.89a139.06,139.06,0,0,0-4.11-20A16,16,0,0,1,232,104ZM34.91,93.82A16,16,0,0,1,45.82,94a139.06,139.06,0,0,0-4.11,20c-.12,1-.2,1.92-.31,2.89a16,16,0,1,1-6.49-23.1ZM128,208c-51.51,0-96-25.05-96-56,0-14.69,7.44-28.67,20.95-39.37a8,8,0,0,0-8.6-13.43C28.88,111,24,127.08,24,144c0,38.76,45.27,72,104,72s104-33.24,104-72c0-16.92-4.88-33-20.35-44.8a8,8,0,0,0-8.6,13.43C216.56,115.33,224,129.31,224,144,224,182.95,179.51,208,128,208ZM88,144a16,16,0,1,1,16-16A16,16,0,0,1,88,144Zm80,0a16,16,0,1,1,16-16A16,16,0,0,1,168,144Zm-6.88,32.62a8,8,0,1,1-12.24,10.26,48,48,0,0,1-73.76,0,8,8,0,1,1,12.24-10.26,32,32,0,0,0,49.11,0A8,8,0,0,1,161.12,176.62Z"></path>
+                                        </svg>
+                                    </div>
+                                    <p class="text-xs font-medium text-gray-600 dark:text-gray-400 group-hover:text-orange-600 transition-colors duration-300">Reddit</p>
+                                </button>
+
+                                <!-- Download -->
+                                <button onclick="downloadScreenshot()" class="flex flex-col items-center gap-1 py-1 text-center transition-all duration-300 group">
+                                    <div class="social-icon-wrapper rounded-full bg-gray-200 dark:bg-[#223449] p-2 md:p-3 w-10 h-10 md:w-12 md:h-12 flex items-center justify-center group-hover:bg-indigo-600 dark:group-hover:bg-indigo-600 group-hover:shadow-lg group-hover:shadow-indigo-300/50 transition-all duration-300 transform group-hover:scale-110">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="18px" height="18px" fill="currentColor" viewBox="0 0 256 256" class="md:w-5 md:h-5 text-gray-700 dark:text-gray-200 group-hover:text-white transition-colors duration-300">
+                                            <path d="M224,144v64a16,16,0,0,1-16,16H48a16,16,0,0,1-16-16V144a8,8,0,0,1,16,0v64H208V144a8,8,0,0,1,16,0Zm-101.66-35.06a8,8,0,0,1,0,11.31l-32,32a8,8,0,0,1-11.31-11.31L99.69,130H24a8,8,0,0,1,0-16h75.69L78.34,97.37a8,8,0,0,1,11.31-11.31l32,32A8,8,0,0,1,122.34,108.94Z"></path>
+                                        </svg>
+                                    </div>
+                                    <p class="text-xs font-medium text-gray-600 dark:text-gray-400 group-hover:text-indigo-600 transition-colors duration-300">Download</p>
+                                </button>
+
+                                <!-- Copy Link -->
+                                <button onclick="copyShareLink()" class="flex flex-col items-center gap-1 py-1 text-center transition-all duration-300 group">
+                                    <div class="social-icon-wrapper rounded-full bg-gray-200 dark:bg-[#223449] p-2 md:p-3 w-10 h-10 md:w-12 md:h-12 flex items-center justify-center group-hover:bg-slate-400 dark:group-hover:bg-slate-400 group-hover:shadow-lg group-hover:shadow-slate-300/50 transition-all duration-300 transform group-hover:scale-110">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="18px" height="18px" fill="currentColor" viewBox="0 0 256 256" class="md:w-5 md:h-5 text-gray-700 dark:text-gray-200 group-hover:text-white transition-colors duration-300">
+                                            <path d="M200.77,58.75A56.48,56.48,0,0,0,87.47,72.12a8,8,0,1,0,11.05,11.6A40.65,40.65,0,0,1,181.12,81.27a40,40,0,0,1,0,56.57l-30.6,30.6a40,40,0,0,1-56.57,0,8,8,0,1,0-11.31,11.31,56,56,0,0,0,79.21,0l30.6-30.6A56.48,56.48,0,0,0,200.77,58.75ZM168.23,197.25a40.65,40.65,0,0,1-82.6-9.4,8,8,0,0,0-11.05,11.6,56.5,56.5,0,0,0,113.3,13.19l30.6-30.6a56,56,0,0,0,0-79.21,8,8,0,1,0-11.31,11.31Z"></path>
+                                        </svg>
+                                    </div>
+                                    <p class="text-xs font-medium text-gray-600 dark:text-gray-400 group-hover:text-slate-600 transition-colors duration-300">Copy Link</p>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                 `;
+            }
+            resultContent.innerHTML = resultHTML;
+        };
+
+        tryAgainBtn.addEventListener('click', () => {
+          userData = { linkedinUrl: '', gender: '', relationshipStatus: '' };
+          document.getElementById('linkedin-url').value = '';
+          genderRadios.forEach(r => r.checked = false);
+          relationshipRadios.forEach(r => r.checked = false);
+
+          genderLabels.forEach(label => {
+            label.classList.remove('checked-male', 'checked-female', 'border-blue-500', 'bg-blue-50', 'border-pink-500', 'bg-pink-50');
+          });
+          relationshipLabels.forEach(label => {
+            label.classList.remove('checked', 'border-pink-500', 'bg-pink-50');
+          });
+          
+          findPartnerBtn1.disabled = true;
+          findPartnerBtn1.className = "w-full py-4 rounded-xl text-lg font-semibold shadow-lg transition-all bg-gray-300 text-gray-500 cursor-not-allowed";
+          findPartnerBtn2.disabled = true;
+          findPartnerBtn2.className = "w-full py-4 rounded-xl text-lg font-semibold shadow-lg transition-all bg-gray-300 text-gray-500 cursor-not-allowed";
+
+          transitionSteps(result, step0);
+        });
+
+        // Share button functions
+        const shareUrl = 'https://mrcurious.in/fun';
+        const shareText = 'I just found my perfect Valentine match! Check out your compatibility:';
+
+        window.shareOnX = function() {
+          const xUrl = `https://twitter.com/intent/tweet?url=${encodeURIComponent(shareUrl)}&text=${encodeURIComponent(shareText)}`;
+          window.open(xUrl, 'x-share', 'width=550,height=420');
+        };
+
+        window.shareOnWhatsApp = function() {
+          const message = `${shareText} ${shareUrl}`;
+          const whatsappUrl = `https://wa.me/?text=${encodeURIComponent(message)}`;
+          window.open(whatsappUrl, 'whatsapp-share');
+        };
+
+        window.shareOnLinkedIn = function() {
+          const linkedinUrl = `https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(shareUrl)}`;
+          window.open(linkedinUrl, 'linkedin-share', 'width=550,height=420');
+        };
+
+        window.shareOnInstagramStory = function() {
+          alert('📲 To share on Instagram Story:\n\n1. Copy this link: ' + shareUrl + '\n2. Open Instagram app\n3. Create a new Story\n4. Add text or sticker with the link\n\nThe link has been copied to your clipboard!');
+          navigator.clipboard.writeText(shareUrl).catch(() => {});
+        };
+
+        window.shareOnInstagramPost = function() {
+          alert('📸 To share on Instagram:\n\n1. Copy this link: ' + shareUrl + '\n2. Open Instagram app\n3. Share in DM, Story, or Post\n4. Add the link\n\nThe link has been copied to your clipboard!');
+          navigator.clipboard.writeText(shareUrl).catch(() => {});
+        };
+
+        window.shareOnReddit = function() {
+          const redditUrl = `https://reddit.com/submit?url=${encodeURIComponent(shareUrl)}&title=${encodeURIComponent(shareText)}`;
+          window.open(redditUrl, 'reddit-share', 'width=550,height=420');
+        };
+
+        window.downloadScreenshot = function() {
+          // Get the result card element
+          const resultCard = document.querySelector('.match-card');
+          if (!resultCard) {
+            alert('Result not found. Please complete the Valentine match first!');
+            return;
+          }
+
+          // Show loading state
+          const originalText = event ? event.target.textContent : 'Generating image...';
+          if (event) event.target.textContent = '⏳ Generating...';
+
+          // Wait for images and content to fully load
+          setTimeout(() => {
+            // Clone the card and prepare it for screenshot
+            const cloneCard = resultCard.cloneNode(true);
+            
+            // Remove share buttons from screenshot
+            const shareSection = cloneCard.querySelector('.mt-6.mb-4');
+            if (shareSection && shareSection.querySelector('button[onclick*="share"]')) {
+              shareSection.remove();
+            }
+            
+            // Create a temporary container with dark theme background
+            const tempContainer = document.createElement('div');
+            tempContainer.style.cssText = `
+              position: fixed;
+              left: -9999px;
+              top: 0;
+              background: #1a1a2e;
+              padding: 40px;
+              max-width: 600px;
+              font-family: system-ui, -apple-system, sans-serif;
+            `;
+            
+            // Apply dark theme styles to cloned card
+            cloneCard.style.cssText = `
+              background: #16213e;
+              border-radius: 1rem;
+              padding: 1.5rem;
+              color: #e5e7eb;
+            `;
+            
+            // Force all text to be visible in dark theme
+            cloneCard.querySelectorAll('*').forEach(el => {
+              const computedStyle = window.getComputedStyle(el);
+              const currentColor = computedStyle.color;
+              
+              // Fix dark text colors to light colors
+              if (el.classList.contains('text-gray-800') || el.classList.contains('dark:text-gray-200')) {
+                el.style.color = '#e5e7eb !important';
+              }
+              if (el.classList.contains('text-gray-700') || el.classList.contains('dark:text-gray-200')) {
+                el.style.color = '#d1d5db !important';
+              }
+              if (el.classList.contains('text-gray-600') || el.classList.contains('dark:text-gray-400')) {
+                el.style.color = '#9ca3af !important';
+              }
+              
+              // Fix specific elements
+              if (el.tagName === 'H3') {
+                el.style.color = '#e5e7eb !important';
+              }
+              if (el.tagName === 'H2') {
+                el.style.color = '#e5e7eb !important';
+              }
+              if (el.tagName === 'P' && !el.style.color) {
+                el.style.color = '#d1d5db !important';
+              }
+              
+              // Fix match-card-label
+              if (el.classList.contains('match-card-label')) {
+                el.style.color = '#9ca3af !important';
+              }
+              
+              // Fix SVG icons to be visible
+              if (el.tagName === 'svg') {
+                el.style.color = '#d1d5db !important';
+              }
+            });
+            
+            tempContainer.appendChild(cloneCard);
+            document.body.appendChild(tempContainer);
+
+            // Force layout recalculation
+            tempContainer.offsetHeight;
+
+            // Capture with html2canvas
+            html2canvas(tempContainer, {
+              backgroundColor: '#1a1a2e',
+              scale: 2,
+              logging: false,
+              useCORS: true,
+              allowTaint: true,
+              foreignObjectRendering: false,
+              imageTimeout: 0,
+              removeContainer: false,
+              onclone: (clonedDoc) => {
+                // Ensure all styles are applied in the cloned document
+                const clonedContainer = clonedDoc.querySelector('div[style*="position: fixed"]');
+                if (clonedContainer) {
+                  clonedContainer.style.left = '0';
+                  clonedContainer.style.position = 'relative';
+                }
+              }
+            }).then(canvas => {
+              // Remove temp container
+              document.body.removeChild(tempContainer);
+              
+              // Direct download
+              const link = document.createElement('a');
+              link.href = canvas.toDataURL('image/png');
+              link.download = `valentine-match-${Date.now()}.png`;
+              link.click();
+              if (event) event.target.textContent = originalText;
+              alert('✅ Image downloaded! You can now share it anywhere.');
+            }).catch(err => {
+              console.error('Screenshot error details:', err);
+              if (document.body.contains(tempContainer)) {
+                document.body.removeChild(tempContainer);
+              }
+              if (event) event.target.textContent = originalText;
+              
+              // Fallback: Open result in new window for manual screenshot
+              const newWindow = window.open('', '_blank', 'width=600,height=800');
+              if (newWindow) {
+                const resultContent = resultCard.innerHTML;
+                const isDark = document.documentElement.classList.contains('dark');
+                newWindow.document.write(`
+                  <!DOCTYPE html>
+                  <html class="${isDark ? 'dark' : ''}">
+                  <head>
+                    <title>Valentine Match Result</title>
+                    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+                    <link href="https://fonts.googleapis.com/css2?family=Pacifico&display=swap" rel="stylesheet">
+                    <style>
+                      body { 
+                        padding: 40px; 
+                        background: ${isDark ? '#1a1a2e' : '#fef3f7'}; 
+                        font-family: system-ui, -apple-system, sans-serif;
+                      }
+                      .match-card { 
+                        max-width: 500px; 
+                        margin: 0 auto; 
+                        background: ${isDark ? '#16213e' : '#ffffff'};
+                        border-radius: 1rem;
+                        padding: 2rem;
+                      }
+                      .match-card-panel { 
+                        background: ${isDark ? 'rgba(255, 255, 255, 0.05)' : 'rgba(255, 255, 255, 0.8)'}; 
+                        border: 1px solid ${isDark ? '#374151' : '#e5e7eb'};
+                      }
+                      .match-card-label { 
+                        color: ${isDark ? '#d1d5db' : '#6b7280'}; 
+                      }
+                      .mt-6 { display: none !important; }
+                    </style>
+                  </head>
+                  <body>
+                    <div class="match-card">
+                      ${resultContent}
+                    </div>
+                    <div style="text-align: center; margin-top: 30px; color: #9ca3af; font-size: 14px;">
+                      <p style="font-size: 24px; margin-bottom: 10px;">📸</p>
+                      <p style="margin-bottom: 5px;"><strong>Take a screenshot to share!</strong></p>
+                      <p style="font-size: 12px;">Mac: Cmd+Shift+4 | Windows: Win+Shift+S</p>
+                    </div>
+                  </body>
+                  </html>
+                `);
+                newWindow.document.close();
+                alert('📸 A new window has opened with your result.\n\nPlease take a screenshot:\n• Mac: Cmd+Shift+4\n• Windows: Win+Shift+S\n• Mobile: Use your device\'s screenshot feature');
+              } else {
+                alert('❌ Could not generate image. Please enable pop-ups and try again, or take a manual screenshot of your result.');
+              }
+            });
+          }, 500); // Increased wait time for content to fully render
+        };
+
+        window.copyShareLink = function() {
+          navigator.clipboard.writeText(shareUrl).then(() => {
+            // Show success feedback
+            const copyBtn = event.target.closest('button');
+            const copyWrapper = copyBtn.querySelector('.social-icon-wrapper');
+            const copyLabel = copyBtn.querySelector('p');
+            const originalBg = copyWrapper.className;
+            const originalLabel = copyLabel.textContent;
+            
+            copyWrapper.classList.add('bg-green-600');
+            copyWrapper.classList.remove('bg-gray-200', 'dark:bg-[#223449]');
+            copyLabel.textContent = '✓ Copied!';
+            
+            setTimeout(() => {
+              copyWrapper.className = originalBg;
+              copyLabel.textContent = originalLabel;
+            }, 2000);
+          }).catch(err => {
+            // Fallback for older browsers
+            const textArea = document.createElement('textarea');
+            textArea.value = shareUrl;
+            document.body.appendChild(textArea);
+            textArea.select();
+            document.execCommand('copy');
+            document.body.removeChild(textArea);
+            
+            const copyBtn = event.target.closest('button');
+            const copyWrapper = copyBtn.querySelector('.social-icon-wrapper');
+            const copyLabel = copyBtn.querySelector('p');
+            const originalBg = copyWrapper.className;
+            const originalLabel = copyLabel.textContent;
+            
+            copyWrapper.classList.add('bg-green-600');
+            copyWrapper.classList.remove('bg-gray-200', 'dark:bg-[#223449]');
+            copyLabel.textContent = '✓ Copied!';
+            
+            setTimeout(() => {
+              copyWrapper.className = originalBg;
+              copyLabel.textContent = originalLabel;
+            }, 2000);
+          });
+        };
+      });
+    </script>
+</body>

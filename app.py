@@ -178,6 +178,10 @@ def connect():
     feedbacks = Feedback.query.filter_by(is_approved=True).order_by(Feedback.created_at.desc()).limit(2).all()
     return render_template('connect.html', feedbacks=feedbacks)
 
+@app.route('/fun')
+def fun():
+    return render_template('fun.html')
+
 @app.route('/submit-connect', methods=['POST'])
 def submit_connect():
     try:

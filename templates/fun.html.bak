@@ -1,0 +1,563 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="A fun Valentine's Day prank app - Find your Valentine match for entertainment purposes only!" />
+    <meta name="keywords" content="valentine, fun, prank, entertainment, dating game" />
+    <meta name="author" content="Valentine Fun App" />
+    <meta name="robots" content="index, follow" />
+    <title>Find Your Valentine 💘 - Fun Prank App</title>
+    <link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin />
+    <link rel="stylesheet" as="style" onload="this.rel='stylesheet'"
+        href="https://fonts.googleapis.com/css2?display=swap&amp;family=Pacifico&amp;family=Inter:wght@300;400;600;700" />
+    <link href="{{ url_for('static', filename='css/output.css', v=static_version('css/output.css')) }}" rel="stylesheet">
+    <style>
+        /* Ensure full height */
+        html, body {
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            min-height: 100vh;
+            position: relative;
+        }
+        
+        /* Framer Motion-like animations */
+        @keyframes heart-beat {
+          0%, 100% { transform: scale(1); }
+          50% { transform: scale(1.15); }
+        }
+        .animated-heart {
+          animation: heart-beat 1.8s infinite ease-in-out;
+          filter: drop-shadow(0 4px 6px rgba(239, 68, 68, 0.3));
+        }
+
+        @keyframes float-emoji {
+          0%, 100% { transform: translateY(0) rotate(-5deg); }
+          50% { transform: translateY(-12px) rotate(5deg); }
+        }
+        .floating-emoji {
+          animation: float-emoji 2s infinite ease-in-out;
+          display: inline-block;
+        }
+
+        /* Custom radio button appearance to hide default radio */
+        input[type="radio"].gender-radio,
+        input[type="radio"].relationship-radio {
+            appearance: none;
+            -webkit-appearance: none;
+            -moz-appearance: none;
+            width: 0;
+            height: 0;
+            position: absolute;
+            opacity: 0;
+        }
+
+        /* Body background for light and dark modes */
+        body {
+            background: linear-gradient(135deg, #fce7f3 0%, #fbcfe8 50%, #fce7f3 100%); /* Light pink background */
+            min-height: 100vh;
+        }
+        .dark body {
+             background: linear-gradient(135deg, #370d2f 0%, #20042d 100%); /* Dark purple background */
+        }
+        
+        /* Card styling with better shadow */
+        #fun-app {
+            background: rgba(255, 255, 255, 0.98);
+            backdrop-filter: blur(10px);
+            box-shadow: 
+                0 25px 50px -12px rgba(236, 72, 153, 0.25),
+                0 10px 25px -10px rgba(236, 72, 153, 0.15),
+                0 0 0 1px rgba(236, 72, 153, 0.05);
+            border-radius: 32px;
+        }
+        
+        /* Dark Mode for the main card */
+        .dark #fun-app {
+            background-color: rgb(42 47 56 / 80%); /* User specified color */
+            border-color: #be185d; /* rose-700 */
+        }
+        /* Generic text colors */
+        .dark .text-gray-600 { color: #d1d5db; /* gray-300 */ }
+        .dark .text-gray-800 { color: #f9fafb; /* gray-50 */ }
+        
+        /* Specific dark mode styles for radio labels */
+        .dark .gender-label, .dark .relationship-label {
+            background-color: #374151; /* gray-700 */
+            border-color: #4b5563; /* gray-600 */
+        }
+        .dark .gender-label:hover, .dark .relationship-label:hover {
+            background-color: #4b5563; /* gray-600 */
+            border-color: #6b7280; /* gray-500 */
+        }
+        
+        /* Dark mode input field */
+        .dark input[type="text"] {
+            background-color: #1f2937 !important; /* gray-800 */
+            border-color: #374151 !important; /* gray-700 */
+            color: #f3f4f6 !important; /* gray-100 */
+        }
+        .dark input[type="text"]:focus {
+            border-color: #ec4899 !important; /* pink-500 */
+            background-color: #111827 !important; /* gray-900 */
+        }
+        .dark input[type="text"]::placeholder {
+            color: #6b7280 !important; /* gray-500 */
+        }
+        
+        /* Dark mode checked states */
+        .dark .gender-label.checked-male {
+            background-color: #1e3a8a !important; /* blue-800 */
+            border-color: #3b82f6 !important; /* blue-500 */
+        }
+        .dark .gender-label.checked-female,
+        .dark .relationship-label.checked {
+            background-color: #7c2d4a !important; /* rose-900 */
+            border-color: #ec4899 !important; /* pink-500 */
+        }
+
+        
+        /* Heart SVG styling */
+        .heart-icon {
+            width: 80px;
+            height: 80px;
+            filter: drop-shadow(0 4px 12px rgba(239, 68, 68, 0.4));
+        }
+        
+        /* Smooth transitions */
+        * {
+            transition: background-color 0.3s ease, border-color 0.3s ease;
+        }
+        
+        /* Footer styling */
+        footer {
+            position: fixed !important;
+            bottom: 0 !important;
+            left: 0 !important;
+            right: 0 !important;
+            z-index: 9999 !important;
+            background: linear-gradient(to top, rgba(252, 231, 243, 0.95), transparent);
+            pointer-events: none;
+        }
+        footer p {
+            pointer-events: auto;
+        }
+        .dark footer {
+            background: linear-gradient(to top, rgba(55, 13, 47, 0.95), transparent);
+        }
+
+        @keyframes gradient-shimmer {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+        .animate-gradient-shimmer {
+            background-size: 200% auto;
+            animation: gradient-shimmer 3s ease infinite;
+        }
+    </style>
+</head>
+<body class="min-h-dvh flex flex-col items-center justify-center p-4 py-8 pb-20" style="font-family: 'Inter', sans-serif;">
+    <div id="fun-app" class="bg-white p-8 w-full text-center" style="max-width: 420px; border-radius: 32px;">
+
+          <!-- Step 0: Initial Screen -->
+          <div id="step-0">
+            <!-- Heart centered at top -->
+            <div class="animated-heart mb-6 flex justify-center">
+              <svg class="w-20 h-20 text-red-500" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M3.172 5.172a4 4 0 015.656 0L10 6.343l1.172-1.171a4 4 0 115.656 5.656L10 17.657l-6.828-6.829a4 4 0 010-5.656z" clip-rule="evenodd"></path></svg>
+            </div>
+
+            <h1 class="text-6xl font-bold mb-4 bg-gradient-to-r from-purple-500 to-pink-500 bg-clip-text text-transparent leading-tight animate-gradient-shimmer" style="font-family: 'Pacifico', cursive;">
+              Find Your<br>Valentine 💘
+            </h1>
+
+            <p class="text-gray-600 dark:text-gray-300 text-sm mb-6" style="font-family: 'Inter', sans-serif;">
+              Just for fun. Don't take the results seriously 😅
+            </p>
+
+            <button id="start-btn" class="bg-gradient-to-r from-pink-500 to-pink-600 text-white px-10 py-3 rounded-full text-base font-semibold shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105 active:scale-95 mb-6">
+              Start ✨
+            </button>
+
+            <div class="flex justify-center gap-2">
+              <span class="floating-emoji text-2xl">💕</span>
+              <span class="floating-emoji text-2xl" style="animation-delay: 0.3s;">💖</span>
+              <span class="floating-emoji text-2xl" style="animation-delay: 0.6s;">💗</span>
+              <span class="floating-emoji text-2xl" style="animation-delay: 0.9s;">💘</span>
+              <span class="floating-emoji text-2xl" style="animation-delay: 1.2s;">💝</span>
+            </div>
+          </div>
+
+          <!-- Step 1: User Input Form -->
+          <div id="step-1" style="display: none;">
+            <div class="text-center mb-10">
+              <h2 class="text-4xl font-bold mb-3 bg-gradient-to-r from-purple-500 to-pink-500 bg-clip-text text-transparent animate-gradient-shimmer" style="font-family: 'Pacifico', cursive;">
+                Let's Find Your Match! 💝
+              </h2>
+              <p class="text-gray-500 text-base dark:text-gray-300">Fill in the details below</p>
+            </div>
+
+            <div class="space-y-6">
+              <!-- LinkedIn URL Input -->
+              <div>
+                <label class="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-3 flex items-center gap-2">
+                  <svg class="text-blue-600 w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/></svg>
+                  LinkedIn Profile URL <span class="text-gray-400 dark:text-gray-500 text-xs font-normal">(optional)</span>
+                </label>
+                <input
+                  type="text"
+                  id="linkedin-url"
+                  placeholder="https://linkedin.com/in/yourprofile"
+                  class="w-full px-4 py-3 border-2 border-gray-200 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-100 rounded-xl focus:border-pink-400 dark:focus:border-pink-500 focus:outline-none transition-all hover:border-gray-300 dark:hover:border-gray-600 dark:placeholder-gray-500"
+                />
+              </div>
+
+              <!-- Gender Selection -->
+              <div>
+                <label class="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-4">
+                  Select Your Gender <span class="text-red-500">*</span>
+                </label>
+                <div class="space-y-3">
+                  <label class="gender-label flex items-center p-4 border-2 border-gray-200 dark:border-gray-600 dark:bg-gray-700 rounded-xl cursor-pointer transition-all hover:border-blue-300 hover:bg-blue-50 dark:hover:bg-gray-600 dark:hover:border-gray-500">
+                    <input
+                      type="radio"
+                      name="gender"
+                      value="Male"
+                      class="gender-radio w-5 h-5 text-blue-500"
+                    />
+                    <span class="ml-3 text-lg font-medium text-gray-800 dark:text-gray-200">👨 Male</span>
+                  </label>
+                  <label class="gender-label flex items-center p-4 border-2 border-gray-200 dark:border-gray-600 dark:bg-gray-700 rounded-xl cursor-pointer transition-all hover:border-pink-300 hover:bg-pink-50 dark:hover:bg-gray-600 dark:hover:border-gray-500">
+                    <input
+                      type="radio"
+                      name="gender"
+                      value="Female"
+                      class="gender-radio w-5 h-5 text-pink-500"
+                    />
+                    <span class="ml-3 text-lg font-medium text-gray-800 dark:text-gray-200">👩 Female</span>
+                  </label>
+                </div>
+              </div>
+
+              <!-- Submit Button -->
+              <button
+                id="find-partner-btn-1"
+                disabled
+                class="w-full py-4 rounded-xl text-lg font-semibold shadow-lg transition-all bg-gray-300 dark:bg-gray-600 text-gray-500 dark:text-gray-400 cursor-not-allowed mt-2"
+              >
+                Find My Partner 💘
+              </button>
+            </div>
+          </div>
+          
+          <!-- Step 2: Female relationship status -->
+          <div id="step-2" style="display: none;">
+            <div class="text-center mb-10">
+              <h2 class="text-4xl font-bold mb-3 bg-gradient-to-r from-purple-500 to-pink-500 bg-clip-text text-transparent animate-gradient-shimmer" style="font-family: 'Pacifico', cursive;">
+                One More Thing! 💕
+              </h2>
+              <p class="text-gray-500 text-base dark:text-gray-300">What's your current relationship status?</p>
+            </div>
+
+            <div class="space-y-3">
+              <label class="relationship-label flex items-center p-4 border-2 border-gray-200 dark:border-gray-600 dark:bg-gray-700 rounded-xl cursor-pointer transition-all hover:border-pink-300 hover:bg-pink-50 dark:hover:bg-gray-600 dark:hover:border-gray-500">
+                <input type="radio" name="relationship" value="Single" class="relationship-radio w-5 h-5 text-pink-500" />
+                <span class="ml-3 text-base font-medium text-gray-800 dark:text-gray-200">🙋‍♀️ Single</span>
+              </label>
+              <label class="relationship-label flex items-center p-4 border-2 border-gray-200 dark:border-gray-600 dark:bg-gray-700 rounded-xl cursor-pointer transition-all hover:border-pink-300 hover:bg-pink-50 dark:hover:bg-gray-600 dark:hover:border-gray-500">
+                <input type="radio" name="relationship" value="Committed" class="relationship-radio w-5 h-5 text-pink-500" />
+                <span class="ml-3 text-base font-medium text-gray-800 dark:text-gray-200">💑 Committed</span>
+              </label>
+              <label class="relationship-label flex items-center p-4 border-2 border-gray-200 dark:border-gray-600 dark:bg-gray-700 rounded-xl cursor-pointer transition-all hover:border-pink-300 hover:bg-pink-50 dark:hover:bg-gray-600 dark:hover:border-gray-500">
+                <input type="radio" name="relationship" value="Married" class="relationship-radio w-5 h-5 text-pink-500" />
+                <span class="ml-3 text-base font-medium text-gray-800 dark:text-gray-200">💍 Married</span>
+              </label>
+              <label class="relationship-label flex items-center p-4 border-2 border-gray-200 dark:border-gray-600 dark:bg-gray-700 rounded-xl cursor-pointer transition-all hover:border-pink-300 hover:bg-pink-50 dark:hover:bg-gray-600 dark:hover:border-gray-500">
+                <input type="radio" name="relationship" value="Has a male best friend" class="relationship-radio w-5 h-5 text-pink-500" />
+                <span class="ml-3 text-base font-medium text-gray-800 dark:text-gray-200">👫 Has a male best friend</span>
+              </label>
+              <label class="relationship-label flex items-center p-4 border-2 border-gray-200 dark:border-gray-600 dark:bg-gray-700 rounded-xl cursor-pointer transition-all hover:border-pink-300 hover:bg-pink-50 dark:hover:bg-gray-600 dark:hover:border-gray-500">
+                <input type="radio" name="relationship" value="Has an ex" class="relationship-radio w-5 h-5 text-pink-500" />
+                <span class="ml-3 text-base font-medium text-gray-800 dark:text-gray-200">💔 Has an ex</span>
+              </label>
+            </div>
+
+            <button
+              id="find-partner-btn-2"
+              disabled
+              class="w-full py-4 rounded-xl text-lg font-semibold shadow-lg transition-all mt-8 bg-gray-300 dark:bg-gray-600 text-gray-500 dark:text-gray-400 cursor-not-allowed"
+            >
+              Find My Partner 💘
+            </button>
+          </div>
+
+
+          <!-- Result Screens -->
+          <div id="result" style="display: none;">
+            <div id="result-content">
+              <!-- This will be populated by JavaScript -->
+            </div>
+            
+            <button
+              id="try-again-btn"
+              class="w-full bg-gradient-to-r from-purple-500 to-pink-500 text-white py-4 rounded-xl text-lg font-semibold shadow-lg hover:shadow-xl transition-all flex items-center justify-center gap-2 hover:scale-105 active:scale-95"
+            >
+              <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M15.312 11.232l-2.22-2.22c.24-.58.398-1.21.438-1.87L15.3 5.373a1.5 1.5 0 00-2.122-2.122l-1.768 1.768c-.66.04-1.29.198-1.87.438l-2.22-2.22a.75.75 0 00-1.06 0L5.373 4.22a.75.75 0 000 1.06l2.22 2.22c-.24.58-.398 1.21-.438 1.87L5.373 11.14a1.5 1.5 0 002.122 2.122l1.768-1.768c.66-.04 1.29-.198 1.87-.438l2.22 2.22a.75.75 0 001.06 0l1.768-1.768a.75.75 0 000-1.06zM10 12.5a2.5 2.5 0 100-5 2.5 2.5 0 000 5z" clip-rule="evenodd" /></svg>
+              Try Again
+            </button>
+
+            <div class="mt-6 text-center">
+              <p class="text-xs text-gray-500">
+                🎭 Remember: This is just for laughs! Real love doesn't work like this 💕
+              </p>
+            </div>
+          </div>
+
+        </div>
+
+    </div>
+
+    <!-- Theme Toggle Button -->
+    <button id="theme-toggle" class="fixed bottom-6 right-6 bg-gradient-to-r from-pink-500 to-rose-500 text-white p-4 rounded-full shadow-xl hover:shadow-2xl transition-all duration-300 border-4 border-white hover:scale-110 active:scale-95" style="z-index: 10000;">
+        <!-- Sun icon -->
+        <svg id="sun-icon" class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h1M3 12h1m15.354 5.354l-.707.707M6.343 6.343l-.707-.707m12.728 0l-.707-.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"></path>
+        </svg>
+        <!-- Moon icon -->
+        <svg id="moon-icon" class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"></path>
+        </svg>
+    </button>
+    
+    <footer class="fixed bottom-0 left-0 right-0 text-center py-3" style="z-index: 9999;">
+        <p class="text-sm text-gray-600 dark:text-gray-400 px-4 font-medium">
+          ⚠️ This app is for fun & entertainment only. No data is stored.
+        </p>
+    </footer>
+
+    <script>
+      document.addEventListener('DOMContentLoaded', () => {
+        // --- THEME TOGGLE LOGIC ---
+        const themeToggleBtn = document.getElementById('theme-toggle');
+        const moonIcon = document.getElementById('moon-icon');
+        const sunIcon = document.getElementById('sun-icon');
+
+        const applyTheme = (theme) => {
+            if (theme === 'dark') {
+                document.documentElement.classList.add('dark');
+                if(moonIcon) moonIcon.classList.add('hidden');
+                if(sunIcon) sunIcon.classList.remove('hidden');
+            } else {
+                document.documentElement.classList.remove('dark');
+                if(moonIcon) moonIcon.classList.remove('hidden');
+                if(sunIcon) sunIcon.classList.add('hidden');
+            }
+        };
+
+        const toggleTheme = () => {
+            const currentTheme = document.documentElement.classList.contains('dark') ? 'dark' : 'light';
+            const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+            localStorage.setItem('theme', newTheme);
+            applyTheme(newTheme);
+        };
+
+        // Default to light theme if nothing is saved
+        let savedTheme = localStorage.getItem('theme') || 'light';
+        applyTheme(savedTheme);
+        if(themeToggleBtn) {
+            themeToggleBtn.addEventListener('click', toggleTheme);
+        }
+
+        // --- APP LOGIC ---
+        const step0 = document.getElementById('step-0');
+        const step1 = document.getElementById('step-1');
+        const step2 = document.getElementById('step-2');
+        const result = document.getElementById('result');
+        const resultContent = document.getElementById('result-content');
+
+        const startBtn = document.getElementById('start-btn');
+        const findPartnerBtn1 = document.getElementById('find-partner-btn-1');
+        const findPartnerBtn2 = document.getElementById('find-partner-btn-2');
+        const tryAgainBtn = document.getElementById('try-again-btn');
+        
+        const genderLabels = document.querySelectorAll('.gender-label');
+        const genderRadios = document.querySelectorAll('.gender-radio');
+        const relationshipLabels = document.querySelectorAll('.relationship-label');
+        const relationshipRadios = document.querySelectorAll('.relationship-radio');
+
+        let userData = {
+            linkedinUrl: '',
+            gender: '',
+            relationshipStatus: ''
+        };
+
+        const transitionSteps = (hideElement, showElement) => {
+          if (hideElement) hideElement.style.display = 'none';
+          if (showElement) showElement.style.display = 'block';
+        };
+
+        startBtn.addEventListener('click', () => transitionSteps(step0, step1));
+
+        genderRadios.forEach(radio => {
+          radio.addEventListener('change', () => {
+            findPartnerBtn1.disabled = false;
+            findPartnerBtn1.className = "w-full py-4 rounded-xl text-lg font-semibold shadow-lg transition-all bg-gradient-to-r from-pink-500 to-rose-500 text-white hover:shadow-xl hover:scale-105 active:scale-95 duration-300";
+            
+            genderLabels.forEach(label => {
+              label.classList.remove('checked-male', 'checked-female', 'border-blue-500', 'bg-blue-50', 'border-pink-500', 'bg-pink-50');
+            });
+            
+            if (radio.checked) {
+              const parentLabel = radio.closest('label');
+              if (radio.value === 'Male') {
+                parentLabel.classList.add('checked-male', 'border-blue-500', 'bg-blue-50');
+              } else {
+                parentLabel.classList.add('checked-female', 'border-pink-500', 'bg-pink-50');
+              }
+            }
+          });
+        });
+
+        relationshipRadios.forEach(radio => {
+          radio.addEventListener('change', () => {
+            findPartnerBtn2.disabled = false;
+            findPartnerBtn2.className = "w-full py-4 rounded-xl text-lg font-semibold shadow-lg transition-all bg-gradient-to-r from-pink-500 to-rose-500 text-white hover:shadow-xl hover:scale-105 active:scale-95 duration-300";
+
+            relationshipLabels.forEach(label => label.classList.remove('checked', 'border-pink-500', 'bg-pink-50'));
+
+            if (radio.checked) {
+                radio.closest('label').classList.add('checked', 'border-pink-500', 'bg-pink-50');
+            }
+          });
+        });
+
+        findPartnerBtn1.addEventListener('click', () => {
+          const gender = document.querySelector('input[name="gender"]:checked');
+          if (!gender) return;
+          userData.gender = gender.value;
+          userData.linkedinUrl = document.getElementById('linkedin-url').value;
+          if (gender.value === 'Male') {
+            transitionSteps(step1, result);
+            showResult();
+          } else {
+            transitionSteps(step1, step2);
+          }
+        });
+        
+        findPartnerBtn2.addEventListener('click', () => {
+            const relationship = document.querySelector('input[name="relationship"]:checked');
+            if (!relationship) return;
+            userData.relationshipStatus = relationship.value;
+            transitionSteps(step2, result);
+            showResult();
+        });
+
+        const getMaleResult = () => {
+          const results = [
+            { text: "We searched the entire universe 🌌 but couldn't find your Valentine.", emoji: '🔭' },
+            { text: "AI crashed while finding your partner. Reason: too single 😭", emoji: '🤖' },
+            { text: "Your Valentine is loading… ETA: forever ⏳", emoji: '⏳' },
+            { text: "Sorry, your partner is currently unavailable 😌", emoji: '📵' }
+          ];
+          return results[Math.floor(Math.random() * results.length)];
+        };
+
+        const getFemaleResult = () => {
+          switch (userData.relationshipStatus) {
+            case 'Married':
+            case 'Committed':
+              return { text: "You already have the best option ❤️ Don't risk it 😄", emoji: '💑' };
+            case 'Has an ex':
+              return { text: "Your best match was in the past. Lesson learned, chapter closed 📖", emoji: '💔' };
+            case 'Has a male best friend':
+              return { text: "AI is confused 🤯 Are you sure that's not your Valentine already?", emoji: '🤔' };
+            case 'Single':
+              return { text: "🎉 Match found with 100% accuracy!", emoji: '✨', showProfile: true };
+            default:
+              return { text: "Something went wrong! Try again.", emoji: '❌' };
+          }
+        };
+        
+        const showResult = () => {
+            const resultData = userData.gender === 'Male' ? getMaleResult() : getFemaleResult();
+            let resultHTML = '';
+
+            if (resultData.showProfile) {
+                resultHTML = `
+                    <div class="text-center mb-8">
+                        <div class="text-8xl mb-4">✨</div>
+                        <h2 class="text-3xl md:text-4xl font-bold mb-4" style="font-family: 'Pacifico', cursive;">
+                            <span class="bg-gradient-to-r from-green-500 to-emerald-500 bg-clip-text text-transparent">🎉 Match found with 100% accuracy!</span>
+                        </h2>
+                    </div>
+                    <div class="bg-gradient-to-br from-pink-50 to-purple-50 dark:bg-gray-700 rounded-2xl p-6 mb-6 border-2 border-pink-200 dark:border-gray-600">
+                        <div class="flex items-center gap-4 mb-4">
+                            <div class="w-20 h-20 bg-gradient-to-br from-pink-400 to-purple-500 rounded-full flex items-center justify-center text-white text-3xl font-bold">
+                                AI
+                            </div>
+                            <div>
+                                <h3 class="text-2xl font-bold text-gray-800 dark:text-gray-200">Your Perfect Match</h3>
+                                <p class="text-gray-600 dark:text-gray-300">Valentine AI Assistant</p>
+                            </div>
+                        </div>
+                        <div class="bg-white dark:bg-gray-800 rounded-xl p-4 mb-3 border dark:border-gray-700">
+                            <div class="flex items-center justify-between">
+                                <span class="text-gray-600 dark:text-gray-300">Match Score:</span>
+                                <span class="text-2xl font-bold text-green-500">100%</span>
+                            </div>
+                        </div>
+                        <div class="bg-white dark:bg-gray-800 rounded-xl p-4 border dark:border-gray-700">
+                            <p class="text-sm text-gray-600 dark:text-gray-300 italic">
+                                💡 Result accuracy: self-claimed 😎
+                            </p>
+                        </div>
+                        <div class="mt-4 flex justify-center animated-heart">
+                            <svg class="text-red-500 text-4xl" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M3.172 5.172a4 4 0 015.656 0L10 6.343l1.172-1.171a4 4 0 115.656 5.656L10 17.657l-6.828-6.829a4 4 0 010-5.656z" clip-rule="evenodd"></path></svg>
+                        </div>
+                    </div>
+                `;
+            } else {
+                 resultHTML = `
+                    <div class="text-center mb-8">
+                        <div class="text-8xl mb-4">${resultData.emoji}</div>
+                        <h2 class="text-3xl md:text-4xl font-bold mb-4 text-gray-800 dark:text-gray-200" style="font-family: 'Pacifico', cursive;">
+                            ${resultData.text}
+                        </h2>
+                    </div>
+                 `;
+                 if (userData.gender === 'Male') {
+                     resultHTML += `
+                        <div class="bg-gray-100 dark:bg-gray-700 rounded-2xl p-6 mb-6 text-center border-2 border-gray-200 dark:border-gray-600">
+                          <p class="text-lg text-gray-700 dark:text-gray-200 font-medium mb-2">Better luck next time! 😅</p>
+                          <p class="text-sm text-gray-500 dark:text-gray-300">Maybe try updating your LinkedIn profile? 🤷‍♂️</p>
+                        </div>
+                     `;
+                 }
+            }
+            resultContent.innerHTML = resultHTML;
+        };
+
+        tryAgainBtn.addEventListener('click', () => {
+          userData = { linkedinUrl: '', gender: '', relationshipStatus: '' };
+          document.getElementById('linkedin-url').value = '';
+          genderRadios.forEach(r => r.checked = false);
+          relationshipRadios.forEach(r => r.checked = false);
+
+          genderLabels.forEach(label => {
+            label.classList.remove('checked-male', 'checked-female', 'border-blue-500', 'bg-blue-50', 'border-pink-500', 'bg-pink-50');
+          });
+          relationshipLabels.forEach(label => {
+            label.classList.remove('checked', 'border-pink-500', 'bg-pink-50');
+          });
+          
+          findPartnerBtn1.disabled = true;
+          findPartnerBtn1.className = "w-full py-4 rounded-xl text-lg font-semibold shadow-lg transition-all bg-gray-300 text-gray-500 cursor-not-allowed";
+          findPartnerBtn2.disabled = true;
+          findPartnerBtn2.className = "w-full py-4 rounded-xl text-lg font-semibold shadow-lg transition-all bg-gray-300 text-gray-500 cursor-not-allowed";
+
+          transitionSteps(result, step0);
+        });
+      });
+    </script>
+</body>
