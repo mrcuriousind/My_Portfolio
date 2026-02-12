@@ -364,6 +364,7 @@
                         <a class="nav-pill {% if request.endpoint == 'home' %}active{% endif %}" href="{{ url_for('home') }}">Home</a>
                         <a class="nav-pill {% if request.endpoint == 'projects' %}active{% endif %}" href="{{ url_for('projects') }}">Products &amp; Experiments</a>
                         <a class="nav-pill {% if request.endpoint == 'blog' %}active{% endif %}" href="{{ url_for('blog') }}">Blog</a>
+                        <a class="nav-pill {% if request.endpoint == 'fun' %}active{% endif %}" href="{{ url_for('fun') }}">Fun</a>
                         <a class="nav-pill {% if request.endpoint == 'connect' %}active{% endif %}" href="{{ url_for('connect') }}">Connect</a>
                     </nav>
 
@@ -415,6 +416,9 @@
                         </a>
                         <a class="mobile-nav-link py-2 px-2 rounded-lg text-sm font-medium text-gray-800 dark:text-gray-200 {% if request.endpoint == 'blog' %}bg-gradient-to-r from-[#9de1f5] to-[#33c46b] text-white shadow-md{% else %}hover:bg-gradient-to-r hover:from-[#9de1f5]/10 hover:to-[#33c46b]/10{% endif %}" href="{{ url_for('blog') }}">
                             <i class="fas fa-pen mr-2"></i>Blog
+                        </a>
+                        <a class="mobile-nav-link py-2 px-2 rounded-lg text-sm font-medium text-gray-800 dark:text-gray-200 {% if request.endpoint == 'fun' %}bg-gradient-to-r from-[#9de1f5] to-[#33c46b] text-white shadow-md{% else %}hover:bg-gradient-to-r hover:from-[#9de1f5]/10 hover:to-[#33c46b]/10{% endif %}" href="{{ url_for('fun') }}">
+                            <i class="fas fa-gamepad mr-2"></i>Fun
                         </a>
                         <a class="mobile-nav-link py-2 px-2 rounded-lg text-sm font-medium text-gray-800 dark:text-gray-200 {% if request.endpoint == 'connect' %}bg-gradient-to-r from-[#9de1f5] to-[#33c46b] text-white shadow-md{% else %}hover:bg-gradient-to-r hover:from-[#9de1f5]/10 hover:to-[#33c46b]/10{% endif %}" href="{{ url_for('connect') }}">
                             <i class="fas fa-envelope mr-2"></i>Connect

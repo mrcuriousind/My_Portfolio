@@ -7,29 +7,11 @@
     <meta name="keywords" content="valentine, fun, prank, entertainment, dating game" />
     <meta name="author" content="Valentine Fun App" />
     <meta name="robots" content="index, follow" />
-    <title>Find Your Valentine 💘 - Fun Prank App</title>
+    <title>Find Your Valentine - Fun Activity</title>
     <link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin />
     <link rel="stylesheet" as="style" onload="this.rel='stylesheet'"
         href="https://fonts.googleapis.com/css2?display=swap&amp;family=Pacifico&amp;family=Inter:wght@300;400;600;700" />
     <link href="{{ url_for('static', filename='css/output.css', v=static_version('css/output.css')) }}" rel="stylesheet">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
-      <script>
-        // Apply saved theme so dark mode styles activate on this standalone page.
-        const applyTheme = (theme) => {
-          if (theme === 'dark') {
-            document.documentElement.classList.add('dark');
-          } else {
-            document.documentElement.classList.remove('dark');
-          }
-        };
-
-        let savedTheme = localStorage.getItem('theme');
-        if (!savedTheme) {
-          savedTheme = 'dark';
-          localStorage.setItem('theme', 'dark');
-        }
-        applyTheme(savedTheme);
-      </script>
     <style>
         /* Ensure full height and hide scrollbar */
         html, body {
@@ -212,13 +194,78 @@
             50% { background-position: 100% 50%; }
             100% { background-position: 0% 50%; }
         }
+        @keyframes result-title-float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-4px); }
+        }
+        @keyframes result-title-pop {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.06); }
+        }
+        @keyframes result-title-glow {
+            0%, 100% { filter: drop-shadow(0 0 0 rgba(236, 72, 153, 0.2)); }
+            50% { filter: drop-shadow(0 0 12px rgba(236, 72, 153, 0.35)); }
+        }
         .animate-gradient-shimmer {
             background-size: 200% auto;
             animation: gradient-shimmer 3s ease infinite;
         }
+        .fun-result-title {
+            animation: result-title-float 2.8s ease-in-out infinite, result-title-glow 2.8s ease-in-out infinite;
+            letter-spacing: 0.01em;
+        }
+        .fun-result-title-text {
+            background-image: linear-gradient(90deg, #22c55e 0%, #06b6d4 35%, #ec4899 70%, #f59e0b 100%);
+            background-size: 240% 100%;
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            animation: gradient-shimmer 4s linear infinite;
+            display: inline-block;
+        }
+        .fun-result-pop {
+            animation: gradient-shimmer 4s linear infinite, result-title-pop 1.8s ease-in-out infinite;
+            transform-origin: center;
+        }
+
+        /* Force share icons into max 2 rows on every screen */
+        .share-grid {
+            display: grid !important;
+            grid-template-columns: repeat(8, minmax(0, 1fr));
+            column-gap: 8px;
+            row-gap: 10px;
+            justify-items: center;
+            width: 100%;
+            max-width: 280px;
+            margin: 0 auto;
+        }
+        .share-grid .share-btn:nth-child(1) { grid-column: 1 / span 2; }
+        .share-grid .share-btn:nth-child(2) { grid-column: 3 / span 2; }
+        .share-grid .share-btn:nth-child(3) { grid-column: 5 / span 2; }
+        .share-grid .share-btn:nth-child(4) { grid-column: 7 / span 2; }
+        .share-grid .share-btn:nth-child(5) { grid-column: 2 / span 2; }
+        .share-grid .share-btn:nth-child(6) { grid-column: 4 / span 2; }
+        .share-grid .share-btn:nth-child(7) { grid-column: 6 / span 2; }
+        .share-btn {
+            width: auto !important;
+            min-width: 0 !important;
+            padding: 0 !important;
+            margin: 0 !important;
+            border: 0 !important;
+            background: transparent !important;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+        .share-btn-label {
+            display: none;
+        }
     </style>
 </head>
-    <body class="min-h-dvh flex flex-col items-center justify-center p-4 py-8 pb-20 text-gray-800 dark:text-gray-100" style="font-family: 'Inter', sans-serif;">
+<body class="min-h-dvh">
+    <script defer src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <div class="min-h-dvh flex flex-col items-center justify-center p-4 py-8 pb-20 text-gray-800 dark:text-gray-100" style="font-family: 'Inter', sans-serif;">
     <div id="fun-app" class="bg-white p-8 w-full text-center" style="max-width: 420px; border-radius: 32px;">
 
           <!-- Step 0: Initial Screen -->
@@ -380,48 +427,50 @@
 
     <!-- Theme Toggle Button -->
     <button id="theme-toggle" class="fixed bottom-6 right-6 bg-gradient-to-r from-pink-500 to-rose-500 text-white p-4 rounded-full shadow-xl hover:shadow-2xl transition-all duration-300 border-4 border-white hover:scale-110 active:scale-95" style="z-index: 10000;">
-        <!-- Sun icon -->
         <svg id="sun-icon" class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h1M3 12h1m15.354 5.354l-.707.707M6.343 6.343l-.707-.707m12.728 0l-.707-.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"></path>
         </svg>
-        <!-- Moon icon -->
         <svg id="moon-icon" class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"></path>
         </svg>
     </button>
-    
+
     <script>
+      const applyTheme = (theme) => {
+        if (theme === 'dark') {
+          document.documentElement.classList.add('dark');
+        } else {
+          document.documentElement.classList.remove('dark');
+        }
+      };
+      let savedTheme = localStorage.getItem('theme');
+      if (!savedTheme) {
+        savedTheme = 'dark';
+        localStorage.setItem('theme', 'dark');
+      }
+      applyTheme(savedTheme);
+
       document.addEventListener('DOMContentLoaded', () => {
-        // --- THEME TOGGLE LOGIC ---
         const themeToggleBtn = document.getElementById('theme-toggle');
         const moonIcon = document.getElementById('moon-icon');
         const sunIcon = document.getElementById('sun-icon');
 
-        const applyTheme = (theme) => {
-            if (theme === 'dark') {
-                document.documentElement.classList.add('dark');
-                if(moonIcon) moonIcon.classList.add('hidden');
-                if(sunIcon) sunIcon.classList.remove('hidden');
-            } else {
-                document.documentElement.classList.remove('dark');
-                if(moonIcon) moonIcon.classList.remove('hidden');
-                if(sunIcon) sunIcon.classList.add('hidden');
-            }
+        const syncThemeIcons = () => {
+          const isDark = document.documentElement.classList.contains('dark');
+          if (moonIcon) moonIcon.classList.toggle('hidden', isDark);
+          if (sunIcon) sunIcon.classList.toggle('hidden', !isDark);
         };
 
-        const toggleTheme = () => {
-            const currentTheme = document.documentElement.classList.contains('dark') ? 'dark' : 'light';
-            const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+        if (themeToggleBtn) {
+          themeToggleBtn.addEventListener('click', () => {
+            const isDark = document.documentElement.classList.contains('dark');
+            const newTheme = isDark ? 'light' : 'dark';
             localStorage.setItem('theme', newTheme);
             applyTheme(newTheme);
-        };
-
-        // Default to dark theme if nothing is saved
-        let savedTheme = localStorage.getItem('theme') || 'dark';
-        applyTheme(savedTheme);
-        if(themeToggleBtn) {
-            themeToggleBtn.addEventListener('click', toggleTheme);
+            syncThemeIcons();
+          });
         }
+        syncThemeIcons();
 
         // --- APP LOGIC ---
         const step0 = document.getElementById('step-0');
@@ -446,12 +495,32 @@
             relationshipStatus: ''
         };
 
-        const transitionSteps = (hideElement, showElement) => {
-          if (hideElement) hideElement.style.display = 'none';
-          if (showElement) showElement.style.display = 'block';
+        const screens = { 'step-0': step0, 'step-1': step1, 'step-2': step2, 'result': result };
+
+        const setView = (viewName, pushHistory = true) => {
+          Object.keys(screens).forEach((key) => {
+            if (screens[key]) {
+              screens[key].style.display = key === viewName ? 'block' : 'none';
+            }
+          });
+          if (pushHistory) {
+            history.pushState({ funView: viewName }, '', window.location.pathname);
+          }
         };
 
-        startBtn.addEventListener('click', () => transitionSteps(step0, step1));
+        // Initialize first state so browser back can walk through in-app steps.
+        if (!history.state || !history.state.funView) {
+          history.replaceState({ funView: 'step-0' }, '', window.location.pathname);
+        } else {
+          setView(history.state.funView, false);
+        }
+
+        window.addEventListener('popstate', (event) => {
+          const targetView = event.state && event.state.funView ? event.state.funView : 'step-0';
+          setView(targetView, false);
+        });
+
+        startBtn.addEventListener('click', () => setView('step-1'));
 
         genderRadios.forEach(radio => {
           radio.addEventListener('change', () => {
@@ -492,10 +561,10 @@
           userData.gender = gender.value;
           userData.linkedinUrl = document.getElementById('linkedin-url').value;
           if (gender.value === 'Male') {
-            transitionSteps(step1, result);
+            setView('result');
             showResult();
           } else {
-            transitionSteps(step1, step2);
+            setView('step-2');
           }
         });
         
@@ -503,7 +572,7 @@
             const relationship = document.querySelector('input[name="relationship"]:checked');
             if (!relationship) return;
             userData.relationshipStatus = relationship.value;
-            transitionSteps(step2, result);
+            setView('result');
             showResult();
         });
 
@@ -582,8 +651,8 @@
                 resultHTML = `
                     <div class="text-center mb-8">
                         <div class="text-8xl mb-4">${resultData.emoji || '✨'}</div>
-                        <h2 class="text-3xl md:text-4xl font-bold mb-4" style="font-family: 'Pacifico', cursive;">
-                            <span class="bg-gradient-to-r from-green-500 to-emerald-500 bg-clip-text text-transparent">${resultData.text}</span>
+                        <h2 class="fun-result-title text-3xl md:text-4xl font-bold mb-4" style="font-family: 'Pacifico', cursive;">
+                            <span class="fun-result-title-text fun-result-pop">${resultData.text}</span>
                         </h2>
                     </div>
                     <div class="match-card rounded-2xl p-6 mb-6 border-2 border-pink-200 dark:border-gray-600">
@@ -591,9 +660,9 @@
                             <div class="w-20 h-20 rounded-full flex items-center justify-center overflow-hidden bg-gray-900 border-2 border-pink-300 dark:border-purple-500">
                               <img src="{{ url_for('static', filename='Curious_Logo.png') }}" alt="Mr. Curious Logo" class="w-full h-full object-contain bg-gray-900 p-2" />
                             </div>
-                            <div>
-                                <h3 class="text-2xl font-bold text-gray-800 dark:text-gray-200">Mr. Curious</h3>
-                          <p class="match-card-label">is ur match 💕</p>
+                            <div class="leading-tight">
+                                <h3 class="text-2xl font-bold text-gray-800 dark:text-gray-200 m-0">Mr. Curious</h3>
+                          <p class="match-card-label mt-0">is ur match 💕</p>
                             </div>
                         </div>
                       <div class="match-card-panel rounded-xl p-4 mb-3 border">
@@ -639,85 +708,75 @@
                         <!-- Share Section -->
                         <div class="mt-6 mb-4">
                             <p class="text-gray-600 dark:text-gray-400 text-xs sm:text-xs md:text-sm font-normal leading-normal pb-2 sm:pb-3 pt-1 text-center">Share it on</p>
-                            <div class="flex flex-row gap-3 justify-center flex-wrap">
+                            <div class="share-grid">
                                 <!-- X -->
-                                <button onclick="shareOnX()" class="flex flex-col items-center gap-1 py-1 text-center transition-all duration-300 group">
-                                    <div class="social-icon-wrapper rounded-full bg-gray-200 dark:bg-[#223449] p-2 md:p-3 w-10 h-10 md:w-12 md:h-12 flex items-center justify-center group-hover:bg-black dark:group-hover:bg-black group-hover:shadow-lg group-hover:shadow-gray-400/50 transition-all duration-300 transform group-hover:scale-110">
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="18px" height="18px" fill="currentColor" viewBox="0 0 256 256" class="md:w-5 md:h-5 text-gray-700 dark:text-gray-200 group-hover:text-white transition-colors duration-300">
+                                <button onclick="shareOnX()" class="share-btn group">
+                                    <div class="social-icon-wrapper rounded-full bg-gray-200 dark:bg-[#223449] p-1.5 md:p-2 w-9 h-9 md:w-10 md:h-10 flex items-center justify-center group-hover:bg-black dark:group-hover:bg-black group-hover:shadow-lg group-hover:shadow-gray-400/50 transition-all duration-300 transform group-hover:scale-110">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="16px" height="16px" fill="currentColor" viewBox="0 0 256 256" class="md:w-5 md:h-5 text-gray-700 dark:text-gray-200 group-hover:text-white transition-colors duration-300">
                                             <path d="M214.75,211.71l-62.6-98.38,61.77-67.95a8,8,0,0,0-11.84-10.76L143.24,99.34,102.75,35.71A8,8,0,0,0,96,32H48a8,8,0,0,0-6.75,12.3l62.6,98.37-61.77,68a8,8,0,1,0,11.84,10.76l58.84-64.72,40.49,63.63A8,8,0,0,0,160,224h48a8,8,0,0,0,6.75-12.29ZM164.39,208,62.57,48h29L193.43,208Z"></path>
                                         </svg>
                                     </div>
-                                    <p class="text-xs font-medium text-gray-600 dark:text-gray-400 group-hover:text-black dark:group-hover:text-white transition-colors duration-300">X</p>
+                                    <p class="share-btn-label">X</p>
                                 </button>
 
                                 <!-- WhatsApp -->
-                                <button onclick="shareOnWhatsApp()" class="flex flex-col items-center gap-1 py-1 text-center transition-all duration-300 group">
-                                    <div class="social-icon-wrapper rounded-full bg-gray-200 dark:bg-[#223449] p-2 md:p-3 w-10 h-10 md:w-12 md:h-12 flex items-center justify-center group-hover:bg-green-500 dark:group-hover:bg-green-500 group-hover:shadow-lg group-hover:shadow-green-300/50 transition-all duration-300 transform group-hover:scale-110">
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="18px" height="18px" fill="currentColor" viewBox="0 0 256 256" class="md:w-5 md:h-5 text-gray-700 dark:text-gray-200 group-hover:text-white transition-colors duration-300">
+                                <button onclick="shareOnWhatsApp()" class="share-btn group">
+                                    <div class="social-icon-wrapper rounded-full bg-gray-200 dark:bg-[#223449] p-1.5 md:p-2 w-9 h-9 md:w-10 md:h-10 flex items-center justify-center group-hover:bg-green-500 dark:group-hover:bg-green-500 group-hover:shadow-lg group-hover:shadow-green-300/50 transition-all duration-300 transform group-hover:scale-110">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="16px" height="16px" fill="currentColor" viewBox="0 0 256 256" class="md:w-5 md:h-5 text-gray-700 dark:text-gray-200 group-hover:text-white transition-colors duration-300">
                                             <path d="M176,16H80A56.06,56.06,0,0,0,24,72v88a56.06,56.06,0,0,0,56,56h96a56.06,56.06,0,0,0,56-56V72A56.06,56.06,0,0,0,176,16Zm40,144a40,40,0,0,1-40,40H80a40,40,0,0,1-40-40V72a40,40,0,0,1,40-40h96a40,40,0,0,1,40,40Zm-60-92a12,12,0,1,1-12-12A12,12,0,0,1,156,68Zm-44,0a12,12,0,1,1-12-12A12,12,0,0,1,112,68Zm-44,0a12,12,0,1,1-12-12A12,12,0,0,1,68,68Zm44,60a12,12,0,1,1-12-12A12,12,0,0,1,112,128Zm44,0a12,12,0,1,1-12-12A12,12,0,0,1,156,128ZM68,128a12,12,0,1,1-12-12A12,12,0,0,1,68,128Z"></path>
                                         </svg>
                                     </div>
-                                    <p class="text-xs font-medium text-gray-600 dark:text-gray-400 group-hover:text-green-500 transition-colors duration-300">WhatsApp</p>
+                                    <p class="share-btn-label">WhatsApp</p>
                                 </button>
 
                                 <!-- LinkedIn -->
-                                <button onclick="shareOnLinkedIn()" class="flex flex-col items-center gap-1 py-1 text-center transition-all duration-300 group">
-                                    <div class="social-icon-wrapper rounded-full bg-gray-200 dark:bg-[#223449] p-2 md:p-3 w-10 h-10 md:w-12 md:h-12 flex items-center justify-center group-hover:bg-blue-700 dark:group-hover:bg-blue-700 group-hover:shadow-lg group-hover:shadow-blue-400/50 transition-all duration-300 transform group-hover:scale-110">
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="18px" height="18px" fill="currentColor" viewBox="0 0 256 256" class="md:w-5 md:h-5 text-gray-700 dark:text-gray-200 group-hover:text-white transition-colors duration-300">
+                                <button onclick="shareOnLinkedIn()" class="share-btn group">
+                                    <div class="social-icon-wrapper rounded-full bg-gray-200 dark:bg-[#223449] p-1.5 md:p-2 w-9 h-9 md:w-10 md:h-10 flex items-center justify-center group-hover:bg-blue-700 dark:group-hover:bg-blue-700 group-hover:shadow-lg group-hover:shadow-blue-400/50 transition-all duration-300 transform group-hover:scale-110">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="16px" height="16px" fill="currentColor" viewBox="0 0 256 256" class="md:w-5 md:h-5 text-gray-700 dark:text-gray-200 group-hover:text-white transition-colors duration-300">
                                             <path d="M216,24H40A16,16,0,0,0,24,40V216a16,16,0,0,0,16,16H216a16,16,0,0,0,16-16V40A16,16,0,0,0,216,24Zm0,192H40V40H216V216ZM96,112v64a8,8,0,0,1-16,0V112a8,8,0,0,1,16,0Zm88,28v36a8,8,0,0,1-16,0V140a20,20,0,0,0-40,0v36a8,8,0,0,1-16,0V112a8,8,0,0,1,15.79-1.78A36,36,0,0,1,184,140ZM100,84A12,12,0,1,1,88,72,12,12,0,0,1,100,84Z"></path>
                                         </svg>
                                     </div>
-                                    <p class="text-xs font-medium text-gray-600 dark:text-gray-400 group-hover:text-blue-700 transition-colors duration-300">LinkedIn</p>
-                                </button>
-
-                                <!-- Instagram Story -->
-                                <button onclick="shareOnInstagramStory()" class="flex flex-col items-center gap-1 py-1 text-center transition-all duration-300 group">
-                                    <div class="social-icon-wrapper rounded-full bg-gray-200 dark:bg-[#223449] p-2 md:p-3 w-10 h-10 md:w-12 md:h-12 flex items-center justify-center group-hover:bg-gradient-to-r group-hover:from-purple-500 group-hover:to-pink-500 group-hover:shadow-lg group-hover:shadow-pink-300/50 transition-all duration-300 transform group-hover:scale-110">
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="18px" height="18px" fill="currentColor" viewBox="0 0 256 256" class="md:w-5 md:h-5 text-gray-700 dark:text-gray-200 group-hover:text-white transition-colors duration-300">
-                                            <path d="M128,80a48,48,0,1,0,48,48A48.05,48.05,0,0,0,128,80Zm0,80a32,32,0,1,1,32-32A32,32,0,0,1,128,160ZM176,24H80A56.06,56.06,0,0,0,24,80v96a56.06,56.06,0,0,0,56,56h96a56.06,56.06,0,0,0,56-56V80A56.06,56.06,0,0,0,176,24Zm40,152a40,40,0,0,1-40,40H80a40,40,0,0,1-40-40V80A40,40,0,0,1,80,40h96a40,40,0,0,1,40,40ZM192,76a12,12,0,1,1-12-12A12,12,0,0,1,192,76Z"></path>
-                                        </svg>
-                                    </div>
-                                    <p class="text-xs font-medium text-gray-600 dark:text-gray-400 group-hover:text-pink-500 transition-colors duration-300">Story</p>
+                                    <p class="share-btn-label">LinkedIn</p>
                                 </button>
 
                                 <!-- Instagram Post -->
-                                <button onclick="shareOnInstagramPost()" class="flex flex-col items-center gap-1 py-1 text-center transition-all duration-300 group">
-                                    <div class="social-icon-wrapper rounded-full bg-gray-200 dark:bg-[#223449] p-2 md:p-3 w-10 h-10 md:w-12 md:h-12 flex items-center justify-center group-hover:bg-gradient-to-r group-hover:from-purple-500 group-hover:to-pink-500 group-hover:shadow-lg group-hover:shadow-pink-300/50 transition-all duration-300 transform group-hover:scale-110">
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="18px" height="18px" fill="currentColor" viewBox="0 0 256 256" class="md:w-5 md:h-5 text-gray-700 dark:text-gray-200 group-hover:text-white transition-colors duration-300">
+                                <button onclick="shareOnInstagramPost()" class="share-btn group">
+                                    <div class="social-icon-wrapper rounded-full bg-gray-200 dark:bg-[#223449] p-1.5 md:p-2 w-9 h-9 md:w-10 md:h-10 flex items-center justify-center group-hover:bg-gradient-to-r group-hover:from-purple-500 group-hover:to-pink-500 group-hover:shadow-lg group-hover:shadow-pink-300/50 transition-all duration-300 transform group-hover:scale-110">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="16px" height="16px" fill="currentColor" viewBox="0 0 256 256" class="md:w-5 md:h-5 text-gray-700 dark:text-gray-200 group-hover:text-white transition-colors duration-300">
                                             <path d="M128,80a48,48,0,1,0,48,48A48.05,48.05,0,0,0,128,80Zm0,80a32,32,0,1,1,32-32A32,32,0,0,1,128,160ZM176,24H80A56.06,56.06,0,0,0,24,80v96a56.06,56.06,0,0,0,56,56h96a56.06,56.06,0,0,0,56-56V80A56.06,56.06,0,0,0,176,24Zm40,152a40,40,0,0,1-40,40H80a40,40,0,0,1-40-40V80A40,40,0,0,1,80,40h96a40,40,0,0,1,40,40ZM192,76a12,12,0,1,1-12-12A12,12,0,0,1,192,76Z"></path>
                                         </svg>
                                     </div>
-                                    <p class="text-xs font-medium text-gray-600 dark:text-gray-400 group-hover:text-pink-500 transition-colors duration-300">Instagram</p>
+                                    <p class="share-btn-label">Instagram</p>
                                 </button>
 
                                 <!-- Reddit -->
-                                <button onclick="shareOnReddit()" class="flex flex-col items-center gap-1 py-1 text-center transition-all duration-300 group">
-                                    <div class="social-icon-wrapper rounded-full bg-gray-200 dark:bg-[#223449] p-2 md:p-3 w-10 h-10 md:w-12 md:h-12 flex items-center justify-center group-hover:bg-orange-600 dark:group-hover:bg-orange-600 group-hover:shadow-lg group-hover:shadow-orange-300/50 transition-all duration-300 transform group-hover:scale-110">
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="18px" height="18px" fill="currentColor" viewBox="0 0 256 256" class="md:w-5 md:h-5 text-gray-700 dark:text-gray-200 group-hover:text-white transition-colors duration-300">
+                                <button onclick="shareOnReddit()" class="share-btn group">
+                                    <div class="social-icon-wrapper rounded-full bg-gray-200 dark:bg-[#223449] p-1.5 md:p-2 w-9 h-9 md:w-10 md:h-10 flex items-center justify-center group-hover:bg-orange-600 dark:group-hover:bg-orange-600 group-hover:shadow-lg group-hover:shadow-orange-300/50 transition-all duration-300 transform group-hover:scale-110">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="16px" height="16px" fill="currentColor" viewBox="0 0 256 256" class="md:w-5 md:h-5 text-gray-700 dark:text-gray-200 group-hover:text-white transition-colors duration-300">
                                             <path d="M248,104a32,32,0,0,0-52.94-24.19c-16.75-8.9-36.76-14.28-57.66-15.53l5.19-31.17,17.72,2.72a24,24,0,1,0,2.87-15.74l-26-4a8,8,0,0,0-9.11,6.59L121.2,64.16c-21.84.94-42.82,6.38-60.26,15.65a32,32,0,0,0-42.59,47.74A59,59,0,0,0,16,144c0,21.93,12,42.35,33.91,57.49C70.88,216,98.61,224,128,224s57.12-8,78.09-22.51C228,186.35,240,165.93,240,144a59,59,0,0,0-2.35-16.45A32.16,32.16,0,0,0,248,104Zm-16,0a16,16,0,0,1-6.39,12.88c-.11-1-.19-1.94-.31-2.89a139.06,139.06,0,0,0-4.11-20A16,16,0,0,1,232,104ZM34.91,93.82A16,16,0,0,1,45.82,94a139.06,139.06,0,0,0-4.11,20c-.12,1-.2,1.92-.31,2.89a16,16,0,1,1-6.49-23.1ZM128,208c-51.51,0-96-25.05-96-56,0-14.69,7.44-28.67,20.95-39.37a8,8,0,0,0-8.6-13.43C28.88,111,24,127.08,24,144c0,38.76,45.27,72,104,72s104-33.24,104-72c0-16.92-4.88-33-20.35-44.8a8,8,0,0,0-8.6,13.43C216.56,115.33,224,129.31,224,144,224,182.95,179.51,208,128,208ZM88,144a16,16,0,1,1,16-16A16,16,0,0,1,88,144Zm80,0a16,16,0,1,1,16-16A16,16,0,0,1,168,144Zm-6.88,32.62a8,8,0,1,1-12.24,10.26,48,48,0,0,1-73.76,0,8,8,0,1,1,12.24-10.26,32,32,0,0,0,49.11,0A8,8,0,0,1,161.12,176.62Z"></path>
                                         </svg>
                                     </div>
-                                    <p class="text-xs font-medium text-gray-600 dark:text-gray-400 group-hover:text-orange-600 transition-colors duration-300">Reddit</p>
+                                    <p class="share-btn-label">Reddit</p>
                                 </button>
 
                                 <!-- Download -->
-                                <button onclick="downloadScreenshot()" class="flex flex-col items-center gap-1 py-1 text-center transition-all duration-300 group">
-                                    <div class="social-icon-wrapper rounded-full bg-gray-200 dark:bg-[#223449] p-2 md:p-3 w-10 h-10 md:w-12 md:h-12 flex items-center justify-center group-hover:bg-indigo-600 dark:group-hover:bg-indigo-600 group-hover:shadow-lg group-hover:shadow-indigo-300/50 transition-all duration-300 transform group-hover:scale-110">
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="18px" height="18px" fill="currentColor" viewBox="0 0 256 256" class="md:w-5 md:h-5 text-gray-700 dark:text-gray-200 group-hover:text-white transition-colors duration-300">
+                                <button onclick="downloadScreenshot()" class="share-btn group">
+                                    <div class="social-icon-wrapper rounded-full bg-gray-200 dark:bg-[#223449] p-1.5 md:p-2 w-9 h-9 md:w-10 md:h-10 flex items-center justify-center group-hover:bg-indigo-600 dark:group-hover:bg-indigo-600 group-hover:shadow-lg group-hover:shadow-indigo-300/50 transition-all duration-300 transform group-hover:scale-110">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="16px" height="16px" fill="currentColor" viewBox="0 0 256 256" class="md:w-5 md:h-5 text-gray-700 dark:text-gray-200 group-hover:text-white transition-colors duration-300">
                                             <path d="M224,144v64a16,16,0,0,1-16,16H48a16,16,0,0,1-16-16V144a8,8,0,0,1,16,0v64H208V144a8,8,0,0,1,16,0Zm-101.66-35.06a8,8,0,0,1,0,11.31l-32,32a8,8,0,0,1-11.31-11.31L99.69,130H24a8,8,0,0,1,0-16h75.69L78.34,97.37a8,8,0,0,1,11.31-11.31l32,32A8,8,0,0,1,122.34,108.94Z"></path>
                                         </svg>
                                     </div>
-                                    <p class="text-xs font-medium text-gray-600 dark:text-gray-400 group-hover:text-indigo-600 transition-colors duration-300">Download</p>
+                                    <p class="share-btn-label">Download</p>
                                 </button>
 
                                 <!-- Copy Link -->
-                                <button onclick="copyShareLink()" class="flex flex-col items-center gap-1 py-1 text-center transition-all duration-300 group">
-                                    <div class="social-icon-wrapper rounded-full bg-gray-200 dark:bg-[#223449] p-2 md:p-3 w-10 h-10 md:w-12 md:h-12 flex items-center justify-center group-hover:bg-slate-400 dark:group-hover:bg-slate-400 group-hover:shadow-lg group-hover:shadow-slate-300/50 transition-all duration-300 transform group-hover:scale-110">
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="18px" height="18px" fill="currentColor" viewBox="0 0 256 256" class="md:w-5 md:h-5 text-gray-700 dark:text-gray-200 group-hover:text-white transition-colors duration-300">
+                                <button onclick="copyShareLink()" class="share-btn group">
+                                    <div class="social-icon-wrapper rounded-full bg-gray-200 dark:bg-[#223449] p-1.5 md:p-2 w-9 h-9 md:w-10 md:h-10 flex items-center justify-center group-hover:bg-slate-400 dark:group-hover:bg-slate-400 group-hover:shadow-lg group-hover:shadow-slate-300/50 transition-all duration-300 transform group-hover:scale-110">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="16px" height="16px" fill="currentColor" viewBox="0 0 256 256" class="md:w-5 md:h-5 text-gray-700 dark:text-gray-200 group-hover:text-white transition-colors duration-300">
                                             <path d="M200.77,58.75A56.48,56.48,0,0,0,87.47,72.12a8,8,0,1,0,11.05,11.6A40.65,40.65,0,0,1,181.12,81.27a40,40,0,0,1,0,56.57l-30.6,30.6a40,40,0,0,1-56.57,0,8,8,0,1,0-11.31,11.31,56,56,0,0,0,79.21,0l30.6-30.6A56.48,56.48,0,0,0,200.77,58.75ZM168.23,197.25a40.65,40.65,0,0,1-82.6-9.4,8,8,0,0,0-11.05,11.6,56.5,56.5,0,0,0,113.3,13.19l30.6-30.6a56,56,0,0,0,0-79.21,8,8,0,1,0-11.31,11.31Z"></path>
                                         </svg>
                                     </div>
-                                    <p class="text-xs font-medium text-gray-600 dark:text-gray-400 group-hover:text-slate-600 transition-colors duration-300">Copy Link</p>
+                                    <p class="share-btn-label">Copy Link</p>
                                 </button>
                             </div>
                         </div>
@@ -730,13 +789,16 @@
 
             } else {
                  resultHTML = `
-                    <div class="match-card">
-                    <div class="text-center mb-8">
-                        <div class="text-8xl mb-4">${resultData.emoji}</div>
-                        <h2 class="text-3xl md:text-4xl font-bold mb-4 text-gray-800 dark:text-gray-200" style="font-family: 'Pacifico', cursive;">
-                            ${resultData.text}
-                        </h2>
-                    </div>
+                    <div class="match-card rounded-2xl p-6 mb-6 border-2 border-pink-200 dark:border-gray-600">
+                      <div class="text-center mb-8">
+                          <div class="text-8xl mb-4">${resultData.emoji}</div>
+                          <h2 class="fun-result-title text-3xl md:text-4xl font-bold mb-4" style="font-family: 'Pacifico', cursive;">
+                              <span class="fun-result-title-text fun-result-pop">${resultData.text}</span>
+                          </h2>
+                      </div>
+                      <div class="match-card-panel rounded-xl p-4 mb-3 border">
+                        <p class="text-sm match-card-label text-center">${resultData.text}</p>
+                      </div>
                  `;
                  if (userData.gender === 'Male') {
                      resultHTML += `
@@ -749,85 +811,75 @@
                  resultHTML += `
                         <div class="mt-6 mb-4">
                             <p class="text-gray-600 dark:text-gray-400 text-xs sm:text-xs md:text-sm font-normal leading-normal pb-2 sm:pb-3 pt-1 text-center">Share it on</p>
-                            <div class="flex flex-row gap-3 justify-center flex-wrap">
+                            <div class="share-grid">
                                 <!-- X -->
-                                <button onclick="shareOnX()" class="flex flex-col items-center gap-1 py-1 text-center transition-all duration-300 group">
-                                    <div class="social-icon-wrapper rounded-full bg-gray-200 dark:bg-[#223449] p-2 md:p-3 w-10 h-10 md:w-12 md:h-12 flex items-center justify-center group-hover:bg-black dark:group-hover:bg-black group-hover:shadow-lg group-hover:shadow-gray-400/50 transition-all duration-300 transform group-hover:scale-110">
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="18px" height="18px" fill="currentColor" viewBox="0 0 256 256" class="md:w-5 md:h-5 text-gray-700 dark:text-gray-200 group-hover:text-white transition-colors duration-300">
+                                <button onclick="shareOnX()" class="share-btn group">
+                                    <div class="social-icon-wrapper rounded-full bg-gray-200 dark:bg-[#223449] p-1.5 md:p-2 w-9 h-9 md:w-10 md:h-10 flex items-center justify-center group-hover:bg-black dark:group-hover:bg-black group-hover:shadow-lg group-hover:shadow-gray-400/50 transition-all duration-300 transform group-hover:scale-110">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="16px" height="16px" fill="currentColor" viewBox="0 0 256 256" class="md:w-5 md:h-5 text-gray-700 dark:text-gray-200 group-hover:text-white transition-colors duration-300">
                                             <path d="M214.75,211.71l-62.6-98.38,61.77-67.95a8,8,0,0,0-11.84-10.76L143.24,99.34,102.75,35.71A8,8,0,0,0,96,32H48a8,8,0,0,0-6.75,12.3l62.6,98.37-61.77,68a8,8,0,1,0,11.84,10.76l58.84-64.72,40.49,63.63A8,8,0,0,0,160,224h48a8,8,0,0,0,6.75-12.29ZM164.39,208,62.57,48h29L193.43,208Z"></path>
                                         </svg>
                                     </div>
-                                    <p class="text-xs font-medium text-gray-600 dark:text-gray-400 group-hover:text-black dark:group-hover:text-white transition-colors duration-300">X</p>
+                                    <p class="share-btn-label">X</p>
                                 </button>
 
                                 <!-- WhatsApp -->
-                                <button onclick="shareOnWhatsApp()" class="flex flex-col items-center gap-1 py-1 text-center transition-all duration-300 group">
-                                    <div class="social-icon-wrapper rounded-full bg-gray-200 dark:bg-[#223449] p-2 md:p-3 w-10 h-10 md:w-12 md:h-12 flex items-center justify-center group-hover:bg-green-500 dark:group-hover:bg-green-500 group-hover:shadow-lg group-hover:shadow-green-300/50 transition-all duration-300 transform group-hover:scale-110">
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="18px" height="18px" fill="currentColor" viewBox="0 0 256 256" class="md:w-5 md:h-5 text-gray-700 dark:text-gray-200 group-hover:text-white transition-colors duration-300">
+                                <button onclick="shareOnWhatsApp()" class="share-btn group">
+                                    <div class="social-icon-wrapper rounded-full bg-gray-200 dark:bg-[#223449] p-1.5 md:p-2 w-9 h-9 md:w-10 md:h-10 flex items-center justify-center group-hover:bg-green-500 dark:group-hover:bg-green-500 group-hover:shadow-lg group-hover:shadow-green-300/50 transition-all duration-300 transform group-hover:scale-110">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="16px" height="16px" fill="currentColor" viewBox="0 0 256 256" class="md:w-5 md:h-5 text-gray-700 dark:text-gray-200 group-hover:text-white transition-colors duration-300">
                                             <path d="M176,16H80A56.06,56.06,0,0,0,24,72v88a56.06,56.06,0,0,0,56,56h96a56.06,56.06,0,0,0,56-56V72A56.06,56.06,0,0,0,176,16Zm40,144a40,40,0,0,1-40,40H80a40,40,0,0,1-40-40V72a40,40,0,0,1,40-40h96a40,40,0,0,1,40,40Zm-60-92a12,12,0,1,1-12-12A12,12,0,0,1,156,68Zm-44,0a12,12,0,1,1-12-12A12,12,0,0,1,112,68Zm-44,0a12,12,0,1,1-12-12A12,12,0,0,1,68,68Zm44,60a12,12,0,1,1-12-12A12,12,0,0,1,112,128Zm44,0a12,12,0,1,1-12-12A12,12,0,0,1,156,128ZM68,128a12,12,0,1,1-12-12A12,12,0,0,1,68,128Z"></path>
                                         </svg>
                                     </div>
-                                    <p class="text-xs font-medium text-gray-600 dark:text-gray-400 group-hover:text-green-500 transition-colors duration-300">WhatsApp</p>
+                                    <p class="share-btn-label">WhatsApp</p>
                                 </button>
 
                                 <!-- LinkedIn -->
-                                <button onclick="shareOnLinkedIn()" class="flex flex-col items-center gap-1 py-1 text-center transition-all duration-300 group">
-                                    <div class="social-icon-wrapper rounded-full bg-gray-200 dark:bg-[#223449] p-2 md:p-3 w-10 h-10 md:w-12 md:h-12 flex items-center justify-center group-hover:bg-blue-700 dark:group-hover:bg-blue-700 group-hover:shadow-lg group-hover:shadow-blue-400/50 transition-all duration-300 transform group-hover:scale-110">
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="18px" height="18px" fill="currentColor" viewBox="0 0 256 256" class="md:w-5 md:h-5 text-gray-700 dark:text-gray-200 group-hover:text-white transition-colors duration-300">
+                                <button onclick="shareOnLinkedIn()" class="share-btn group">
+                                    <div class="social-icon-wrapper rounded-full bg-gray-200 dark:bg-[#223449] p-1.5 md:p-2 w-9 h-9 md:w-10 md:h-10 flex items-center justify-center group-hover:bg-blue-700 dark:group-hover:bg-blue-700 group-hover:shadow-lg group-hover:shadow-blue-400/50 transition-all duration-300 transform group-hover:scale-110">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="16px" height="16px" fill="currentColor" viewBox="0 0 256 256" class="md:w-5 md:h-5 text-gray-700 dark:text-gray-200 group-hover:text-white transition-colors duration-300">
                                             <path d="M216,24H40A16,16,0,0,0,24,40V216a16,16,0,0,0,16,16H216a16,16,0,0,0,16-16V40A16,16,0,0,0,216,24Zm0,192H40V40H216V216ZM96,112v64a8,8,0,0,1-16,0V112a8,8,0,0,1,16,0Zm88,28v36a8,8,0,0,1-16,0V140a20,20,0,0,0-40,0v36a8,8,0,0,1-16,0V112a8,8,0,0,1,15.79-1.78A36,36,0,0,1,184,140ZM100,84A12,12,0,1,1,88,72,12,12,0,0,1,100,84Z"></path>
                                         </svg>
                                     </div>
-                                    <p class="text-xs font-medium text-gray-600 dark:text-gray-400 group-hover:text-blue-700 transition-colors duration-300">LinkedIn</p>
-                                </button>
-
-                                <!-- Instagram Story -->
-                                <button onclick="shareOnInstagramStory()" class="flex flex-col items-center gap-1 py-1 text-center transition-all duration-300 group">
-                                    <div class="social-icon-wrapper rounded-full bg-gray-200 dark:bg-[#223449] p-2 md:p-3 w-10 h-10 md:w-12 md:h-12 flex items-center justify-center group-hover:bg-gradient-to-r group-hover:from-purple-500 group-hover:to-pink-500 group-hover:shadow-lg group-hover:shadow-pink-300/50 transition-all duration-300 transform group-hover:scale-110">
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="18px" height="18px" fill="currentColor" viewBox="0 0 256 256" class="md:w-5 md:h-5 text-gray-700 dark:text-gray-200 group-hover:text-white transition-colors duration-300">
-                                            <path d="M128,80a48,48,0,1,0,48,48A48.05,48.05,0,0,0,128,80Zm0,80a32,32,0,1,1,32-32A32,32,0,0,1,128,160ZM176,24H80A56.06,56.06,0,0,0,24,80v96a56.06,56.06,0,0,0,56,56h96a56.06,56.06,0,0,0,56-56V80A56.06,56.06,0,0,0,176,24Zm40,152a40,40,0,0,1-40,40H80a40,40,0,0,1-40-40V80A40,40,0,0,1,80,40h96a40,40,0,0,1,40,40ZM192,76a12,12,0,1,1-12-12A12,12,0,0,1,192,76Z"></path>
-                                        </svg>
-                                    </div>
-                                    <p class="text-xs font-medium text-gray-600 dark:text-gray-400 group-hover:text-pink-500 transition-colors duration-300">Story</p>
+                                    <p class="share-btn-label">LinkedIn</p>
                                 </button>
 
                                 <!-- Instagram Post -->
-                                <button onclick="shareOnInstagramPost()" class="flex flex-col items-center gap-1 py-1 text-center transition-all duration-300 group">
-                                    <div class="social-icon-wrapper rounded-full bg-gray-200 dark:bg-[#223449] p-2 md:p-3 w-10 h-10 md:w-12 md:h-12 flex items-center justify-center group-hover:bg-gradient-to-r group-hover:from-purple-500 group-hover:to-pink-500 group-hover:shadow-lg group-hover:shadow-pink-300/50 transition-all duration-300 transform group-hover:scale-110">
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="18px" height="18px" fill="currentColor" viewBox="0 0 256 256" class="md:w-5 md:h-5 text-gray-700 dark:text-gray-200 group-hover:text-white transition-colors duration-300">
+                                <button onclick="shareOnInstagramPost()" class="share-btn group">
+                                    <div class="social-icon-wrapper rounded-full bg-gray-200 dark:bg-[#223449] p-1.5 md:p-2 w-9 h-9 md:w-10 md:h-10 flex items-center justify-center group-hover:bg-gradient-to-r group-hover:from-purple-500 group-hover:to-pink-500 group-hover:shadow-lg group-hover:shadow-pink-300/50 transition-all duration-300 transform group-hover:scale-110">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="16px" height="16px" fill="currentColor" viewBox="0 0 256 256" class="md:w-5 md:h-5 text-gray-700 dark:text-gray-200 group-hover:text-white transition-colors duration-300">
                                             <path d="M128,80a48,48,0,1,0,48,48A48.05,48.05,0,0,0,128,80Zm0,80a32,32,0,1,1,32-32A32,32,0,0,1,128,160ZM176,24H80A56.06,56.06,0,0,0,24,80v96a56.06,56.06,0,0,0,56,56h96a56.06,56.06,0,0,0,56-56V80A56.06,56.06,0,0,0,176,24Zm40,152a40,40,0,0,1-40,40H80a40,40,0,0,1-40-40V80A40,40,0,0,1,80,40h96a40,40,0,0,1,40,40ZM192,76a12,12,0,1,1-12-12A12,12,0,0,1,192,76Z"></path>
                                         </svg>
                                     </div>
-                                    <p class="text-xs font-medium text-gray-600 dark:text-gray-400 group-hover:text-pink-500 transition-colors duration-300">Instagram</p>
+                                    <p class="share-btn-label">Instagram</p>
                                 </button>
 
                                 <!-- Reddit -->
-                                <button onclick="shareOnReddit()" class="flex flex-col items-center gap-1 py-1 text-center transition-all duration-300 group">
-                                    <div class="social-icon-wrapper rounded-full bg-gray-200 dark:bg-[#223449] p-2 md:p-3 w-10 h-10 md:w-12 md:h-12 flex items-center justify-center group-hover:bg-orange-600 dark:group-hover:bg-orange-600 group-hover:shadow-lg group-hover:shadow-orange-300/50 transition-all duration-300 transform group-hover:scale-110">
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="18px" height="18px" fill="currentColor" viewBox="0 0 256 256" class="md:w-5 md:h-5 text-gray-700 dark:text-gray-200 group-hover:text-white transition-colors duration-300">
+                                <button onclick="shareOnReddit()" class="share-btn group">
+                                    <div class="social-icon-wrapper rounded-full bg-gray-200 dark:bg-[#223449] p-1.5 md:p-2 w-9 h-9 md:w-10 md:h-10 flex items-center justify-center group-hover:bg-orange-600 dark:group-hover:bg-orange-600 group-hover:shadow-lg group-hover:shadow-orange-300/50 transition-all duration-300 transform group-hover:scale-110">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="16px" height="16px" fill="currentColor" viewBox="0 0 256 256" class="md:w-5 md:h-5 text-gray-700 dark:text-gray-200 group-hover:text-white transition-colors duration-300">
                                             <path d="M248,104a32,32,0,0,0-52.94-24.19c-16.75-8.9-36.76-14.28-57.66-15.53l5.19-31.17,17.72,2.72a24,24,0,1,0,2.87-15.74l-26-4a8,8,0,0,0-9.11,6.59L121.2,64.16c-21.84.94-42.82,6.38-60.26,15.65a32,32,0,0,0-42.59,47.74A59,59,0,0,0,16,144c0,21.93,12,42.35,33.91,57.49C70.88,216,98.61,224,128,224s57.12-8,78.09-22.51C228,186.35,240,165.93,240,144a59,59,0,0,0-2.35-16.45A32.16,32.16,0,0,0,248,104Zm-16,0a16,16,0,0,1-6.39,12.88c-.11-1-.19-1.94-.31-2.89a139.06,139.06,0,0,0-4.11-20A16,16,0,0,1,232,104ZM34.91,93.82A16,16,0,0,1,45.82,94a139.06,139.06,0,0,0-4.11,20c-.12,1-.2,1.92-.31,2.89a16,16,0,1,1-6.49-23.1ZM128,208c-51.51,0-96-25.05-96-56,0-14.69,7.44-28.67,20.95-39.37a8,8,0,0,0-8.6-13.43C28.88,111,24,127.08,24,144c0,38.76,45.27,72,104,72s104-33.24,104-72c0-16.92-4.88-33-20.35-44.8a8,8,0,0,0-8.6,13.43C216.56,115.33,224,129.31,224,144,224,182.95,179.51,208,128,208ZM88,144a16,16,0,1,1,16-16A16,16,0,0,1,88,144Zm80,0a16,16,0,1,1,16-16A16,16,0,0,1,168,144Zm-6.88,32.62a8,8,0,1,1-12.24,10.26,48,48,0,0,1-73.76,0,8,8,0,1,1,12.24-10.26,32,32,0,0,0,49.11,0A8,8,0,0,1,161.12,176.62Z"></path>
                                         </svg>
                                     </div>
-                                    <p class="text-xs font-medium text-gray-600 dark:text-gray-400 group-hover:text-orange-600 transition-colors duration-300">Reddit</p>
+                                    <p class="share-btn-label">Reddit</p>
                                 </button>
 
                                 <!-- Download -->
-                                <button onclick="downloadScreenshot()" class="flex flex-col items-center gap-1 py-1 text-center transition-all duration-300 group">
-                                    <div class="social-icon-wrapper rounded-full bg-gray-200 dark:bg-[#223449] p-2 md:p-3 w-10 h-10 md:w-12 md:h-12 flex items-center justify-center group-hover:bg-indigo-600 dark:group-hover:bg-indigo-600 group-hover:shadow-lg group-hover:shadow-indigo-300/50 transition-all duration-300 transform group-hover:scale-110">
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="18px" height="18px" fill="currentColor" viewBox="0 0 256 256" class="md:w-5 md:h-5 text-gray-700 dark:text-gray-200 group-hover:text-white transition-colors duration-300">
+                                <button onclick="downloadScreenshot()" class="share-btn group">
+                                    <div class="social-icon-wrapper rounded-full bg-gray-200 dark:bg-[#223449] p-1.5 md:p-2 w-9 h-9 md:w-10 md:h-10 flex items-center justify-center group-hover:bg-indigo-600 dark:group-hover:bg-indigo-600 group-hover:shadow-lg group-hover:shadow-indigo-300/50 transition-all duration-300 transform group-hover:scale-110">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="16px" height="16px" fill="currentColor" viewBox="0 0 256 256" class="md:w-5 md:h-5 text-gray-700 dark:text-gray-200 group-hover:text-white transition-colors duration-300">
                                             <path d="M224,144v64a16,16,0,0,1-16,16H48a16,16,0,0,1-16-16V144a8,8,0,0,1,16,0v64H208V144a8,8,0,0,1,16,0Zm-101.66-35.06a8,8,0,0,1,0,11.31l-32,32a8,8,0,0,1-11.31-11.31L99.69,130H24a8,8,0,0,1,0-16h75.69L78.34,97.37a8,8,0,0,1,11.31-11.31l32,32A8,8,0,0,1,122.34,108.94Z"></path>
                                         </svg>
                                     </div>
-                                    <p class="text-xs font-medium text-gray-600 dark:text-gray-400 group-hover:text-indigo-600 transition-colors duration-300">Download</p>
+                                    <p class="share-btn-label">Download</p>
                                 </button>
 
                                 <!-- Copy Link -->
-                                <button onclick="copyShareLink()" class="flex flex-col items-center gap-1 py-1 text-center transition-all duration-300 group">
-                                    <div class="social-icon-wrapper rounded-full bg-gray-200 dark:bg-[#223449] p-2 md:p-3 w-10 h-10 md:w-12 md:h-12 flex items-center justify-center group-hover:bg-slate-400 dark:group-hover:bg-slate-400 group-hover:shadow-lg group-hover:shadow-slate-300/50 transition-all duration-300 transform group-hover:scale-110">
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="18px" height="18px" fill="currentColor" viewBox="0 0 256 256" class="md:w-5 md:h-5 text-gray-700 dark:text-gray-200 group-hover:text-white transition-colors duration-300">
+                                <button onclick="copyShareLink()" class="share-btn group">
+                                    <div class="social-icon-wrapper rounded-full bg-gray-200 dark:bg-[#223449] p-1.5 md:p-2 w-9 h-9 md:w-10 md:h-10 flex items-center justify-center group-hover:bg-slate-400 dark:group-hover:bg-slate-400 group-hover:shadow-lg group-hover:shadow-slate-300/50 transition-all duration-300 transform group-hover:scale-110">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="16px" height="16px" fill="currentColor" viewBox="0 0 256 256" class="md:w-5 md:h-5 text-gray-700 dark:text-gray-200 group-hover:text-white transition-colors duration-300">
                                             <path d="M200.77,58.75A56.48,56.48,0,0,0,87.47,72.12a8,8,0,1,0,11.05,11.6A40.65,40.65,0,0,1,181.12,81.27a40,40,0,0,1,0,56.57l-30.6,30.6a40,40,0,0,1-56.57,0,8,8,0,1,0-11.31,11.31,56,56,0,0,0,79.21,0l30.6-30.6A56.48,56.48,0,0,0,200.77,58.75ZM168.23,197.25a40.65,40.65,0,0,1-82.6-9.4,8,8,0,0,0-11.05,11.6,56.5,56.5,0,0,0,113.3,13.19l30.6-30.6a56,56,0,0,0,0-79.21,8,8,0,1,0-11.31,11.31Z"></path>
                                         </svg>
                                     </div>
-                                    <p class="text-xs font-medium text-gray-600 dark:text-gray-400 group-hover:text-slate-600 transition-colors duration-300">Copy Link</p>
+                                    <p class="share-btn-label">Copy Link</p>
                                 </button>
                             </div>
                         </div>
@@ -855,7 +907,7 @@
           findPartnerBtn2.disabled = true;
           findPartnerBtn2.className = "w-full py-4 rounded-xl text-lg font-semibold shadow-lg transition-all bg-gray-300 text-gray-500 cursor-not-allowed";
 
-          transitionSteps(result, step0);
+          setView('step-0');
         });
 
         // Share button functions
@@ -876,11 +928,6 @@
         window.shareOnLinkedIn = function() {
           const linkedinUrl = `https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(shareUrl)}`;
           window.open(linkedinUrl, 'linkedin-share', 'width=550,height=420');
-        };
-
-        window.shareOnInstagramStory = function() {
-          alert('📲 To share on Instagram Story:\n\n1. Copy this link: ' + shareUrl + '\n2. Open Instagram app\n3. Create a new Story\n4. Add text or sticker with the link\n\nThe link has been copied to your clipboard!');
-          navigator.clipboard.writeText(shareUrl).catch(() => {});
         };
 
         window.shareOnInstagramPost = function() {
@@ -1077,17 +1124,17 @@
             // Show success feedback
             const copyBtn = event.target.closest('button');
             const copyWrapper = copyBtn.querySelector('.social-icon-wrapper');
-            const copyLabel = copyBtn.querySelector('p');
+            const copyLabel = copyBtn.querySelector('.share-btn-label');
             const originalBg = copyWrapper.className;
-            const originalLabel = copyLabel.textContent;
+            const originalLabel = copyLabel ? copyLabel.textContent : '';
             
             copyWrapper.classList.add('bg-green-600');
             copyWrapper.classList.remove('bg-gray-200', 'dark:bg-[#223449]');
-            copyLabel.textContent = '✓ Copied!';
+            if (copyLabel) copyLabel.textContent = '✓ Copied!';
             
             setTimeout(() => {
               copyWrapper.className = originalBg;
-              copyLabel.textContent = originalLabel;
+              if (copyLabel) copyLabel.textContent = originalLabel;
             }, 2000);
           }).catch(err => {
             // Fallback for older browsers
@@ -1100,20 +1147,21 @@
             
             const copyBtn = event.target.closest('button');
             const copyWrapper = copyBtn.querySelector('.social-icon-wrapper');
-            const copyLabel = copyBtn.querySelector('p');
+            const copyLabel = copyBtn.querySelector('.share-btn-label');
             const originalBg = copyWrapper.className;
-            const originalLabel = copyLabel.textContent;
+            const originalLabel = copyLabel ? copyLabel.textContent : '';
             
             copyWrapper.classList.add('bg-green-600');
             copyWrapper.classList.remove('bg-gray-200', 'dark:bg-[#223449]');
-            copyLabel.textContent = '✓ Copied!';
+            if (copyLabel) copyLabel.textContent = '✓ Copied!';
             
             setTimeout(() => {
               copyWrapper.className = originalBg;
-              copyLabel.textContent = originalLabel;
+              if (copyLabel) copyLabel.textContent = originalLabel;
             }, 2000);
           });
         };
       });
     </script>
 </body>
+</html>
