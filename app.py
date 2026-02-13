@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, redirect, url_for, flash, session, jsonify
+from flask import Flask, render_template, request, redirect, url_for, flash, session, jsonify, send_from_directory, Response
 from flask_sqlalchemy import SQLAlchemy
 from werkzeug.security import generate_password_hash, check_password_hash
 from datetime import datetime, timezone, timedelta
@@ -138,6 +138,23 @@ class Feedback(db.Model):
 
     def __repr__(self):
         return f'<Feedback from {self.name}>'
+
+@app.route('/sitemap.xml')
+def sitemap():
+    sitemap_path = os.path.join(app.root_path, 'sitemap.xml')
+    with open(sitemap_path, 'r', encoding='utf-8') as f:
+        content = f.read()
+    return Response(content, content_type='application/xml; charset=utf-8')
+
+@app.route('/robots.txt')
+def robots():
+    robots_path = os.path.join(app.root_path, 'robots.txt')
+    if os.path.exists(robots_path):
+        with open(robots_path, 'r', encoding='utf-8') as f:
+            content = f.read()
+    else:
+        content = "User-agent: *\nAllow: /\nSitemap: https://mrcurious.in/sitemap.xml\n"
+    return Response(content, content_type='text/plain; charset=utf-8')
 
 @app.route('/')
 def home():

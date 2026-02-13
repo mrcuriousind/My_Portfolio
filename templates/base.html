@@ -2,75 +2,99 @@
 <html lang="en">
 
 <head>
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-Z3BF1Y0TYM"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag() { dataLayer.push(arguments); }
+        gtag('js', new Date());
+        gtag('config', 'G-Z3BF1Y0TYM');
+    </script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="csrf-token" content="{{ csrf_token() }}">
+    <meta name="description" content="Mr. Curious portfolio: products, experiments, blog posts, and ways to connect.">
+    <meta name="robots" content="index,follow">
+    <link rel="canonical" href="{{ request.url }}">
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="Mr. Curious">
+    <meta property="og:title" content="{% block og_title %}Mr. Curious's Portfolio{% endblock %}">
+    <meta property="og:description" content="{% block og_description %}Products, experiments, blog posts, and contact details for Mr. Curious.{% endblock %}">
+    <meta property="og:url" content="{{ request.url }}">
+    <meta property="og:image" content="{{ request.url_root.rstrip('/') ~ url_for('static', filename='preview.png') }}">
+    <meta property="og:image:alt" content="Mr. Curious portfolio preview">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="{% block twitter_title %}Mr. Curious's Portfolio{% endblock %}">
+    <meta name="twitter:description" content="{% block twitter_description %}Products, experiments, blog posts, and contact details for Mr. Curious.{% endblock %}">
+    <meta name="twitter:image" content="{{ request.url_root.rstrip('/') ~ url_for('static', filename='preview.png') }}">
+    <meta name="theme-color" content="#101923">
     <title>{% block title %}Mr. Curious's Portfolio{% endblock %}</title>
-    <link rel="icon" type="image/x-icon" href="data:image/x-icon;base64," />
+    <link rel="icon" type="image/png" href="{{ url_for('static', filename='Curious_Logo.png') }}" />
     <link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin />
     <link rel="stylesheet" as="style" onload="this.rel='stylesheet'"
         href="https://fonts.googleapis.com/css2?display=swap&amp;family=Noto+Sans%3Awght%40400%3B500%3B700%3B900&amp;family=Space+Grotesk%3Awght%40400%3B500%3B700" />
-    <link href="{{ url_for('static', filename='css/output.css', v=static_version('css/output.css')) }}" rel="stylesheet">
+    <link href="{{ url_for('static', filename='css/output.css', v=static_version('css/output.css')) }}"
+        rel="stylesheet">
     <script defer src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/js/all.min.js"></script>
-    
+
     <style>
         /* Modern custom scrollbar */
         * {
             scrollbar-width: thin;
             scrollbar-color: #33c46b #1a1a1a;
         }
-        
+
         /* Webkit browsers (Chrome, Safari, Edge) */
         *::-webkit-scrollbar {
             width: 8px;
         }
-        
+
         *::-webkit-scrollbar-track {
             background: transparent;
         }
-        
+
         *::-webkit-scrollbar-thumb {
             background: linear-gradient(180deg, #9de1f5 0%, #33c46b 100%);
             border-radius: 10px;
             border: 2px solid transparent;
             background-clip: padding-box;
         }
-        
+
         *::-webkit-scrollbar-thumb:hover {
             background: linear-gradient(180deg, #33c46b 0%, #9de1f5 100%);
             border-radius: 10px;
             border: 2px solid transparent;
             background-clip: padding-box;
         }
-        
+
         /* Dark mode scrollbar */
         .dark *::-webkit-scrollbar-track {
             background: transparent;
         }
-        
+
         .dark *::-webkit-scrollbar-thumb {
             background: linear-gradient(180deg, #9de1f5 0%, #33c46b 100%);
         }
-        
+
         .dark *::-webkit-scrollbar-thumb:hover {
             background: linear-gradient(180deg, #33c46b 0%, #9de1f5 100%);
         }
-        
+
         /* Header scroll effect */
         header {
             transition: transform 0.3s ease, box-shadow 0.3s ease, background-color 0.3s ease;
         }
-        
+
         header.scrolled {
             box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
             background-color: rgba(255, 255, 255, 0.95);
         }
-        
+
         .dark header.scrolled {
             background-color: rgba(16, 25, 35, 0.95);
             box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
         }
-        
+
         /* Ripple effect styles */
         .ripple-effect {
             position: absolute;
@@ -80,34 +104,34 @@
             animation: ripple-animation 0.6s ease-out;
             pointer-events: none;
         }
-        
+
         @keyframes ripple-animation {
             to {
                 transform: scale(4);
                 opacity: 0;
             }
         }
-        
+
         /* Social icon hover effects */
         .social-icon-wrapper {
             transition: all 0.3s ease;
         }
-        
+
         .social-icon-wrapper:hover {
             transform: scale(1.1);
             box-shadow: 0 10px 25px rgba(51, 196, 107, 0.3);
             background: linear-gradient(135deg, #9de1f5 0%, #33c46b 100%) !important;
         }
-        
+
         .social-icon-wrapper:hover svg {
             fill: white !important;
         }
-        
+
         .social-icon-label {
             transition: color 0.3s ease;
         }
-        
-        .social-icon-wrapper:hover + .social-icon-label {
+
+        .social-icon-wrapper:hover+.social-icon-label {
             color: #33c46b !important;
         }
 
@@ -353,29 +377,37 @@
                 <div class="px-5 md:px-10 py-3 flex items-center justify-between gap-4">
                     <a href="{{ url_for('home') }}" class="flex items-center gap-2">
                         <span class="nav-logo-wrap rounded-full bg-white/60 dark:bg-[#182534]">
-                            <img src="{{ url_for('static', filename='Curious_Logo.png') }}"
-                            alt="Curious Logo"
-                            class="nav-logo-img" loading="lazy" decoding="async" width="44" height="44" />
+                            <img src="{{ url_for('static', filename='Curious_Logo.png') }}" alt="Curious Logo"
+                                class="nav-logo-img" loading="lazy" decoding="async" width="44" height="44" />
                         </span>
                         <span class="text-base md:text-lg font-bold tracking-[-0.015em]">Mr. Curious</span>
                     </a>
 
                     <nav class="nav-links-desktop nav-glass items-center gap-2 lg:gap-4">
-                        <a class="nav-pill {% if request.endpoint == 'home' %}active{% endif %}" href="{{ url_for('home') }}">Home</a>
-                        <a class="nav-pill {% if request.endpoint == 'projects' %}active{% endif %}" href="{{ url_for('projects') }}">Products &amp; Experiments</a>
-                        <a class="nav-pill {% if request.endpoint == 'blog' %}active{% endif %}" href="{{ url_for('blog') }}">Blog</a>
-                        <a class="nav-pill {% if request.endpoint == 'fun' %}active{% endif %}" href="{{ url_for('fun') }}">Fun</a>
-                        <a class="nav-pill {% if request.endpoint == 'connect' %}active{% endif %}" href="{{ url_for('connect') }}">Connect</a>
+                        <a class="nav-pill {% if request.endpoint == 'home' %}active{% endif %}"
+                            href="{{ url_for('home') }}">Home</a>
+                        <a class="nav-pill {% if request.endpoint == 'projects' %}active{% endif %}"
+                            href="{{ url_for('projects') }}">Products &amp; Experiments</a>
+                        <a class="nav-pill {% if request.endpoint == 'blog' %}active{% endif %}"
+                            href="{{ url_for('blog') }}">Blog</a>
+                        <a class="nav-pill {% if request.endpoint == 'connect' %}active{% endif %}"
+                            href="{{ url_for('connect') }}">Connect</a>
                     </nav>
 
                     <div class="flex items-center gap-2 md:gap-4">
                         <button id="theme-toggle" class="theme-toggle-btn" title="Toggle theme">
                             <div class="theme-toggle-track scale-90 md:scale-100">
-                                <svg class="theme-icon-left sun-icon-track" xmlns="http://www.w3.org/2000/svg" width="12" height="12" fill="currentColor" viewBox="0 0 256 256">
-                                    <path d="M120,40V16a8,8,0,0,1,16,0V40a8,8,0,0,1-16,0Zm72,88a64,64,0,1,1-64-64A64.07,64.07,0,0,1,192,128Zm-16,0a48,48,0,1,0-48,48A48.05,48.05,0,0,0,176,128ZM58.34,69.66A8,8,0,0,0,69.66,58.34l-16-16A8,8,0,0,0,42.34,53.66Zm0,116.68-16,16a8,8,0,0,0,11.32,11.32l16-16a8,8,0,0,0-11.32-11.32ZM192,72a8,8,0,0,0,5.66-2.34l16-16a8,8,0,0,0-11.32-11.32l-16,16A8,8,0,0,0,192,72Zm5.66,114.34a8,8,0,0,0-11.32,11.32l16,16a8,8,0,0,0,11.32-11.32ZM48,128a8,8,0,0,0-8-8H16a8,8,0,0,0,0,16H40A8,8,0,0,0,48,128Zm80,80a8,8,0,0,0-8,8v24a8,8,0,0,0,16,0V216A8,8,0,0,0,128,208Zm112-88H216a8,8,0,0,0,0,16h24a8,8,0,0,0,0-16Z"></path>
+                                <svg class="theme-icon-left sun-icon-track" xmlns="http://www.w3.org/2000/svg"
+                                    width="12" height="12" fill="currentColor" viewBox="0 0 256 256">
+                                    <path
+                                        d="M120,40V16a8,8,0,0,1,16,0V40a8,8,0,0,1-16,0Zm72,88a64,64,0,1,1-64-64A64.07,64.07,0,0,1,192,128Zm-16,0a48,48,0,1,0-48,48A48.05,48.05,0,0,0,176,128ZM58.34,69.66A8,8,0,0,0,69.66,58.34l-16-16A8,8,0,0,0,42.34,53.66Zm0,116.68-16,16a8,8,0,0,0,11.32,11.32l16-16a8,8,0,0,0-11.32-11.32ZM192,72a8,8,0,0,0,5.66-2.34l16-16a8,8,0,0,0-11.32-11.32l-16,16A8,8,0,0,0,192,72Zm5.66,114.34a8,8,0,0,0-11.32,11.32l16,16a8,8,0,0,0,11.32-11.32ZM48,128a8,8,0,0,0-8-8H16a8,8,0,0,0,0,16H40A8,8,0,0,0,48,128Zm80,80a8,8,0,0,0-8,8v24a8,8,0,0,0,16,0V216A8,8,0,0,0,128,208Zm112-88H216a8,8,0,0,0,0,16h24a8,8,0,0,0,0-16Z">
+                                    </path>
                                 </svg>
-                                <svg class="theme-icon-right moon-icon-track" xmlns="http://www.w3.org/2000/svg" width="12" height="12" fill="currentColor" viewBox="0 0 256 256">
-                                    <path d="M216.49,155.23a8,8,0,0,0-9.15-1.25,72,72,0,0,1-79.83-79.83,8,8,0,0,0-1.25-9.15,88.08,88.08,0,0,0-120.7,120.7,8,8,0,0,0,9.15,1.25,72,72,0,0,1,79.83,79.83,8,8,0,0,0,1.25,9.15,88.08,88.08,0,0,0,120.7-120.7Z"></path>
+                                <svg class="theme-icon-right moon-icon-track" xmlns="http://www.w3.org/2000/svg"
+                                    width="12" height="12" fill="currentColor" viewBox="0 0 256 256">
+                                    <path
+                                        d="M216.49,155.23a8,8,0,0,0-9.15-1.25,72,72,0,0,1-79.83-79.83,8,8,0,0,0-1.25-9.15,88.08,88.08,0,0,0-120.7,120.7,8,8,0,0,0,9.15,1.25,72,72,0,0,1,79.83,79.83,8,8,0,0,0,1.25,9.15,88.08,88.08,0,0,0,120.7-120.7Z">
+                                    </path>
                                 </svg>
                                 <div class="theme-toggle-thumb"></div>
                             </div>
@@ -383,11 +415,14 @@
 
                         {% if session.get('user_id') %}
                         {% if session.get('is_admin') %}
-                        <a href="{{ url_for('admin_dashboard') }}" class="admin-button" title="Admin Panel - View unread messages">
+                        <a href="{{ url_for('admin_dashboard') }}" class="admin-button"
+                            title="Admin Panel - View unread messages">
                             <i class="fas fa-shield-alt"></i>
                             <span class="hidden md:inline">Admin</span>
                             {% if unread_messages_count > 0 %}
-                            <span class="absolute -top-2 -right-2 w-4 h-4 md:w-5 md:h-5 bg-red-500 rounded-full text-white text-xs flex items-center justify-center font-bold animate-pulse">{{ unread_messages_count }}</span>
+                            <span
+                                class="absolute -top-2 -right-2 w-4 h-4 md:w-5 md:h-5 bg-red-500 rounded-full text-white text-xs flex items-center justify-center font-bold animate-pulse">{{
+                                unread_messages_count }}</span>
                             {% endif %}
                         </a>
                         {% endif %}
@@ -398,7 +433,8 @@
                         <a id="login-button" class="nav-pill">Login</a>
                         {% endif %}
 
-                        <button id="hamburger-btn" class="hamburger-btn md:hidden text-black dark:text-white p-2" aria-controls="mobile-nav" aria-expanded="false" aria-label="Toggle navigation">
+                        <button id="hamburger-btn" class="hamburger-btn md:hidden text-black dark:text-white p-2"
+                            aria-controls="mobile-nav" aria-expanded="false" aria-label="Toggle navigation">
                             <span class="block w-6 h-0.5 bg-current"></span>
                             <span class="block w-6 h-0.5 bg-current"></span>
                             <span class="block w-6 h-0.5 bg-current"></span>
@@ -406,28 +442,33 @@
                     </div>
                 </div>
 
-                <nav id="mobile-nav" class="nav-links-mobile mobile-nav mobile-nav-container hidden md:hidden flex flex-col px-2 overflow-y-auto" style="backdrop-filter: blur(20px); right: -200px; position: fixed; top: 0; width: 200px; height: 100vh; z-index: 50; padding-top: 12px;">
+                <nav id="mobile-nav"
+                    class="nav-links-mobile mobile-nav mobile-nav-container hidden md:hidden flex flex-col px-2 overflow-y-auto"
+                    style="backdrop-filter: blur(20px); right: -200px; position: fixed; top: 0; width: 200px; height: 100vh; z-index: 50; padding-top: 12px;">
                     <div class="flex-1 space-y-1">
-                        <a class="mobile-nav-link py-2 px-2 rounded-lg text-sm font-medium text-gray-800 dark:text-gray-200 {% if request.endpoint == 'home' %}bg-gradient-to-r from-[#9de1f5] to-[#33c46b] text-white shadow-md{% else %}hover:bg-gradient-to-r hover:from-[#9de1f5]/10 hover:to-[#33c46b]/10{% endif %}" href="{{ url_for('home') }}">
+                        <a class="mobile-nav-link py-2 px-2 rounded-lg text-sm font-medium text-gray-800 dark:text-gray-200 {% if request.endpoint == 'home' %}bg-gradient-to-r from-[#9de1f5] to-[#33c46b] text-white shadow-md{% else %}hover:bg-gradient-to-r hover:from-[#9de1f5]/10 hover:to-[#33c46b]/10{% endif %}"
+                            href="{{ url_for('home') }}">
                             <i class="fas fa-home mr-2"></i>Home
                         </a>
-                        <a class="mobile-nav-link py-2 px-2 rounded-lg text-sm font-medium text-gray-800 dark:text-gray-200 {% if request.endpoint == 'projects' %}bg-gradient-to-r from-[#9de1f5] to-[#33c46b] text-white shadow-md{% else %}hover:bg-gradient-to-r hover:from-[#9de1f5]/10 hover:to-[#33c46b]/10{% endif %}" href="{{ url_for('projects') }}">
+                        <a class="mobile-nav-link py-2 px-2 rounded-lg text-sm font-medium text-gray-800 dark:text-gray-200 {% if request.endpoint == 'projects' %}bg-gradient-to-r from-[#9de1f5] to-[#33c46b] text-white shadow-md{% else %}hover:bg-gradient-to-r hover:from-[#9de1f5]/10 hover:to-[#33c46b]/10{% endif %}"
+                            href="{{ url_for('projects') }}">
                             <i class="fas fa-cube mr-2"></i>Projects
                         </a>
-                        <a class="mobile-nav-link py-2 px-2 rounded-lg text-sm font-medium text-gray-800 dark:text-gray-200 {% if request.endpoint == 'blog' %}bg-gradient-to-r from-[#9de1f5] to-[#33c46b] text-white shadow-md{% else %}hover:bg-gradient-to-r hover:from-[#9de1f5]/10 hover:to-[#33c46b]/10{% endif %}" href="{{ url_for('blog') }}">
+                        <a class="mobile-nav-link py-2 px-2 rounded-lg text-sm font-medium text-gray-800 dark:text-gray-200 {% if request.endpoint == 'blog' %}bg-gradient-to-r from-[#9de1f5] to-[#33c46b] text-white shadow-md{% else %}hover:bg-gradient-to-r hover:from-[#9de1f5]/10 hover:to-[#33c46b]/10{% endif %}"
+                            href="{{ url_for('blog') }}">
                             <i class="fas fa-pen mr-2"></i>Blog
                         </a>
-                        <a class="mobile-nav-link py-2 px-2 rounded-lg text-sm font-medium text-gray-800 dark:text-gray-200 {% if request.endpoint == 'fun' %}bg-gradient-to-r from-[#9de1f5] to-[#33c46b] text-white shadow-md{% else %}hover:bg-gradient-to-r hover:from-[#9de1f5]/10 hover:to-[#33c46b]/10{% endif %}" href="{{ url_for('fun') }}">
-                            <i class="fas fa-gamepad mr-2"></i>Fun
-                        </a>
-                        <a class="mobile-nav-link py-2 px-2 rounded-lg text-sm font-medium text-gray-800 dark:text-gray-200 {% if request.endpoint == 'connect' %}bg-gradient-to-r from-[#9de1f5] to-[#33c46b] text-white shadow-md{% else %}hover:bg-gradient-to-r hover:from-[#9de1f5]/10 hover:to-[#33c46b]/10{% endif %}" href="{{ url_for('connect') }}">
+                        <a class="mobile-nav-link py-2 px-2 rounded-lg text-sm font-medium text-gray-800 dark:text-gray-200 {% if request.endpoint == 'connect' %}bg-gradient-to-r from-[#9de1f5] to-[#33c46b] text-white shadow-md{% else %}hover:bg-gradient-to-r hover:from-[#9de1f5]/10 hover:to-[#33c46b]/10{% endif %}"
+                            href="{{ url_for('connect') }}">
                             <i class="fas fa-envelope mr-2"></i>Connect
                         </a>
                     </div>
                 </nav>
 
                 <!-- Mobile overlay backdrop -->
-                <div id="mobile-nav-overlay" class="hidden fixed bg-black/20 z-30 md:hidden backdrop-blur-sm transition-opacity duration-400" style="left: 0; right: 200px; top: 0; bottom: 0;"></div>
+                <div id="mobile-nav-overlay"
+                    class="hidden fixed bg-black/20 z-30 md:hidden backdrop-blur-sm transition-opacity duration-400"
+                    style="left: 0; right: 200px; top: 0; bottom: 0;"></div>
             </header>
 
             <div class="w-full flex-1 py-3 md:py-5 px-2 md:px-4 lg:px-40 page-padding">
@@ -448,74 +489,95 @@
                     {% block content %}{% endblock %}
                 </div>
             </div>
-            <div class="w-full h-px bg-gradient-to-r from-transparent via-gray-200 dark:via-[#314b68] to-transparent my-6 md:my-8"></div>
+            <div
+                class="w-full h-px bg-gradient-to-r from-transparent via-gray-200 dark:via-[#314b68] to-transparent my-6 md:my-8">
+            </div>
             <footer class="flex justify-center w-full bg-gray-50 dark:bg-[#0f1419]">
-                <div class="w-full flex flex-col gap-3 sm:gap-4 md:gap-6 px-3 sm:px-4 md:px-5 py-4 sm:py-6 md:py-10 text-center">
-                    <p class="text-gray-500 dark:text-[#90abcb] text-xs sm:text-xs md:text-sm font-normal leading-normal pb-2 sm:pb-3 pt-1 text-center">
+                <div
+                    class="w-full flex flex-col gap-3 sm:gap-4 md:gap-6 px-3 sm:px-4 md:px-5 py-4 sm:py-6 md:py-10 text-center">
+                    <p
+                        class="text-gray-500 dark:text-[#90abcb] text-xs sm:text-xs md:text-sm font-normal leading-normal pb-2 sm:pb-3 pt-1 text-center">
                         Connect with me on</p>
                     <div class="flex flex-row gap-4 justify-center flex-nowrap">
                         <a href="https://github.com/mrcuriousind" target="_blank"
                             class="flex flex-col items-center gap-1 sm:gap-1.5 md:gap-2 py-1 sm:py-1.5 md:py-2 text-center hover:transform hover:scale-110 transition-transform duration-300">
-                        <div class="social-icon-wrapper rounded-full bg-gray-200 dark:bg-[#223449] p-1.5 sm:p-2 md:p-3 w-9 h-9 sm:w-10 sm:h-10 md:w-12 md:h-12 flex items-center justify-center">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="18px" height="18px" fill="currentColor"
-                                viewBox="0 0 256 256" class="sm:w-5 sm:h-5 md:w-5 md:h-5">
-                                <path
-                                    d="M208.31,75.68A59.78,59.78,0,0,0,202.93,28,8,8,0,0,0,196,24a59.75,59.75,0,0,0-48,24H124A59.75,59.75,0,0,0,76,24a8,8,0,0,0-6.93,4,59.78,59.78,0,0,0-5.38,47.68A58.14,58.14,0,0,0,56,104v8a56.06,56.06,0,0,0,48.44,55.47A39.8,39.8,0,0,0,96,192v8H72a24,24,0,0,1-24-24A40,40,0,0,0,8,136a8,8,0,0,0,0,16,24,24,0,0,1,24,24,40,40,0,0,0,40,40H96v16a8,8,0,0,0,16,0V192a24,24,0,0,1,48,0v40a8,8,0,0,0,16,0V192a39.8,39.8,0,0,0-8.44-24.53A56.06,56.06,0,0,0,216,112v-8A58.14,58.14,0,0,0,208.31,75.68ZM200,112a40,40,0,0,1-40,40H112a40,40,0,0,1-40-40v-8a41.74,41.74,0,0,1,6.9-22.48A8,8,0,0,0,80,73.83a43.81,43.81,0,0,1,.79-33.58,43.88,43.88,0,0,1,32.32,20.06A8,8,0,0,0,119.82,64h32.35a8,8,0,0,0,6.74-3.69,43.87,43.87,0,0,1,32.32-20.06A43.81,43.81,0,0,1,192,73.83a8.09,8.09,0,0,0,1,7.65A41.72,41.72,0,0,1,200,104Z">
-                                </path>
-                            </svg>
-                        </div>
-                        <p class="social-icon-label text-xs sm:text-xs md:text-sm font-medium leading-normal text-gray-600 dark:text-[#90abcb]">GitHub</p>
+                            <div
+                                class="social-icon-wrapper rounded-full bg-gray-200 dark:bg-[#223449] p-1.5 sm:p-2 md:p-3 w-9 h-9 sm:w-10 sm:h-10 md:w-12 md:h-12 flex items-center justify-center">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="18px" height="18px" fill="currentColor"
+                                    viewBox="0 0 256 256" class="sm:w-5 sm:h-5 md:w-5 md:h-5">
+                                    <path
+                                        d="M208.31,75.68A59.78,59.78,0,0,0,202.93,28,8,8,0,0,0,196,24a59.75,59.75,0,0,0-48,24H124A59.75,59.75,0,0,0,76,24a8,8,0,0,0-6.93,4,59.78,59.78,0,0,0-5.38,47.68A58.14,58.14,0,0,0,56,104v8a56.06,56.06,0,0,0,48.44,55.47A39.8,39.8,0,0,0,96,192v8H72a24,24,0,0,1-24-24A40,40,0,0,0,8,136a8,8,0,0,0,0,16,24,24,0,0,1,24,24,40,40,0,0,0,40,40H96v16a8,8,0,0,0,16,0V192a24,24,0,0,1,48,0v40a8,8,0,0,0,16,0V192a39.8,39.8,0,0,0-8.44-24.53A56.06,56.06,0,0,0,216,112v-8A58.14,58.14,0,0,0,208.31,75.68ZM200,112a40,40,0,0,1-40,40H112a40,40,0,0,1-40-40v-8a41.74,41.74,0,0,1,6.9-22.48A8,8,0,0,0,80,73.83a43.81,43.81,0,0,1,.79-33.58,43.88,43.88,0,0,1,32.32,20.06A8,8,0,0,0,119.82,64h32.35a8,8,0,0,0,6.74-3.69,43.87,43.87,0,0,1,32.32-20.06A43.81,43.81,0,0,1,192,73.83a8.09,8.09,0,0,0,1,7.65A41.72,41.72,0,0,1,200,104Z">
+                                    </path>
+                                </svg>
+                            </div>
+                            <p
+                                class="social-icon-label text-xs sm:text-xs md:text-sm font-medium leading-normal text-gray-600 dark:text-[#90abcb]">
+                                GitHub</p>
                         </a>
                         <a href="https://www.linkedin.com/in/mrcuriousind" target="_blank"
                             class="flex flex-col items-center gap-1 sm:gap-1.5 md:gap-2 py-1 sm:py-1.5 md:py-2 text-center hover:transform hover:scale-110 transition-transform duration-300">
-                        <div class="social-icon-wrapper rounded-full bg-gray-200 dark:bg-[#223449] p-1.5 sm:p-2 md:p-3 w-9 h-9 sm:w-10 sm:h-10 md:w-12 md:h-12 flex items-center justify-center">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="18px" height="18px" fill="currentColor"
-                                viewBox="0 0 256 256" class="sm:w-5 sm:h-5 md:w-5 md:h-5">
-                                <path
-                                    d="M216,24H40A16,16,0,0,0,24,40V216a16,16,0,0,0,16,16H216a16,16,0,0,0,16-16V40A16,16,0,0,0,216,24Zm0,192H40V40H216V216ZM96,112v64a8,8,0,0,1-16,0V112a8,8,0,0,1,16,0Zm88,28v36a8,8,0,0,1-16,0V140a20,20,0,0,0-40,0v36a8,8,0,0,1-16,0V112a8,8,0,0,1,15.79-1.78A36,36,0,0,1,184,140ZM100,84A12,12,0,1,1,88,72,12,12,0,0,1,100,84Z">
-                                </path>
-                            </svg>
-                        </div>
-                        <p class="social-icon-label text-xs sm:text-xs md:text-sm font-medium leading-normal text-gray-600 dark:text-[#90abcb]">LinkedIn</p>
+                            <div
+                                class="social-icon-wrapper rounded-full bg-gray-200 dark:bg-[#223449] p-1.5 sm:p-2 md:p-3 w-9 h-9 sm:w-10 sm:h-10 md:w-12 md:h-12 flex items-center justify-center">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="18px" height="18px" fill="currentColor"
+                                    viewBox="0 0 256 256" class="sm:w-5 sm:h-5 md:w-5 md:h-5">
+                                    <path
+                                        d="M216,24H40A16,16,0,0,0,24,40V216a16,16,0,0,0,16,16H216a16,16,0,0,0,16-16V40A16,16,0,0,0,216,24Zm0,192H40V40H216V216ZM96,112v64a8,8,0,0,1-16,0V112a8,8,0,0,1,16,0Zm88,28v36a8,8,0,0,1-16,0V140a20,20,0,0,0-40,0v36a8,8,0,0,1-16,0V112a8,8,0,0,1,15.79-1.78A36,36,0,0,1,184,140ZM100,84A12,12,0,1,1,88,72,12,12,0,0,1,100,84Z">
+                                    </path>
+                                </svg>
+                            </div>
+                            <p
+                                class="social-icon-label text-xs sm:text-xs md:text-sm font-medium leading-normal text-gray-600 dark:text-[#90abcb]">
+                                LinkedIn</p>
                         </a>
                         <a href="https://www.youtube.com/@mrcuriousind" target="_blank"
                             class="flex flex-col items-center gap-1 sm:gap-1.5 md:gap-2 py-1 sm:py-1.5 md:py-2 text-center hover:transform hover:scale-110 transition-transform duration-300">
-                        <div class="social-icon-wrapper rounded-full bg-gray-200 dark:bg-[#223449] p-1.5 sm:p-2 md:p-3 w-9 h-9 sm:w-10 sm:h-10 md:w-12 md:h-12 flex items-center justify-center">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="18px" height="18px" fill="currentColor"
-                                viewBox="0 0 256 256" class="sm:w-5 sm:h-5 md:w-5 md:h-5">
-                                <path
-                                    d="M164.44,121.34l-48-32A8,8,0,0,0,104,96v64a8,8,0,0,0,12.44,6.66l48-32a8,8,0,0,0,0-13.32ZM120,145.05V111l25.58,17ZM234.33,69.52a24,24,0,0,0-14.49-16.4C185.56,39.88,131,40,128,40s-57.56-.12-91.84,13.12a24,24,0,0,0-14.49,16.4C19.08,79.5,16,97.74,16,128s3.08,48.5,5.67,58.48a24,24,0,0,0,14.49,16.41C69,215.56,120.4,216,127.34,216h1.32c6.94,0,58.37-.44,91.18-13.11a24,24,0,0,0,14.49-16.41c2.59-10,5.67-28.22,5.67-58.48S236.92,79.5,234.33,69.52Zm-15.49,113a8,8,0,0,1-4.77,5.49c-31.65,12.22-85.48,12-86,12H128c-.54,0-54.33.2-86-12a8,8,0,0,1-4.77-5.49C34.8,173.39,32,156.57,32,128s2.8-45.39,5.16-54.47A8,8,0,0,1,41.93,68c30.52-11.79,81.66-12,85.85-12h.27c.54,0,54.38-.18,86,12a8,8,0,0,1,4.77,5.49C221.2,82.61,224,99.43,224,128S221.2,173.39,218.84,182.47Z">
-                                </path>
-                            </svg>
-                        </div>
-                        <p class="social-icon-label text-xs sm:text-xs md:text-sm font-medium leading-normal text-gray-600 dark:text-[#90abcb]">YouTube</p>
+                            <div
+                                class="social-icon-wrapper rounded-full bg-gray-200 dark:bg-[#223449] p-1.5 sm:p-2 md:p-3 w-9 h-9 sm:w-10 sm:h-10 md:w-12 md:h-12 flex items-center justify-center">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="18px" height="18px" fill="currentColor"
+                                    viewBox="0 0 256 256" class="sm:w-5 sm:h-5 md:w-5 md:h-5">
+                                    <path
+                                        d="M164.44,121.34l-48-32A8,8,0,0,0,104,96v64a8,8,0,0,0,12.44,6.66l48-32a8,8,0,0,0,0-13.32ZM120,145.05V111l25.58,17ZM234.33,69.52a24,24,0,0,0-14.49-16.4C185.56,39.88,131,40,128,40s-57.56-.12-91.84,13.12a24,24,0,0,0-14.49,16.4C19.08,79.5,16,97.74,16,128s3.08,48.5,5.67,58.48a24,24,0,0,0,14.49,16.41C69,215.56,120.4,216,127.34,216h1.32c6.94,0,58.37-.44,91.18-13.11a24,24,0,0,0,14.49-16.41c2.59-10,5.67-28.22,5.67-58.48S236.92,79.5,234.33,69.52Zm-15.49,113a8,8,0,0,1-4.77,5.49c-31.65,12.22-85.48,12-86,12H128c-.54,0-54.33.2-86-12a8,8,0,0,1-4.77-5.49C34.8,173.39,32,156.57,32,128s2.8-45.39,5.16-54.47A8,8,0,0,1,41.93,68c30.52-11.79,81.66-12,85.85-12h.27c.54,0,54.38-.18,86,12a8,8,0,0,1,4.77,5.49C221.2,82.61,224,99.43,224,128S221.2,173.39,218.84,182.47Z">
+                                    </path>
+                                </svg>
+                            </div>
+                            <p
+                                class="social-icon-label text-xs sm:text-xs md:text-sm font-medium leading-normal text-gray-600 dark:text-[#90abcb]">
+                                YouTube</p>
                         </a>
                         <a href="https://x.com/mrcuriousind" target="_blank"
                             class="flex flex-col items-center gap-1 sm:gap-1.5 md:gap-2 py-1 sm:py-1.5 md:py-2 text-center hover:transform hover:scale-110 transition-transform duration-300">
-                            <div class="social-icon-wrapper rounded-full bg-gray-200 dark:bg-[#223449] p-1.5 sm:p-2 md:p-3 w-9 h-9 sm:w-10 sm:h-10 md:w-12 md:h-12 flex items-center justify-center">
+                            <div
+                                class="social-icon-wrapper rounded-full bg-gray-200 dark:bg-[#223449] p-1.5 sm:p-2 md:p-3 w-9 h-9 sm:w-10 sm:h-10 md:w-12 md:h-12 flex items-center justify-center">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="18px" height="18px" fill="currentColor"
-                                viewBox="0 0 256 256" class="sm:w-5 sm:h-5 md:w-5 md:h-5">
-                                <path
-                                    d="M214.75,211.71l-62.6-98.38,61.77-67.95a8,8,0,0,0-11.84-10.76L143.24,99.34,102.75,35.71A8,8,0,0,0,96,32H48a8,8,0,0,0-6.75,12.3l62.6,98.37-61.77,68a8,8,0,1,0,11.84,10.76l58.84-64.72,40.49,63.63A8,8,0,0,0,160,224h48a8,8,0,0,0,6.75-12.29ZM164.39,208,62.57,48h29L193.43,208Z">
-                                </path>
-                            </svg>
-                        </div>
-                            <p class="social-icon-label text-xs sm:text-xs md:text-sm font-medium leading-normal text-gray-600 dark:text-[#90abcb]">X</p>
+                                    viewBox="0 0 256 256" class="sm:w-5 sm:h-5 md:w-5 md:h-5">
+                                    <path
+                                        d="M214.75,211.71l-62.6-98.38,61.77-67.95a8,8,0,0,0-11.84-10.76L143.24,99.34,102.75,35.71A8,8,0,0,0,96,32H48a8,8,0,0,0-6.75,12.3l62.6,98.37-61.77,68a8,8,0,1,0,11.84,10.76l58.84-64.72,40.49,63.63A8,8,0,0,0,160,224h48a8,8,0,0,0,6.75-12.29ZM164.39,208,62.57,48h29L193.43,208Z">
+                                    </path>
+                                </svg>
+                            </div>
+                            <p
+                                class="social-icon-label text-xs sm:text-xs md:text-sm font-medium leading-normal text-gray-600 dark:text-[#90abcb]">
+                                X</p>
                         </a>
                         <a href="https://www.instagram.com/mrcuriousind" target="_blank"
                             class="flex flex-col items-center gap-1 sm:gap-1.5 md:gap-2 py-1 sm:py-1.5 md:py-2 text-center hover:transform hover:scale-110 transition-transform duration-300">
-                            <div class="social-icon-wrapper rounded-full bg-gray-200 dark:bg-[#223449] p-1.5 sm:p-2 md:p-3 w-9 h-9 sm:w-10 sm:h-10 md:w-12 md:h-12 flex items-center justify-center">
+                            <div
+                                class="social-icon-wrapper rounded-full bg-gray-200 dark:bg-[#223449] p-1.5 sm:p-2 md:p-3 w-9 h-9 sm:w-10 sm:h-10 md:w-12 md:h-12 flex items-center justify-center">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="18px" height="18px" fill="currentColor"
-                                viewBox="0 0 256 256" class="sm:w-5 sm:h-5 md:w-5 md:h-5">
-                                <path
-                                    d="M128,80a48,48,0,1,0,48,48A48.05,48.05,0,0,0,128,80Zm0,80a32,32,0,1,1,32-32A32,32,0,0,1,128,160ZM176,24H80A56.06,56.06,0,0,0,24,80v96a56.06,56.06,0,0,0,56,56h96a56.06,56.06,0,0,0,56-56V80A56.06,56.06,0,0,0,176,24Zm40,152a40,40,0,0,1-40,40H80a40,40,0,0,1-40-40V80A40,40,0,0,1,80,40h96a40,40,0,0,1,40,40ZM192,76a12,12,0,1,1-12-12A12,12,0,0,1,192,76Z">
-                                </path>
-                            </svg>
-                        </div>
-                            <p class="social-icon-label text-xs sm:text-xs md:text-sm font-medium leading-normal text-gray-600 dark:text-[#90abcb]">Instagram</p>
+                                    viewBox="0 0 256 256" class="sm:w-5 sm:h-5 md:w-5 md:h-5">
+                                    <path
+                                        d="M128,80a48,48,0,1,0,48,48A48.05,48.05,0,0,0,128,80Zm0,80a32,32,0,1,1,32-32A32,32,0,0,1,128,160ZM176,24H80A56.06,56.06,0,0,0,24,80v96a56.06,56.06,0,0,0,56,56h96a56.06,56.06,0,0,0,56-56V80A56.06,56.06,0,0,0,176,24Zm40,152a40,40,0,0,1-40,40H80a40,40,0,0,1-40-40V80A40,40,0,0,1,80,40h96a40,40,0,0,1,40,40ZM192,76a12,12,0,1,1-12-12A12,12,0,0,1,192,76Z">
+                                    </path>
+                                </svg>
+                            </div>
+                            <p
+                                class="social-icon-label text-xs sm:text-xs md:text-sm font-medium leading-normal text-gray-600 dark:text-[#90abcb]">
+                                Instagram</p>
                         </a>
                     </div>
-                    <p class="text-gray-500 dark:text-[#90abcb] text-xs sm:text-sm md:text-base font-normal leading-normal">© 2025-2026 Mr. Curious. All rights reserved.</p>
+                    <p
+                        class="text-gray-500 dark:text-[#90abcb] text-xs sm:text-sm md:text-base font-normal leading-normal">
+                        © 2025-2026 Mr. Curious. All rights reserved.</p>
                 </div>
             </footer>
         </div>
@@ -537,17 +599,12 @@
 
             <!-- Login Form -->
             <form id="login-form" class="login-form">
-                <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
+                <input type="hidden" name="csrf_token" value="{{ csrf_token() }}" />
                 <div class="form-group">
                     <label for="login-username">Username or Email</label>
                     <div class="input-wrapper">
-                        <input
-                            type="text"
-                            name="username"
-                            id="login-username"
-                            required
-                            placeholder="Enter your username or email"
-                        />
+                        <input type="text" name="username" id="login-username" required
+                            placeholder="Enter your username or email" />
                         <i class="fas fa-user-circle input-icon"></i>
                     </div>
                 </div>
@@ -560,13 +617,8 @@
                         </a>
                     </div>
                     <div class="input-wrapper">
-                        <input
-                            type="password"
-                            name="password"
-                            id="login-password"
-                            required
-                            placeholder="Enter your password"
-                        />
+                        <input type="password" name="password" id="login-password" required
+                            placeholder="Enter your password" />
                         <i class="fas fa-lock input-icon"></i>
                         <i class="fas fa-eye password-toggle" id="login-password-toggle" title="Show/Hide Password"></i>
                     </div>
@@ -577,7 +629,8 @@
                 </button>
             </form>
 
-            <div id="login-error" class="text-red-500 text-sm mt-2 p-2 rounded bg-red-50 dark:bg-red-900/20" style="display: none;"></div>
+            <div id="login-error" class="text-red-500 text-sm mt-2 p-2 rounded bg-red-50 dark:bg-red-900/20"
+                style="display: none;"></div>
 
             <!-- Footer -->
             <div class="login-footer">
@@ -603,20 +656,16 @@
 
             <!-- Signup Form -->
             <form id="signup-form" class="login-form">
-                <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
+                <input type="hidden" name="csrf_token" value="{{ csrf_token() }}" />
                 <div class="form-group">
                     <label for="signup-email">Email Address</label>
                     <div class="input-wrapper">
-                        <input
-                            type="email"
-                            name="email"
-                            id="signup-email"
-                            required
+                        <input type="email" name="email" id="signup-email" required
                             placeholder="Enter your email address"
-                            pattern="[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}"
-                        />
+                            pattern="[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}" />
                         <i class="fas fa-envelope input-icon"></i>
-                        <i class="fas fa-check-circle email-valid-icon" id="email-valid-icon" style="display: none;"></i>
+                        <i class="fas fa-check-circle email-valid-icon" id="email-valid-icon"
+                            style="display: none;"></i>
                     </div>
                     <p class="email-validation-text" id="email-validation-text"></p>
                 </div>
@@ -624,16 +673,11 @@
                 <div class="form-group">
                     <label for="signup-password">Password</label>
                     <div class="input-wrapper">
-                        <input
-                            type="password"
-                            name="password"
-                            id="signup-password"
-                            required
-                            placeholder="Create a strong password"
-                            minlength="8"
-                        />
+                        <input type="password" name="password" id="signup-password" required
+                            placeholder="Create a strong password" minlength="8" />
                         <i class="fas fa-lock input-icon"></i>
-                        <i class="fas fa-eye password-toggle" id="signup-password-toggle" title="Show/Hide Password"></i>
+                        <i class="fas fa-eye password-toggle" id="signup-password-toggle"
+                            title="Show/Hide Password"></i>
                     </div>
                     <!-- Password Strength Indicator -->
                     <div class="password-strength-bar" id="password-strength-bar" style="display: none;">
@@ -651,15 +695,11 @@
                 <div class="form-group">
                     <label for="signup-confirm-password">Confirm Password</label>
                     <div class="input-wrapper">
-                        <input
-                            type="password"
-                            name="confirm_password"
-                            id="signup-confirm-password"
-                            required
-                            placeholder="Re-enter your password"
-                        />
+                        <input type="password" name="confirm_password" id="signup-confirm-password" required
+                            placeholder="Re-enter your password" />
                         <i class="fas fa-lock input-icon"></i>
-                        <i class="fas fa-eye password-toggle" id="signup-confirm-password-toggle" title="Show/Hide Password"></i>
+                        <i class="fas fa-eye password-toggle" id="signup-confirm-password-toggle"
+                            title="Show/Hide Password"></i>
                     </div>
                     <p class="password-match-text" id="password-match-text"></p>
                 </div>
@@ -669,7 +709,8 @@
                 </button>
             </form>
 
-            <div id="signup-error" class="text-red-500 text-sm mt-2 p-2 rounded bg-red-50 dark:bg-red-900/20" style="display: none;"></div>
+            <div id="signup-error" class="text-red-500 text-sm mt-2 p-2 rounded bg-red-50 dark:bg-red-900/20"
+                style="display: none;"></div>
 
             <!-- Footer -->
             <div class="login-footer">
@@ -698,13 +739,8 @@
                 <div class="form-group">
                     <label for="forgot-email">Email Address</label>
                     <div class="input-wrapper">
-                        <input
-                            type="email"
-                            name="email"
-                            id="forgot-email"
-                            required
-                            placeholder="Enter your email address"
-                        />
+                        <input type="email" name="email" id="forgot-email" required
+                            placeholder="Enter your email address" />
                         <i class="fas fa-envelope input-icon"></i>
                     </div>
                 </div>
@@ -758,7 +794,7 @@
             const signupModal = document.getElementById('signup-modal');
             const closeSignupModal = document.getElementById('close-signup-modal');
             const showLoginModal = document.getElementById('show-login-modal');
-            
+
             const forgotPasswordModal = document.getElementById('forgot-password-modal');
             const closeForgotPasswordModal = document.getElementById('close-forgot-password-modal');
             const forgotPasswordLink = document.getElementById('forgot-password-link');
@@ -767,12 +803,12 @@
             const loginPasswordToggle = document.getElementById('login-password-toggle');
             const signupPasswordToggle = document.getElementById('signup-password-toggle');
             const signupConfirmPasswordToggle = document.getElementById('signup-confirm-password-toggle');
-            
+
             // Email validation
             const signupEmail = document.getElementById('signup-email');
             const emailValidIcon = document.getElementById('email-valid-icon');
             const emailValidationText = document.getElementById('email-validation-text');
-            
+
             // Password strength validation
             const signupPassword = document.getElementById('signup-password');
             const signupConfirmPassword = document.getElementById('signup-confirm-password');
@@ -780,19 +816,19 @@
             const passwordStrengthText = document.getElementById('password-strength-text');
             const passwordMatchText = document.getElementById('password-match-text');
             const signupSubmitBtn = document.getElementById('signup-submit-btn');
-            
+
             const requirements = {
                 length: document.getElementById('req-length'),
                 uppercase: document.getElementById('req-uppercase'),
                 lowercase: document.getElementById('req-lowercase'),
                 number: document.getElementById('req-number')
             };
-            
+
             function checkPasswordStrength(password) {
                 // Show requirements when user starts typing
                 const passwordStrengthBar = document.getElementById('password-strength-bar');
                 const passwordRequirements = document.getElementById('password-requirements');
-                
+
                 if (password.length > 0) {
                     passwordStrengthBar.style.display = 'block';
                     passwordRequirements.style.display = 'block';
@@ -802,7 +838,7 @@
                     passwordStrengthText.textContent = '';
                     return false;
                 }
-                
+
                 let strength = 0;
                 const checks = {
                     length: password.length >= 8,
@@ -810,7 +846,7 @@
                     lowercase: /[a-z]/.test(password),
                     number: /[0-9]/.test(password)
                 };
-                
+
                 // Update requirement indicators
                 Object.keys(checks).forEach(key => {
                     if (checks[key]) {
@@ -820,11 +856,11 @@
                         requirements[key].classList.remove('met');
                     }
                 });
-                
+
                 // Update strength bar and text
                 passwordStrengthFill.className = 'password-strength-fill';
                 passwordStrengthText.className = 'password-strength-text';
-                
+
                 if (strength === 1) {
                     passwordStrengthFill.classList.add('weak');
                     passwordStrengthText.classList.add('weak');
@@ -842,14 +878,14 @@
                     passwordStrengthText.classList.add('strong');
                     passwordStrengthText.textContent = 'Strong!';
                 }
-                
+
                 return strength === 4;
             }
-            
+
             function checkPasswordMatch() {
                 const password = signupPassword.value;
                 const confirmPassword = signupConfirmPassword.value;
-                
+
                 if (confirmPassword === '') {
                     passwordMatchText.textContent = '';
                     passwordMatchText.className = 'password-match-text';
@@ -864,11 +900,11 @@
                     return false;
                 }
             }
-            
+
             function validateEmail(email, showError = false) {
                 // Comprehensive email validation
                 const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
-                
+
                 // Don't show anything if empty
                 if (email === '') {
                     emailValidIcon.style.display = 'none';
@@ -876,7 +912,7 @@
                     emailValidationText.className = 'email-validation-text';
                     return false;
                 }
-                
+
                 // Full regex validation
                 if (emailRegex.test(email)) {
                     // Valid email - show green checkmark icon
@@ -887,7 +923,7 @@
                 } else {
                     // Invalid email
                     emailValidIcon.style.display = 'none';
-                    
+
                     // Only show error message if showError is true (on blur)
                     if (showError && email.length > 0) {
                         if (!email.includes('@')) {
@@ -908,12 +944,12 @@
                     return false;
                 }
             }
-            
+
             function updateSignupButton() {
                 const isValidEmail = validateEmail(signupEmail.value);
                 const isStrongPassword = checkPasswordStrength(signupPassword.value);
                 const passwordsMatch = checkPasswordMatch();
-                
+
                 if (isValidEmail && isStrongPassword && passwordsMatch && signupPassword.value.length >= 8) {
                     signupSubmitBtn.disabled = false;
                     signupSubmitBtn.style.opacity = '1';
@@ -924,19 +960,19 @@
                     signupSubmitBtn.style.cursor = 'not-allowed';
                 }
             }
-            
+
             if (signupEmail) {
                 // While typing - validate but don't show errors
                 signupEmail.addEventListener('input', () => {
                     validateEmail(signupEmail.value, false);
                     updateSignupButton();
                 });
-                
+
                 // When user leaves field - show errors if invalid
                 signupEmail.addEventListener('blur', () => {
                     validateEmail(signupEmail.value, true);
                 });
-                
+
                 // When user focuses back - hide errors
                 signupEmail.addEventListener('focus', () => {
                     if (!validateEmail(signupEmail.value, false)) {
@@ -944,11 +980,11 @@
                     }
                 });
             }
-            
+
             if (signupPassword) {
                 signupPassword.addEventListener('input', updateSignupButton);
             }
-            
+
             if (signupConfirmPassword) {
                 signupConfirmPassword.addEventListener('input', updateSignupButton);
             }
@@ -1007,18 +1043,18 @@
                     setTimeout(() => openModal(loginModal), 300);
                 });
             }
-            
+
             if (forgotPasswordLink) {
                 forgotPasswordLink.addEventListener('click', () => {
                     closeModal(loginModal);
                     setTimeout(() => openModal(forgotPasswordModal), 300);
                 });
             }
-            
+
             if (closeForgotPasswordModal) {
                 closeForgotPasswordModal.addEventListener('click', () => closeModal(forgotPasswordModal));
             }
-            
+
             if (backToLogin) {
                 backToLogin.addEventListener('click', () => {
                     closeModal(forgotPasswordModal);
@@ -1040,7 +1076,7 @@
                     togglePassword(passwordInput, signupPasswordToggle);
                 });
             }
-            
+
             if (signupConfirmPasswordToggle) {
                 signupConfirmPasswordToggle.addEventListener('click', () => {
                     const passwordInput = document.getElementById('signup-confirm-password');
@@ -1049,26 +1085,26 @@
             }
 
             // Close modal when clicking outside
-            loginModal && loginModal.addEventListener('click', function(e) {
+            loginModal && loginModal.addEventListener('click', function (e) {
                 if (e.target === this) {
                     closeModal(loginModal);
                 }
             });
 
-            signupModal && signupModal.addEventListener('click', function(e) {
+            signupModal && signupModal.addEventListener('click', function (e) {
                 if (e.target === this) {
                     closeModal(signupModal);
                 }
             });
-            
-            forgotPasswordModal && forgotPasswordModal.addEventListener('click', function(e) {
+
+            forgotPasswordModal && forgotPasswordModal.addEventListener('click', function (e) {
                 if (e.target === this) {
                     closeModal(forgotPasswordModal);
                 }
             });
 
             // Close modal with Escape key
-            document.addEventListener('keydown', function(e) {
+            document.addEventListener('keydown', function (e) {
                 if (e.key === 'Escape') {
                     if (loginModal && !loginModal.classList.contains('hidden')) {
                         closeModal(loginModal);
@@ -1089,11 +1125,11 @@
                     e.preventDefault();
                     const submitBtn = loginForm.querySelector('.submit-btn');
                     const originalText = submitBtn.innerHTML;
-                    
+
                     // Add loading state
                     submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Signing In...';
                     submitBtn.disabled = true;
-                    
+
                     try {
                         const formData = new FormData(loginForm);
                         const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
@@ -1105,7 +1141,7 @@
                             body: formData
                         });
                         const result = await response.json();
-                        
+
                         if (result.success) {
                             submitBtn.innerHTML = '<i class="fas fa-check"></i> Success!';
                             setTimeout(() => {
@@ -1134,11 +1170,11 @@
                     e.preventDefault();
                     const submitBtn = signupForm.querySelector('.submit-btn');
                     const originalText = submitBtn.innerHTML;
-                    
+
                     // Add loading state
                     submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Creating Account...';
                     submitBtn.disabled = true;
-                    
+
                     try {
                         const formData = new FormData(signupForm);
                         const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
@@ -1150,7 +1186,7 @@
                             body: formData
                         });
                         const result = await response.json();
-                        
+
                         if (result.success) {
                             submitBtn.innerHTML = '<i class="fas fa-check"></i> Account Created!';
                             setTimeout(() => {
@@ -1184,7 +1220,7 @@
                     }
                 });
             }
-            
+
             // Forgot Password Form Handler
             const forgotPasswordForm = document.getElementById('forgot-password-form');
             if (forgotPasswordForm) {
@@ -1193,19 +1229,19 @@
                     const submitBtn = forgotPasswordForm.querySelector('.submit-btn');
                     const originalText = submitBtn.innerHTML;
                     const messageDiv = document.getElementById('forgot-password-message');
-                    
+
                     // Add loading state
                     submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Sending...';
                     submitBtn.disabled = true;
                     messageDiv.style.display = 'none';
-                    
+
                     // Simulate sending email (you'll need to implement backend)
                     setTimeout(() => {
                         submitBtn.innerHTML = '<i class="fas fa-check"></i> Email Sent!';
                         messageDiv.textContent = '✓ Password reset instructions have been sent to your email.';
                         messageDiv.className = 'text-sm mt-2 p-2 rounded bg-green-50 dark:bg-green-900/20 text-green-600 dark:text-green-400';
                         messageDiv.style.display = 'block';
-                        
+
                         setTimeout(() => {
                             closeModal(forgotPasswordModal);
                             forgotPasswordForm.reset();
@@ -1218,76 +1254,76 @@
             }
         });
 
-            // Mobile menu hamburger toggle
-            const hamburgerBtn = document.getElementById('hamburger-btn');
-            const navLinksMobile = document.getElementById('mobile-nav');
-            const overlay = document.getElementById('mobile-nav-overlay');
-        
-            const closeMenu = () => {
-                if (navLinksMobile) {
-                    navLinksMobile.classList.remove('block');
-                    navLinksMobile.classList.add('hidden');
-                }
-                if (overlay) {
-                    overlay.classList.remove('block');
-                    overlay.classList.add('hidden');
-                }
-                if (hamburgerBtn) {
-                    hamburgerBtn.classList.remove('active');
-                    hamburgerBtn.setAttribute('aria-expanded', 'false');
-                }
-            };
+        // Mobile menu hamburger toggle
+        const hamburgerBtn = document.getElementById('hamburger-btn');
+        const navLinksMobile = document.getElementById('mobile-nav');
+        const overlay = document.getElementById('mobile-nav-overlay');
 
-            const openMenu = () => {
-                if (navLinksMobile) {
-                    navLinksMobile.classList.add('block');
-                    navLinksMobile.classList.remove('hidden');
-                }
-                if (overlay) {
-                    overlay.classList.add('block');
-                    overlay.classList.remove('hidden');
-                }
-                if (hamburgerBtn) {
-                    hamburgerBtn.classList.add('active');
-                    hamburgerBtn.setAttribute('aria-expanded', 'true');
-                }
-            };
-        
-            if (hamburgerBtn) {
-                hamburgerBtn.addEventListener('click', (e) => {
-                    e.stopPropagation();
-                    if (navLinksMobile && navLinksMobile.classList.contains('hidden')) {
-                        openMenu();
-                    } else {
-                        closeMenu();
-                    }
-                });
-            }
-
-            // Close menu when clicking overlay
-            if (overlay) {
-                overlay.addEventListener('click', closeMenu);
-            }
-
-            // Close mobile menu when clicking on a link
+        const closeMenu = () => {
             if (navLinksMobile) {
-                const mobileLinks = navLinksMobile.querySelectorAll('a');
-                mobileLinks.forEach(link => {
-                    link.addEventListener('click', closeMenu);
-                });
+                navLinksMobile.classList.remove('block');
+                navLinksMobile.classList.add('hidden');
             }
+            if (overlay) {
+                overlay.classList.remove('block');
+                overlay.classList.add('hidden');
+            }
+            if (hamburgerBtn) {
+                hamburgerBtn.classList.remove('active');
+                hamburgerBtn.setAttribute('aria-expanded', 'false');
+            }
+        };
 
-            // Close menu when clicking anywhere outside the menu/hamburger
-            document.addEventListener('click', (event) => {
-                if (!navLinksMobile || navLinksMobile.classList.contains('hidden')) {
-                    return;
-                }
-                const clickedInsideMenu = navLinksMobile.contains(event.target);
-                const clickedHamburger = hamburgerBtn && hamburgerBtn.contains(event.target);
-                if (!clickedInsideMenu && !clickedHamburger) {
+        const openMenu = () => {
+            if (navLinksMobile) {
+                navLinksMobile.classList.add('block');
+                navLinksMobile.classList.remove('hidden');
+            }
+            if (overlay) {
+                overlay.classList.add('block');
+                overlay.classList.remove('hidden');
+            }
+            if (hamburgerBtn) {
+                hamburgerBtn.classList.add('active');
+                hamburgerBtn.setAttribute('aria-expanded', 'true');
+            }
+        };
+
+        if (hamburgerBtn) {
+            hamburgerBtn.addEventListener('click', (e) => {
+                e.stopPropagation();
+                if (navLinksMobile && navLinksMobile.classList.contains('hidden')) {
+                    openMenu();
+                } else {
                     closeMenu();
                 }
             });
+        }
+
+        // Close menu when clicking overlay
+        if (overlay) {
+            overlay.addEventListener('click', closeMenu);
+        }
+
+        // Close mobile menu when clicking on a link
+        if (navLinksMobile) {
+            const mobileLinks = navLinksMobile.querySelectorAll('a');
+            mobileLinks.forEach(link => {
+                link.addEventListener('click', closeMenu);
+            });
+        }
+
+        // Close menu when clicking anywhere outside the menu/hamburger
+        document.addEventListener('click', (event) => {
+            if (!navLinksMobile || navLinksMobile.classList.contains('hidden')) {
+                return;
+            }
+            const clickedInsideMenu = navLinksMobile.contains(event.target);
+            const clickedHamburger = hamburgerBtn && hamburgerBtn.contains(event.target);
+            if (!clickedInsideMenu && !clickedHamburger) {
+                closeMenu();
+            }
+        });
     </script>
 
     <!-- Animations Script -->
