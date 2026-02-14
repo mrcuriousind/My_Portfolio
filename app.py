@@ -139,6 +139,103 @@ class Feedback(db.Model):
     def __repr__(self):
         return f'<Feedback from {self.name}>'
 
+
+PROJECT_DETAILS_CONTENT = {
+    'end-to-end academic management system': {
+        'tagline': 'Curious Intelligence Platform: a role-based education management system for smarter academic and operational decisions.',
+        'overview': (
+            'Curious Intelligence Platform simplifies institutional operations through structured workflows, '
+            'real-time insights, and scalable architecture. The goal is not just digitization, but enabling '
+            'better academic and operational decisions.'
+        ),
+        'problem': (
+            'Educational institutions often rely on fragmented tools, manual processes, and disconnected '
+            'communication systems. This creates inefficient workflows, poor data visibility, delayed '
+            'decision-making, and weak centralized control.'
+        ),
+        'solution': (
+            'A unified, role-based, API-driven platform with clean architecture, scalable modules, and '
+            'mobile-responsive experiences across Admin, Teacher, and Student/Parent journeys.'
+        ),
+        'focus_areas': [
+            'Role-based dashboards (Admin, Teacher, Student/Parent)',
+            'Appointment and workflow management',
+            'Clean, scalable backend architecture',
+            'Mobile-responsive web experience',
+            'Future AI-assisted insights layer',
+        ],
+        'development_stage': [
+            'Authentication system completed (JWT-based secure login)',
+            'Role-based access control implemented',
+            'Initial Admin, Teacher, and Student dashboards built',
+            'Core management modules under development',
+            'Appointment workflow (basic version) in progress',
+            'Responsive web UI (mobile-friendly)',
+            'Public POC launch planned within the next 15 days',
+        ],
+        'modules': [
+            {'title': 'Admissions & Profiles', 'description': 'Student onboarding, profile lifecycle, and document records.'},
+            {'title': 'Attendance & Timetables', 'description': 'Department-wise schedules, attendance tracking, and reporting.'},
+            {'title': 'Assignments & Grading', 'description': 'Submission flow, evaluation, and result publishing.'},
+            {'title': 'Communication Hub', 'description': 'Department notices, targeted announcements, and event updates.'},
+            {'title': 'Admin Workflows', 'description': 'Approvals, role management, and institutional control dashboard.'},
+        ],
+        'architecture': [
+            'Backend owns all business logic; frontend focuses on presentation.',
+            'API-driven architecture with clean separation of concerns.',
+            'Maintainable and modular structure for long-term scale.',
+            'AI tools accelerate development, while engineering decisions stay human-owned.',
+        ],
+        'tech_stack': [
+            'Frontend: React.js + TypeScript + Tailwind CSS',
+            'Backend: Node.js + NestJS + REST APIs + JWT auth',
+            'Database: PostgreSQL (managed cloud instance)',
+            'Deployment: Vercel (frontend), Render (backend), cloud Postgres',
+        ],
+        'impact': [
+            'Faster communication across departments and cohorts.',
+            'Lower manual coordination overhead for faculty and admins.',
+            'Single source of truth for academic operations.',
+        ],
+        'roadmap': [
+            'Phase 1: Public POC (dashboards, appointment flow, deployment, early validation).',
+            'Phase 2: Stability and expansion (reliability, analytics, security, onboarding workflows).',
+            'Phase 3: Intelligence layer (AI recommendations, smart alerts, predictive insights).',
+        ],
+        'builders_intro': (
+            'I am actively looking for a technical partner (Backend / Full-Stack) for long-term ownership '
+            'to build this system from the ground up.'
+        ),
+        'builder_traits': [
+            'Thinks in systems, not shortcuts',
+            'Communicates clearly',
+            'Learns fast and adapts quickly',
+            'Understands scalable backend architecture',
+            'Uses AI tools intelligently',
+            'Wants to build long-term ownership',
+        ],
+    }
+}
+
+
+def build_project_details(project):
+    detail = PROJECT_DETAILS_CONTENT.get(project.title.strip().lower(), {})
+    return {
+        'tagline': detail.get('tagline', 'A focused build solving a real operational workflow.'),
+        'overview': detail.get('overview', project.description),
+        'problem': detail.get('problem', 'Teams face fragmented processes and low visibility across stakeholders.'),
+        'solution': detail.get('solution', 'This product unifies workflows with one reliable system.'),
+        'focus_areas': detail.get('focus_areas', []),
+        'development_stage': detail.get('development_stage', []),
+        'modules': detail.get('modules', []),
+        'architecture': detail.get('architecture', []),
+        'tech_stack': detail.get('tech_stack', []),
+        'impact': detail.get('impact', []),
+        'roadmap': detail.get('roadmap', []),
+        'builders_intro': detail.get('builders_intro', ''),
+        'builder_traits': detail.get('builder_traits', []),
+    }
+
 @app.route('/sitemap.xml')
 def sitemap():
     sitemap_path = os.path.join(app.root_path, 'sitemap.xml')
@@ -158,21 +255,40 @@ def robots():
 
 @app.route('/')
 def home():
-    projects = Project.query.all()
-    blog_posts = BlogPost.query.order_by(BlogPost.id.desc()).limit(2).all()
+    projects = Project.query.order_by(Project.id.desc()).all()
+    blog_posts = BlogPost.query.order_by(BlogPost.id.desc()).all()
     return render_template('index.html', projects=projects, blog_posts=blog_posts)
 
 
 
 @app.route('/projects')
 def projects():
-    projects = Project.query.all()
+    projects = Project.query.order_by(Project.id.desc()).all()
     return render_template('project.html', projects=projects)
+
+
+@app.route('/projects/<int:project_id>')
+def project_detail(project_id):
+    project = Project.query.get_or_404(project_id)
+    details = build_project_details(project)
+    related_projects = (
+        Project.query
+        .filter(Project.id != project.id)
+        .order_by(Project.id.desc())
+        .limit(3)
+        .all()
+    )
+    return render_template(
+        'project_detail.html',
+        project=project,
+        details=details,
+        related_projects=related_projects,
+    )
 
 @app.route('/blog')
 def blog():
-    blog_posts = BlogPost.query.all()
-    videos = Video.query.all()
+    blog_posts = BlogPost.query.order_by(BlogPost.id.desc()).all()
+    videos = Video.query.order_by(Video.id.desc()).all()
     github_username = os.getenv('GITHUB_USERNAME', 'mrcuriousind')
     github_profile = fetch_github_profile(github_username)
     linkedin_url = os.getenv('LINKEDIN_URL', 'https://www.linkedin.com/in/mrcuriousind')

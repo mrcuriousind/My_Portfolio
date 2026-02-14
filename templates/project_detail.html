@@ -1,0 +1,187 @@
+{% extends 'base.html' %}
+
+{% block title %}{{ project.title }} - Project Details{% endblock %}
+
+{% block content %}
+<div class="page-transition">
+  <div class="p-4">
+    <a href="{{ url_for('projects') }}" class="inline-flex items-center gap-2 text-sm text-gray-600 dark:text-[#90abcb] hover:text-[#33c46b]">
+      <i class="fas fa-arrow-left"></i>
+      Back to Projects
+    </a>
+  </div>
+
+  <section class="px-4 pb-4 reveal">
+    <div class="card card-strong overflow-hidden">
+      <div class="grid md:grid-cols-[1.3fr_1fr] gap-6 p-6">
+        <div>
+          <p class="text-sm font-semibold uppercase tracking-wide text-[#33c46b] mb-2">Project Spotlight</p>
+          <h1 class="text-2xl md:text-3xl font-bold text-black dark:text-white leading-tight">{{ project.title }}</h1>
+          <p class="mt-3 text-gray-600 dark:text-[#90abcb]">{{ details.tagline }}</p>
+          <p class="mt-4 text-gray-700 dark:text-[#b8cce2] leading-relaxed">{{ details.overview }}</p>
+          <div class="mt-5 flex flex-wrap gap-2">
+            {% if project.live_link %}
+            <a href="{{ project.live_link }}" target="_blank" rel="noopener"
+               class="flex items-center justify-center rounded-full h-9 px-4 bg-gradient-to-r from-[#9de1f5] to-[#33c46b] text-white text-sm font-bold transition-all duration-300 transform hover:scale-105 shadow-md hover:shadow-lg">
+              <i class="fas fa-up-right-from-square mr-2"></i>Live Demo
+            </a>
+            {% endif %}
+            {% if project.github_link %}
+            <a href="{{ project.github_link }}" target="_blank" rel="noopener"
+               class="flex items-center justify-center rounded-full h-9 px-4 bg-gray-200 dark:bg-[#223449] text-black dark:text-white text-sm font-bold transition-all duration-300 transform hover:scale-105 shadow-md hover:shadow-lg">
+              <i class="fab fa-github mr-2"></i>GitHub
+            </a>
+            {% endif %}
+          </div>
+        </div>
+        <div class="w-full bg-center bg-no-repeat bg-cover rounded-xl min-h-[220px] border border-gray-200 dark:border-[#314b68] bg-gray-200 dark:bg-[#223449]"
+             {% if project.image_url %}style="background-image: url('{{ project.image_url }}');"{% endif %}>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="px-4 pb-4 reveal delay-100">
+    <div class="grid md:grid-cols-2 gap-4">
+      <div class="card">
+        <h2 class="text-lg font-bold text-black dark:text-white mb-2">Problem</h2>
+        <p class="text-gray-600 dark:text-[#90abcb] leading-relaxed">{{ details.problem }}</p>
+      </div>
+      <div class="card">
+        <h2 class="text-lg font-bold text-black dark:text-white mb-2">Solution</h2>
+        <p class="text-gray-600 dark:text-[#90abcb] leading-relaxed">{{ details.solution }}</p>
+      </div>
+    </div>
+  </section>
+
+  {% if details.focus_areas %}
+  <section class="px-4 pb-4 reveal delay-150">
+    <div class="card">
+      <h2 class="text-lg font-bold text-black dark:text-white mb-3">Core Focus</h2>
+      <ul class="space-y-2">
+        {% for item in details.focus_areas %}
+        <li class="text-sm text-gray-600 dark:text-[#90abcb] flex items-start gap-2">
+          <i class="fas fa-bullseye text-[#33c46b] mt-1"></i><span>{{ item }}</span>
+        </li>
+        {% endfor %}
+      </ul>
+    </div>
+  </section>
+  {% endif %}
+
+  {% if details.development_stage %}
+  <section class="px-4 pb-4 reveal delay-175">
+    <div class="card">
+      <h2 class="text-lg font-bold text-black dark:text-white mb-3">Current Development Stage</h2>
+      <ul class="space-y-2">
+        {% for item in details.development_stage %}
+        <li class="text-sm text-gray-600 dark:text-[#90abcb] flex items-start gap-2">
+          <i class="fas fa-check text-[#33c46b] mt-1"></i><span>{{ item }}</span>
+        </li>
+        {% endfor %}
+      </ul>
+    </div>
+  </section>
+  {% endif %}
+
+  {% if details.modules %}
+  <section class="px-4 pb-4 reveal delay-200">
+    <div class="card">
+      <h2 class="text-lg font-bold text-black dark:text-white mb-4">Core Modules</h2>
+      <div class="grid md:grid-cols-2 gap-3">
+        {% for module in details.modules %}
+        <div class="rounded-lg border border-gray-200 dark:border-[#314b68] bg-gray-100 dark:bg-[#223449] p-3">
+          <p class="font-semibold text-black dark:text-white">{{ module.title }}</p>
+          <p class="text-sm mt-1 text-gray-600 dark:text-[#90abcb]">{{ module.description }}</p>
+        </div>
+        {% endfor %}
+      </div>
+    </div>
+  </section>
+  {% endif %}
+
+  <section class="px-4 pb-4 reveal delay-300">
+    <div class="grid lg:grid-cols-3 gap-4">
+      <div class="card">
+        <h3 class="text-base font-bold text-black dark:text-white mb-3">Architecture</h3>
+        <ul class="space-y-2">
+          {% for item in details.architecture %}
+          <li class="text-sm text-gray-600 dark:text-[#90abcb] flex items-start gap-2">
+            <i class="fas fa-check text-[#33c46b] mt-1"></i><span>{{ item }}</span>
+          </li>
+          {% endfor %}
+        </ul>
+      </div>
+      <div class="card">
+        <h3 class="text-base font-bold text-black dark:text-white mb-3">Tech Stack</h3>
+        <ul class="space-y-2">
+          {% for tech in details.tech_stack %}
+          <li class="rounded-lg px-3 py-2 text-sm font-medium bg-gray-100 dark:bg-[#1d2e42] text-black dark:text-[#dbeafe] border border-gray-200 dark:border-[#314b68]">
+            {{ tech }}
+          </li>
+          {% endfor %}
+        </ul>
+      </div>
+      <div class="card">
+        <h3 class="text-base font-bold text-black dark:text-white mb-3">Impact</h3>
+        <ul class="space-y-2">
+          {% for item in details.impact %}
+          <li class="text-sm text-gray-600 dark:text-[#90abcb] flex items-start gap-2">
+            <i class="fas fa-arrow-trend-up text-[#33c46b] mt-1"></i><span>{{ item }}</span>
+          </li>
+          {% endfor %}
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  {% if details.roadmap %}
+  <section class="px-4 pb-4 reveal delay-400">
+    <div class="card">
+      <h2 class="text-lg font-bold text-black dark:text-white mb-3">Next Roadmap</h2>
+      <ul class="space-y-2">
+        {% for item in details.roadmap %}
+        <li class="text-sm text-gray-600 dark:text-[#90abcb] flex items-start gap-2">
+          <i class="fas fa-circle text-[8px] text-[#33c46b] mt-2"></i><span>{{ item }}</span>
+        </li>
+        {% endfor %}
+      </ul>
+    </div>
+  </section>
+  {% endif %}
+
+  {% if details.builders_intro or details.builder_traits %}
+  <section class="px-4 pb-4 reveal delay-450">
+    <div class="card card-strong">
+      <h2 class="text-lg font-bold text-black dark:text-white mb-3">Looking for Builders</h2>
+      {% if details.builders_intro %}
+      <p class="text-sm text-gray-600 dark:text-[#90abcb] mb-3">{{ details.builders_intro }}</p>
+      {% endif %}
+      {% if details.builder_traits %}
+      <ul class="space-y-2">
+        {% for item in details.builder_traits %}
+        <li class="text-sm text-gray-600 dark:text-[#90abcb] flex items-start gap-2">
+          <i class="fas fa-handshake text-[#33c46b] mt-1"></i><span>{{ item }}</span>
+        </li>
+        {% endfor %}
+      </ul>
+      {% endif %}
+    </div>
+  </section>
+  {% endif %}
+
+  {% if related_projects %}
+  <section class="px-4 pb-6 reveal delay-500">
+    <h2 class="text-xl font-bold text-black dark:text-white mb-3">Other Projects</h2>
+    <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
+      {% for item in related_projects %}
+      <a href="{{ url_for('project_detail', project_id=item.id) }}" class="card card-hover block">
+        <p class="font-semibold text-black dark:text-white line-clamp-2">{{ item.title }}</p>
+        <p class="text-sm mt-2 text-gray-600 dark:text-[#90abcb] line-clamp-3">{{ item.description }}</p>
+      </a>
+      {% endfor %}
+    </div>
+  </section>
+  {% endif %}
+</div>
+{% endblock %}
